@@ -64,8 +64,9 @@ targetPathways.forEach(targetId => {
     const targetNode = preCy.getElementById(targetId.id());
 
     const indexEntry = {
-        'name': targetId.data('shared-name'),
-        'rlipp' : targetNode.data('rlipp'), 
+        'name' : targetId.data('name'),
+        'shared-name': targetId.data('shared-name'),
+        'rlipp' : targetNode.data('rlipp')
     };
    
     index[targetNode.id()] = indexEntry;
