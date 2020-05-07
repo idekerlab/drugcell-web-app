@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const counterSlice = createSlice({
+export const networkSlice = createSlice({
   name: 'counter',
   initialState: {
     value: [
@@ -19,7 +19,7 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { setElements, addElements } = counterSlice.actions;
+export const { setElements, addElements } = networkSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
@@ -52,4 +52,4 @@ export const importFromURL = url => dispatch => {
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectElements = state => state.counter.value;
 
-export default counterSlice.reducer;
+export default networkSlice.reducer;

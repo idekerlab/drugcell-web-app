@@ -4,15 +4,15 @@ import {
   setElements,
   importFromURL,
   selectElements,
-} from './counterSlice';
-import styles from './Counter.module.css';
+} from './networkSlice';
+import styles from './Network.module.css';
 import Cytoscape from 'cytoscape'
 import Dagre from 'cytoscape-dagre';
 import CytoscapeComponent from 'react-cytoscapejs';
 
 Cytoscape.use(Dagre);
 
-export function Counter() {
+export function Network() {
 
   const elements = useSelector(selectElements);
   const dispatch = useDispatch();
