@@ -4,6 +4,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `./bin/build-data.js ./data/cx/drugcell_example_network.cx ./public/data/`
+
+Runs a script to build pre-computed Cytoscape.js paths from DrugCell CX networks.
+
 ### `yarn start`
 
 Runs the app in the development mode.<br />
