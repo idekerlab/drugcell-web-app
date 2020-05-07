@@ -1,20 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const networkSlice = createSlice({
-  name: 'counter',
+  name: 'network',
   initialState: {
-    value: [
-      { data: { id: 'one', label: 'Node 1' }, position: { x: 0, y: 0 } },
-      { data: { id: 'two', label: 'Node 2' }, position: { x: 100, y: 0 } },
-      { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2' } }
+    pathways: {},
+    elements: [
    ]
   },
   reducers: {
     setElements: (state, action) => {
-      state.value = action.payload;
+      state.elements = action.payload;
     },
     addElements: (state,action) => {
-      state.value = state.value.concat(action.payload);
+      state.elements = state.elements.concat(action.payload);
     }
   },
 });
@@ -47,9 +45,7 @@ export const importFromURL = url => dispatch => {
   
 };
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-export const selectElements = state => state.counter.value;
+export const selectElements = state => state.network.elements;
+export const selectPathways = state => state.network.pathways;
 
 export default networkSlice.reducer;
