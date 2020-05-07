@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  decrement,
-  increment,
-  incrementByAmount,
-  incrementAsync,
-  selectCount,
+  setElements,
+  importFromURL,
+  selectElements,
 } from './counterSlice';
 import styles from './Counter.module.css';
 import Cytoscape from 'cytoscape'
@@ -16,29 +14,27 @@ Cytoscape.use(Dagre);
 
 export function Counter() {
 
-  const count = useSelector(selectCount);
+  const elements = useSelector(selectElements);
   const dispatch = useDispatch();
-  const [incrementAmount, setIncrementAmount] = useState('2');
-
-  const elements = [
-    { data: { id: 'one', label: 'Node 1' }, position: { x: 0, y: 0 } },
-    { data: { id: 'two', label: 'Node 2' }, position: { x: 100, y: 0 } },
-    { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2' } }
- ];
-
+  
   return (
-    <CytoscapeComponent elements={elements} style={ { width: '1200px', height: '600px' }} layout={{ name:'dagre' }}  />
+    <div>
+    <CytoscapeComponent elements={JSON.parse(JSON.stringify(elements))} style={ { width: '1200px', height: '400px' }} layout={{ name:'dagre' }}  />
+    <button
+          aria-label="Load Pathway"
+          className={styles.button}
+          onClick={() => {
+            console.log("Load URL from button");
+            console.log(elements);
+            //dispatch(setElements([]));
+            dispatch(importFromURL('http://localhost:3000/data/GO_0000038.json'));
+            }
+          }
+        >LOAD</button>
+        </div>
     /*
     <div>
-      <CyViewer
-          key="mainView"
-          network={{ 'elements' : [] }}
-          networkType={'cyjs'}
-          style={networkAreaStyle}
-          networkStyle={networkStyle}
-          eventHandlers={this.getCustomEventHandlers()}
-          //command={commands}
-        />
+     
       <div className={styles.row}>
         <button
           className={styles.button}
