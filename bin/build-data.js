@@ -8,14 +8,15 @@ const cx2js = require('cytoscape-cx2js');
 console.log('hello clarice.');
 
 const fileName = process.argv[2] ? process.argv[2] : undefined;
-
-const targetDir = process.argv[3] ? process.argv[3] : undefined;
+const targetRootDir = process.argv[3] 
+    ? process.argv[3] 
+    : undefined;
 
 if (!fileName) {
     throw 'No file specified';
 }
 
-if (!targetDir) {
+if (!targetRootDir) {
     throw 'No target directory specified';
 }
 
@@ -55,8 +56,32 @@ var dijkstraResults = preCy.elements().dijkstra(rootNode);
 
 const targetPathways = preCy.nodes('node[nodetype="Term"][!hidden][?rlipp]');
 
+if (!fs.existsSync(targetRootDir) || !fs.lstatSync(targetRootDir).isDirectory()){
+    throw "Target root directory does not exist."
+}
+
+let networkName = undefined;
+
+niceCX.networkAttributes.elements.forEach(
+    networkElement => {
+        if (networkElement.n == 'name') {
+            networkName = networkElement.v;
+        }
+    }
+);
+
+if (!networkName) {
+    throw 'Network does not have a name attribute';
+}
+
+const targetDir = targetRootDir + networkName;
+
+fs.mkdirSync(targetDir);
+
 //console.log('targetPathways size= ' + targetPathways.size());
-const indexFileName = targetDir + 'index.json';
+const indexFileName = targetDir + '/index.json';
+
+
 
 const index = {};
 
@@ -87,16 +112,13 @@ targetPathways.forEach(targetId => {
     path.forEach( pathElement => {
         pathwayElements.push(pathElement.json());
     });
-
-    fs.writeFileSync(targetDir + targetNode.data('shared-name').replace(':', '_') + '.json', JSON.stringify(pathwayElements, null, 2));
-
-    var pathwayCy = cytoscape({
-        headless: true
+    genes.forEach( geneElement => {
+        pathwayElements.push(geneElement.json());
     });
+    fs.writeFileSync(targetDir + '/' + targetNode.data('shared-name').replace(':', '_') + '.json', JSON.stringify(pathwayElements, null, 2));
 
-    pathwayCy.add(path);
-    pathwayCy.add(genes);
+
 
 });
 
-fs.writeFileSync(targetDir + 'index.json', JSON.stringify(index, null, 2));
+fs.writeFileSync(targetRootDir + 'index.json', JSON.stringify(index, null, 2));
