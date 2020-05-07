@@ -33,9 +33,22 @@ var attributeNameMap = {};
 
 var elements = cx2Js.cyElementsFromNiceCX(niceCX, attributeNameMap);
 
+const newElements = {
+    'nodes': elements.nodes,
+    'edges': elements.edges.map(edge => {
+      let newEdge = {
+        'data': edge.data,
+      }
+      let oldSource = newEdge.data.source;
+      newEdge.data.source = newEdge.data.target;
+      newEdge.data.target = oldSource;
+      return newEdge;
+    })
+  }
+
 var preCy = cytoscape({
     headless: true,
-    elements: elements
+    elements: newElements
 });
 
 preCy.nodes().removeData('genes');
