@@ -8,8 +8,8 @@ const cx2js = require('cytoscape-cx2js');
 console.log('hello clarice.');
 
 const fileName = process.argv[2] ? process.argv[2] : undefined;
-const targetRootDir = process.argv[3] 
-    ? process.argv[3] 
+const targetRootDir = process.argv[3]
+    ? process.argv[3]
     : undefined;
 
 if (!fileName) {
@@ -36,15 +36,15 @@ var elements = cx2Js.cyElementsFromNiceCX(niceCX, attributeNameMap);
 const newElements = {
     'nodes': elements.nodes,
     'edges': elements.edges.map(edge => {
-      let newEdge = {
-        'data': edge.data,
-      }
-      let oldSource = newEdge.data.source;
-      newEdge.data.source = newEdge.data.target;
-      newEdge.data.target = oldSource;
-      return newEdge;
+        let newEdge = {
+            'data': edge.data,
+        }
+        let oldSource = newEdge.data.source;
+        newEdge.data.source = newEdge.data.target;
+        newEdge.data.target = oldSource;
+        return newEdge;
     })
-  }
+}
 
 var preCy = cytoscape({
     headless: true,
@@ -69,7 +69,7 @@ var dijkstraResults = preCy.elements().dijkstra(rootNode);
 
 const targetPathways = preCy.nodes('node[nodetype="Term"][!hidden][?rlipp]');
 
-if (!fs.existsSync(targetRootDir) || !fs.lstatSync(targetRootDir).isDirectory()){
+if (!fs.existsSync(targetRootDir) || !fs.lstatSync(targetRootDir).isDirectory()) {
     throw "Target root directory does not exist."
 }
 
@@ -102,11 +102,11 @@ targetPathways.forEach(targetId => {
     const targetNode = preCy.getElementById(targetId.id());
 
     const indexEntry = {
-        'name' : targetId.data('name'),
+        'name': targetId.data('name'),
         'shared-name': targetId.data('shared-name'),
-        'rlipp' : targetNode.data('rlipp')
+        'rlipp': targetNode.data('rlipp')
     };
-   
+
     index[targetNode.id()] = indexEntry;
 
     //console.log(JSON.stringify(targetNode.json()));
@@ -121,8 +121,34 @@ targetPathways.forEach(targetId => {
     console.log(JSON.stringify(genes.json()));
     */
 
+    const fieldsToKeep = [
+        'id',
+        'source',
+        'target',
+        'isroot',
+        'name',
+        'nodetype',
+        'label',
+        'rlipp',
+        'shared-name',
+        'edgetype',
+        'is_tree_edge_u9'
+    ]
+
     const minimizeElement = element => {
-        
+
+        const fieldsToDelete = Object.keys(element.data).filter(key => !fieldsToKeep.includes(key));
+
+        console.log('deleting fields: ' + fieldsToDelete);
+
+        fieldsToDelete.forEach(field => {
+            delete element.data[field];
+        });
+
+        if (element.data.source || element.data.target) {
+            delete element.position;
+        }
+
         delete element.group;
         delete element.removed;
         delete element.selected;
@@ -134,12 +160,12 @@ targetPathways.forEach(targetId => {
     };
 
     let pathwayElements = [];
-    path.forEach( pathElement => {
+    path.forEach(pathElement => {
         const elementJson = pathElement.json();
         minimizeElement(elementJson);
         pathwayElements.push(elementJson);
     });
-    genes.forEach( geneElement => {
+    genes.forEach(geneElement => {
         const elementJson = geneElement.json();
         minimizeElement(elementJson);
         pathwayElements.push(elementJson);
@@ -148,8 +174,8 @@ targetPathways.forEach(targetId => {
 });
 
 const networkIndex = {
-    'name' : networkName,
-    'index' : index
+    'name': networkName,
+    'index': index
 }
 
 fs.writeFileSync(indexFileName, JSON.stringify(networkIndex, null, 2));
