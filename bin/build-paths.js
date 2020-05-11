@@ -87,7 +87,7 @@ if (!networkName) {
     throw 'Network does not have a name attribute';
 }
 
-const targetDir = targetRootDir + networkName;
+const targetDir = targetRootDir + fileName.slice(fileName.lastIndexOf('/'), -3);
 
 fs.mkdirSync(targetDir);
 
@@ -121,17 +121,35 @@ targetPathways.forEach(targetId => {
     console.log(JSON.stringify(genes.json()));
     */
 
+    const minimizeElement = element => {
+        
+        delete element.group;
+        delete element.removed;
+        delete element.selected;
+        delete element.selectable;
+        delete element.locked;
+        delete element.grabbable;
+        delete element.pannable;
+        delete element.classes;
+    };
+
     let pathwayElements = [];
     path.forEach( pathElement => {
-        pathwayElements.push(pathElement.json());
+        const elementJson = pathElement.json();
+        minimizeElement(elementJson);
+        pathwayElements.push(elementJson);
     });
     genes.forEach( geneElement => {
-        pathwayElements.push(geneElement.json());
+        const elementJson = geneElement.json();
+        minimizeElement(elementJson);
+        pathwayElements.push(elementJson);
     });
     fs.writeFileSync(targetDir + '/' + targetNode.data('shared-name').replace(':', '_') + '.json', JSON.stringify(pathwayElements, null, 2));
-
-
-
 });
 
-fs.writeFileSync(targetRootDir + 'index.json', JSON.stringify(index, null, 2));
+const networkIndex = {
+    'name' : networkName,
+    'index' : index
+}
+
+fs.writeFileSync(indexFileName, JSON.stringify(networkIndex, null, 2));
