@@ -90,7 +90,7 @@ export function Network() {
           console.log("Load URL from button");
           console.log(elements);
           //dispatch(setElements([]));
-          dispatch(importFromURL('http://localhost:3000/data/etoposide/GO_0000038.json'));
+          dispatch(importFromURL('http://localhost/data/paths/59174b23-8110-11ea-aaef-0ac135e8bacf/GO_0000038.json'));
         }
         }
       >LOAD</button>

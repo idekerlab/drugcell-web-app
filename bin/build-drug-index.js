@@ -29,12 +29,22 @@ const pathsDirectory = sourceRootDir + '/paths';
 console.log(pathsDirectory);
 
 fs.readdir(pathsDirectory, function(err, items) {
-   items.forEach( file => {
+    const drugIndexFile = sourceRootDir + '/drug-index.json';
+    fs.writeFileSync(drugIndexFile, '[');
+    items.forEach( (file, i, array) => {
        const pathIndex =  pathsDirectory + '/' + file + '/index.json';
         //console.log(pathIndex);
         const content = JSON.parse(fs.readFileSync(pathIndex));
-        console.log(file + ' ' + content.name);
-        //execFileSync(build_paths_exec, [filePath , targetRootDir]);
+        const entry = {
+            'name': content.name,
+            'uuid': file
+        }
+        fs.appendFileSync(drugIndexFile, JSON.stringify(entry));
+        if (i < array.length - 1) {
+            fs.appendFileSync(drugIndexFile, ',')
+        }
+        
     });
+    fs.appendFileSync(drugIndexFile, ']');
 });
 
