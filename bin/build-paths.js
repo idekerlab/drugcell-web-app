@@ -94,8 +94,6 @@ fs.mkdirSync(targetDir);
 //console.log('targetPathways size= ' + targetPathways.size());
 const indexFileName = targetDir + '/index.json';
 
-
-
 const index = {};
 
 targetPathways.forEach(targetId => {
@@ -145,10 +143,12 @@ targetPathways.forEach(targetId => {
             delete element.data[field];
         });
 
-        if (element.data.source || element.data.target) {
-            delete element.position;
+        if (!element.data.isroot) {
+            delete element.data.isroot;
         }
 
+        delete element.position;
+        
         delete element.group;
         delete element.removed;
         delete element.selected;
@@ -170,7 +170,7 @@ targetPathways.forEach(targetId => {
         minimizeElement(elementJson);
         pathwayElements.push(elementJson);
     });
-    fs.writeFileSync(targetDir + '/' + targetNode.data('shared-name').replace(':', '_') + '.json', JSON.stringify(pathwayElements, null, 2));
+    fs.writeFileSync(targetDir + '/' + targetNode.data('shared-name').replace(':', '_') + '.json', JSON.stringify(pathwayElements, null, 0));
 });
 
 const networkIndex = {
@@ -178,4 +178,4 @@ const networkIndex = {
     'index': index
 }
 
-fs.writeFileSync(indexFileName, JSON.stringify(networkIndex, null, 2));
+fs.writeFileSync(indexFileName, JSON.stringify(networkIndex, null, 0));
