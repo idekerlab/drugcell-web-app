@@ -48,6 +48,7 @@ export function Results() {
         onChange={(event, value) => { 
           dispatch(selectDrug(value)); 
           dispatch(setSelectedPathways([]));
+          dispatch(setElementsFromURLs( {uuid : undefined, selectedPathways: []}));
         }}
         style={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
