@@ -1,29 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const drugSlice = createSlice({
-  name: 'drugs',
+export const pathwaySlice = createSlice({
+  name: 'pathways',
   initialState: {
-    availableDrugs: [],
-    selectedDrug: undefined
+    availablePathways: [],
+    selectedPathways: []
   },
   reducers: {
-    setAvailableDrugs: (state, action) => {
-      state.availableDrugs = action.payload;
+    setAvailablePathways: (state, action) => {
+      state.availablePathways = action.payload;
     },
-    setSelectedDrug: (state, action) => {
-      state.selectedDrug = action.payload;
+    setSelectedPathways: (state, action) => {
+      state.selectedPathways = action.payload;
     }
   },
 });
 
-export const { setAvailableDrugs: setAvailableDrugs,
-              setSelectedDrug: setSelectedDrug } = drugSlice.actions;
+export const { setAvailablePathways: setAvailablePathways,
+              setSelectedPathways: setSelectedPathways } = pathwaySlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
-export const importDrugsFromURL = url => dispatch => {
+export const importPathwaysFromURL = url => dispatch => {
 
   console.log('URL load: ' + url);   
   fetch(url, {mode: 'no-cors'})
@@ -35,7 +35,7 @@ export const importDrugsFromURL = url => dispatch => {
    })
    .then(json => {
     
-    dispatch(setAvailableDrugs(json));
+    dispatch(setAvailablePathways(json.index));
        
    })
    .catch( error => {
@@ -45,7 +45,7 @@ export const importDrugsFromURL = url => dispatch => {
   
 };
 
-export const selectAvailableDrugs = state => state.drugs.availableDrugs;
-export const selectSelectedDrug = state => state.drugs.selectedDrug;
+export const selectAvailablePathways = state => state.pathways.availablePathways;
+export const selectSelectedPathways = state => state.pathways.selectedPathways;
 
-export default drugSlice.reducer;
+export default pathwaySlice.reducer;
