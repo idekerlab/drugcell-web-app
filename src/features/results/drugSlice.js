@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import {
+  importPathwaysFromURL,
+} from './pathwaySlice';
+
 export const drugSlice = createSlice({
   name: 'drugs',
   initialState: {
@@ -9,9 +13,11 @@ export const drugSlice = createSlice({
   reducers: {
     setAvailableDrugs: (state, action) => {
       state.availableDrugs = action.payload;
+     
     },
     setSelectedDrug: (state, action) => {
       state.selectedDrug = action.payload;
+      
     }
   },
 });
@@ -24,7 +30,6 @@ export const { setAvailableDrugs: setAvailableDrugs,
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
 export const importDrugsFromURL = url => dispatch => {
-
   console.log('URL load: ' + url);   
   fetch(url, {mode: 'no-cors'})
    .then(response => {
@@ -34,15 +39,17 @@ export const importDrugsFromURL = url => dispatch => {
        return response.json();
    })
    .then(json => {
-    
     dispatch(setAvailableDrugs(json));
-       
    })
    .catch( error => {
        console.log(error);
    });
-  
-  
+};
+
+export const selectDrug = drug => dispatch => {
+  console.log('select a drug' +  drug.uuid);
+  dispatch(setSelectedDrug(drug));
+  dispatch(importPathwaysFromURL('http://localhost/data/paths/' + drug.uuid + '/index.json' ));
 };
 
 export const selectAvailableDrugs = state => state.drugs.availableDrugs;

@@ -2,7 +2,7 @@ import React, {useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setElements,
-  importFromURL,
+  setElementsFromURLs,
   selectElements,
 } from './networkSlice';
 import styles from './Network.module.css';
@@ -85,14 +85,6 @@ export function Network() {
           return position;
         }
       }} stylesheet={style} />
-      <button
-        aria-label="Load Pathway"
-        className={styles.button}
-        onClick={() => {
-          dispatch(importFromURL('http://localhost/data/paths/59174b23-8110-11ea-aaef-0ac135e8bacf/GO_0000038.json'));
-        }
-        }
-      >LOAD</button>
     </div>
   );
 }

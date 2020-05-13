@@ -5,13 +5,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   importDrugsFromURL,
   selectAvailableDrugs,
-  setSelectedDrug
+  selectSelectedDrug,
+  selectDrug
 } from './drugSlice';
 
 import {
   importPathwaysFromURL,
   selectAvailablePathways,
+  setSelectedPathways,
 } from './pathwaySlice';
+
+import {
+  setElementsFromURLs
+} from './network/networkSlice';
 
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
@@ -26,6 +32,8 @@ export function Results() {
 
   const drugs = useSelector(selectAvailableDrugs);
   const pathways = useSelector(selectAvailablePathways);
+  const selectedDrug = useSelector(selectSelectedDrug);
+  const pathwayArray = Object.values(pathways);
 
   const dispatch = useDispatch();
 
@@ -37,18 +45,27 @@ export function Results() {
         id="combo-box-demo"
         options={drugs}
         getOptionLabel={(option) => option.name}
-        onChange={(event, value) => { dispatch(setSelectedDrug(value)) }}
+        onChange={(event, value) => { 
+          dispatch(selectDrug(value)); 
+          dispatch(setSelectedPathways([]));
+        }}
         style={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
       />
       <Autocomplete
         multiple
         id="pathways"
-        options={pathways}
+        options={ pathwayArray }
         disableCloseOnSelect
         getOptionLabel={(option) => option.name}
         style={{ width: 300 }}
-        onChange={(event, value) => { console.log(value) }}
+        onChange={(event, value) => { 
+          dispatch(setSelectedPathways(value));
+          const pathwayIds = value.map( value => value['shared-name'].replace(':','_'));
+          console.log('pathwayIds: ' + JSON.stringify(pathwayIds));
+          console.log('selected drug: ' + selectedDrug.uuid);
+          dispatch(setElementsFromURLs( {uuid : selectedDrug.uuid, selectedPathways: pathwayIds}));
+        }}
         renderOption={(option, { selected }) => (
           <React.Fragment>
             <Checkbox

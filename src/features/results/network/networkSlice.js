@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { selectSelectedPathways } from '../pathwaySlice';
 
 export const networkSlice = createSlice({
   name: 'network',
@@ -10,9 +11,6 @@ export const networkSlice = createSlice({
   reducers: {
     setElements: (state, action) => {
       state.elements = action.payload;
-    },
-    addElements: (state,action) => {
-      state.elements = state.elements.concat(action.payload);
     }
   },
 });
@@ -21,9 +19,21 @@ export const { setElements, addElements } = networkSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(importFromURL(xyz))`. 
-export const importFromURL = url => dispatch => {
+export const setElementsFromURLs = ( args ) => dispatch => {
+  console.log('network UUID: ' + args.uuid); 
+  console.log('pathways: ' + args.selectedPathways.length);   
+  Promise.all(args.selectedPathways.map(u=>fetch( 'http://localhost/data/paths/' + args.uuid + '/' + u +'.json' ))).then(responses =>
+    Promise.all(responses.map(res => res.json()))
+  ).then(elementLists => {
+    
+    let allElements = [];
+    elementLists.forEach(elements => {
+      allElements = allElements.concat(elements);
+    });
+    dispatch(setElements(allElements));
+  });
 
-  console.log('URL load: ' + url);   
+  /*
   fetch(url, {mode: 'no-cors'})
    .then(response => {
        if (!response.ok) {
@@ -39,7 +49,7 @@ export const importFromURL = url => dispatch => {
    .catch( error => {
        console.log(error);
    });
-  
+  */
   
 };
 
