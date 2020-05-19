@@ -7,12 +7,19 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import { VariableSizeList } from 'react-window';
 import { Typography } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
-  importPathwaysFromURL,
   selectAvailablePathways,
   setSelectedPathways,
-} from './../results/pathwaySlice';
+} from '../results/pathwaySlice';
+
+import {
+  selectSelectedDrug
+} from '../results/drugSlice';
+
+import {
+  setElementsFromURLs
+} from '../results/network/networkSlice';
 
 const LISTBOX_PADDING = 8; // px
 
@@ -94,17 +101,6 @@ ListboxComponent.propTypes = {
   children: PropTypes.node,
 };
 
-function random(length) {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-
-  for (let i = 0; i < length; i += 1) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-
-  return result;
-}
-
 const useStyles = makeStyles({
   listbox: {
     boxSizing: 'border-box',
@@ -115,9 +111,6 @@ const useStyles = makeStyles({
   },
 });
 
-const OPTIONS = Array.from(new Array(10000))
-  .map(() => random(10 + Math.ceil(Math.random() * 20)))
-  .sort((a, b) => a.toUpperCase().localeCompare(b.toUpperCase()));
 
 const renderGroup = (params) => [
   <ListSubheader key={params.key} component="div">
@@ -126,23 +119,37 @@ const renderGroup = (params) => [
   params.children,
 ];
 
-export function Virtualize() {
+export function PathwayAutocomplete() {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
   const pathways = useSelector(selectAvailablePathways);
+  const selectedDrug = useSelector(selectSelectedDrug);
+
+  const pathwayIdMap = Object.keys(pathways).reduce((map, key) => {
+    const entry = pathways[key];
+    map[entry.name] = key;
+    return map
+  }, {});
 
   return (
     <Autocomplete
       id="virtualize-demo"
+      multiple
       style={{ width: 300 }}
       disableListWrap
       classes={classes}
       ListboxComponent={ListboxComponent}
-      renderGroup={renderGroup}
-      options={Object.values(pathways).map( x =>  x.name )}
-      groupBy={(option) => option[0].toUpperCase()}
-      renderInput={(params) => <TextField {...params} variant="outlined" label="10,000 options" />}
-      renderOption={(option) => <Typography noWrap>{option}</Typography>}
+      options={Object.values(pathways).map(x => x.name)}
+      renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" />}
+      renderOption={(option) => <Typography noWrap>{pathways[pathwayIdMap[option]].rlipp.toFixed(2)} {option}</Typography>}
+      onChange={(event, value) => { 
+        const selectedPathways = value.map(entry => pathways[pathwayIdMap[entry]]);
+        dispatch(setSelectedPathways(selectedPathways));
+        const pathwayIds = value.map( entry => pathways[pathwayIdMap[entry]]['shared-name'].replace(':','_'));
+        console.log('pathwayIds: ' + JSON.stringify(pathwayIds));
+        console.log('selected drug: ' + selectedDrug.uuid);
+        dispatch(setElementsFromURLs( {uuid : selectedDrug.uuid, selectedPathways: pathwayIds}));
+      }}
     />
   );
 }

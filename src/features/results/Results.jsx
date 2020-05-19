@@ -24,7 +24,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import { Virtualize } from '../virtualize/Virtualize';
+import { PathwayAutocomplete } from '../pathway/PathwayAutocomplete';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -54,37 +54,7 @@ export function Results() {
         style={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
       />
-      <Autocomplete
-        multiple
-        id="pathways"
-        options={ pathwayArray }
-        disableCloseOnSelect
-        getOptionLabel={(option) => option.name}
-        style={{ width: 300 }}
-        onChange={(event, value) => { 
-          dispatch(setSelectedPathways(value));
-          const pathwayIds = value.map( value => value['shared-name'].replace(':','_'));
-          console.log('pathwayIds: ' + JSON.stringify(pathwayIds));
-          console.log('selected drug: ' + selectedDrug.uuid);
-          dispatch(setElementsFromURLs( {uuid : selectedDrug.uuid, selectedPathways: pathwayIds}));
-        }}
-        renderOption={(option, { selected }) => (
-          <React.Fragment>
-            <Checkbox
-              icon={icon}
-              checkedIcon={checkedIcon}
-              style={{ marginRight: 8 }}
-              checked={selected}
-            />
-            {option.name}
-          </React.Fragment>
-        )}
-        style={{ width: 500 }}
-        renderInput={(params) => (
-          <TextField {...params} variant="outlined" label="Checkboxes" placeholder="Favorites" />
-        )}
-      />
-      <Virtualize />
+      <PathwayAutocomplete />
       <Network />
 
     </div>
