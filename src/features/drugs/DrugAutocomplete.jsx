@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -9,17 +9,20 @@ import { VariableSizeList } from 'react-window';
 import { Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  selectAvailablePathways,
-  setSelectedPathways,
-} from '../results/pathwaySlice';
+  importDrugsFromURL,
+  selectAvailableDrugs,
+  selectDrug
+} from './../results/drugSlice';
 
 import {
-  selectSelectedDrug
-} from '../results/drugSlice';
+  setSelectedPathways,
+} from './../results/pathwaySlice';
 
 import {
   setElementsFromURLs
-} from '../results/network/networkSlice';
+} from './../results/network/networkSlice';
+
+
 
 const LISTBOX_PADDING = 8; // px
 
@@ -107,39 +110,38 @@ const useStyles = makeStyles({
     '& ul': {
       padding: 0,
       margin: 0,
-    },
+    }
   },
 });
 
-export function PathwayAutocomplete() {
+export function DrugAutocomplete() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const pathways = useSelector(selectAvailablePathways);
-  const selectedDrug = useSelector(selectSelectedDrug);
+  const drugs = useSelector(selectAvailableDrugs);
 
-  const pathwayIdMap = Object.keys(pathways).reduce((map, key) => {
-    const entry = pathways[key];
-    map[entry.name] = key;
+  useEffect(() => dispatch(importDrugsFromURL('http://localhost/data/drug-index.json')), []);
+
+  const drugIndexMap = drugs.reduce((map, element, index) => {
+    console.log(" making index " + element+ " " + index);
+    map[element.name] = index;
     return map
   }, {});
 
   return (
     <Autocomplete
-      multiple
       style={{ width: 300 }}
       disableListWrap
       classes={classes}
       ListboxComponent={ListboxComponent}
-      options={Object.values(pathways).map(x => x.name)}
-      renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" />}
-      renderOption={(option) => <Typography noWrap>{pathways[pathwayIdMap[option]].rlipp.toFixed(2)} {option}</Typography>}
-      onChange={(event, value) => { 
-        const selectedPathways = value.map(entry => pathways[pathwayIdMap[entry]]);
-        dispatch(setSelectedPathways(selectedPathways));
-        const pathwayIds = value.map( entry => pathways[pathwayIdMap[entry]]['shared-name'].replace(':','_'));
-        console.log('pathwayIds: ' + JSON.stringify(pathwayIds));
-        console.log('selected drug: ' + selectedDrug.uuid);
-        dispatch(setElementsFromURLs( {uuid : selectedDrug.uuid, selectedPathways: pathwayIds}));
+      options={Object.values(drugs).map(x => x.name)}
+      renderInput={(params) => <TextField {...params} variant="outlined" label="Drug" />}
+      renderOption={(option) => <Typography noWrap>{option} </Typography>}
+      onChange={(event, value) => {
+        const drug = drugs[drugIndexMap[value]];
+        dispatch(selectDrug(drug));
+        dispatch(setSelectedPathways([]));
+        dispatch(setElementsFromURLs({ uuid: undefined, selectedPathways: [] }));
+
       }}
     />
   );
