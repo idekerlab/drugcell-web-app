@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Network } from './network/Network'
+import { Network } from './network/Network';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -24,6 +24,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import { Virtualize } from '../virtualize/Virtualize';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -83,6 +84,7 @@ export function Results() {
           <TextField {...params} variant="outlined" label="Checkboxes" placeholder="Favorites" />
         )}
       />
+      <Virtualize />
       <Network />
 
     </div>
