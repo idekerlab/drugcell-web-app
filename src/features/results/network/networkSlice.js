@@ -20,12 +20,13 @@ export const { setElements, addElements } = networkSlice.actions;
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(importFromURL(xyz))`. 
 export const setElementsFromURLs = ( args ) => dispatch => { 
+  console.log('setElementsFromURLs args: ' + JSON.stringify(args));
   Promise.all(args.selectedPathways.map(u=>fetch( 'http://localhost/data/paths/' + args.uuid + '/' + u +'.json' ))).then(responses =>
     Promise.all(responses.map(res => res.json()))
-  ).then(elementLists => {
+  ).then(jsonResponses => {
     let allElements = [];
-    elementLists.forEach(elements => {
-      allElements = allElements.concat(elements);
+    jsonResponses.forEach(elements => {
+      allElements = allElements.concat(elements.shortestPath);
     });
     dispatch(setElements(allElements));
   });
