@@ -23,6 +23,13 @@ export function Network() {
       'style': {
         'display': 'element',
         'label': 'data(name)',
+        'text-halign': 'center',
+        'text-valign': 'top'
+      }
+    },
+    {
+      'selector': 'node[gene-count]',
+      'style': {
         'text-halign': 'right',
         'text-valign': 'center',
         'text-margin-x': '8px'
@@ -32,6 +39,8 @@ export function Network() {
       'selector': '#5883',
       'style': {
         'display': 'element',
+        'text-halign': 'left',
+        'text-valign': 'center',
         'background-color': 'red',
       }
     },
@@ -39,11 +48,8 @@ export function Network() {
       'selector': 'node[nodetype="Term"]',
       'style': {
         'display': 'element',
-        'text-halign': 'left',
         'width': 'mapData(rlipp, 0, 278, 20, 50)',
-        'height': 'mapData(rlipp, 0, 278,  20, 50)',
-        'text-margin-x': '-8px',
-        'text-rotation': '30deg'
+        'height': 'mapData(rlipp, 0, 278,  20, 50)'
       }
     },
     {
@@ -54,17 +60,7 @@ export function Network() {
         'line-color': '#9dbaea',
         'target-arrow-color': '#9dbaea',
         'curve-style': 'taxi',
-        'taxi-direction' : 'rightward'
-      }
-    },
-    {
-      'selector': 'edge[edgetype="Gene-Term"]',
-      'style': {
-        'width': 2,
-        'line-color': '#9dbaea',
-        'target-arrow-color': '#9dbaea',
-        'curve-style': 'taxi',
-        'taxi-direction' : 'rightward'
+        'taxi-direction' : 'vertical'
       }
     }];
   
@@ -76,9 +72,10 @@ export function Network() {
         style={{ width: '1200px', height: '400px' }} layout={{
         name: 'dagre',
         rankDir: 'LR',
-        rankSep: 160,
+        rankSep: 60,
         ranker: 'longest-path',
-        nodeSep: 10,
+        nodeDimensionsIncludeLabels: false,
+        nodeSep: 60,
         transform: (node, position) => {
           console.log('position: ' + position['x']);
           //position.y = position.y + position.x;

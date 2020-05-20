@@ -164,9 +164,9 @@ targetPathways.forEach(targetId => {
     path.forEach(pathElement => {
         let elementJson = pathElement.json();
         minimizeElement(elementJson);
-        console.log('shared-name: ' + targetNode.data('shared-name') + ' ' + elementJson.data['shared-name']);
+        //console.log('shared-name: ' + targetNode.data('shared-name') + ' ' + elementJson.data['shared-name']);
         if (elementJson.data['shared-name'] == targetNode.data('shared-name')) {
-            console.log('adding gene count: ' + genes.size())
+            //console.log('adding gene count: ' + genes.size())
             elementJson.data['gene-count'] = genes.size();
         }
         pathwayElements.push(elementJson);
@@ -187,9 +187,17 @@ targetPathways.forEach(targetId => {
     fs.writeFileSync(targetDir + '/' + targetNode.data('shared-name').replace(':', '_') + '.json', JSON.stringify(pathwayEntry, null, 0));
 });
 
+
+
+let sortedIndex = {};
+
+Object.entries(index).sort(
+    (a, b) =>  b[1].rlipp -a[1].rlipp 
+    ).forEach( (value, key) => sortedIndex[value[0]] = value[1]);
+
 const networkIndex = {
     'name': networkName,
-    'index': index
+    'index': sortedIndex
 }
 
 fs.writeFileSync(indexFileName, JSON.stringify(networkIndex, null, 0));

@@ -124,7 +124,7 @@ export function PathwayAutocomplete() {
       disableListWrap
       classes={classes}
       ListboxComponent={ListboxComponent}
-      options={Object.keys(pathways)}
+      options={Object.keys(pathways).sort((a,b) => pathways[b].rlipp - pathways[a].rlipp  )}
       renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" />}
       renderOption={(option) => <Typography noWrap>{pathways[option].rlipp.toFixed(2)} {option}</Typography>}
       onChange={(event, value) => { 
