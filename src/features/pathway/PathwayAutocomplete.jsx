@@ -115,13 +115,7 @@ export function PathwayAutocomplete() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const pathways = useSelector(selectAvailablePathways);
-  const selectedDrug = useSelector(selectSelectedDrug);
-
-  const pathwayIdMap = Object.keys(pathways).reduce((map, key) => {
-    const entry = pathways[key];
-    map[entry.name] = key;
-    return map
-  }, {});
+  const selectedDrugUUID = useSelector(selectSelectedDrug);
 
   return (
     <Autocomplete
@@ -130,16 +124,16 @@ export function PathwayAutocomplete() {
       disableListWrap
       classes={classes}
       ListboxComponent={ListboxComponent}
-      options={Object.values(pathways).map(x => x.name)}
+      options={Object.keys(pathways)}
       renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" />}
-      renderOption={(option) => <Typography noWrap>{pathways[pathwayIdMap[option]].rlipp.toFixed(2)} {option}</Typography>}
+      renderOption={(option) => <Typography noWrap>{pathways[option].rlipp.toFixed(2)} {option}</Typography>}
       onChange={(event, value) => { 
-        const selectedPathways = value.map(entry => pathways[pathwayIdMap[entry]]);
+        const selectedPathways = value;
         dispatch(setSelectedPathways(selectedPathways));
-        const pathwayIds = value.map( entry => pathways[pathwayIdMap[entry]]['shared-name'].replace(':','_'));
+        const pathwayIds = value.map( entry => pathways[entry]['shared-name'].replace(':','_'));
         console.log('pathwayIds: ' + JSON.stringify(pathwayIds));
-        console.log('selected drug: ' + selectedDrug.uuid);
-        dispatch(setElementsFromURLs( {uuid : selectedDrug.uuid, selectedPathways: pathwayIds}));
+        console.log('selected drug: ' + selectedDrugUUID);
+        dispatch(setElementsFromURLs( {uuid : selectedDrugUUID, selectedPathways: pathwayIds}));
       }}
     />
   );

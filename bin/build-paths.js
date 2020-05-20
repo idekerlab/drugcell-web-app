@@ -100,12 +100,13 @@ targetPathways.forEach(targetId => {
     const targetNode = preCy.getElementById(targetId.id());
 
     const indexEntry = {
+        'id': targetNode.id(),
         'name': targetId.data('name'),
         'shared-name': targetId.data('shared-name'),
         'rlipp': targetNode.data('rlipp')
     };
 
-    index[targetNode.id()] = indexEntry;
+    index[targetId.data('name')] = indexEntry;
 
     //console.log(JSON.stringify(targetNode.json()));
     //console.log(targetNode.data('name') + '\t' + targetNode.data('rlipp') + '\t' + targetNode.data('shared-name'));
@@ -137,7 +138,7 @@ targetPathways.forEach(targetId => {
 
         const fieldsToDelete = Object.keys(element.data).filter(key => !fieldsToKeep.includes(key));
 
-        console.log('deleting fields: ' + fieldsToDelete);
+        //console.log('deleting fields: ' + fieldsToDelete);
 
         fieldsToDelete.forEach(field => {
             delete element.data[field];
@@ -161,16 +162,29 @@ targetPathways.forEach(targetId => {
 
     let pathwayElements = [];
     path.forEach(pathElement => {
-        const elementJson = pathElement.json();
+        let elementJson = pathElement.json();
         minimizeElement(elementJson);
+        console.log('shared-name: ' + targetNode.data('shared-name') + ' ' + elementJson.data['shared-name']);
+        if (elementJson.data['shared-name'] == targetNode.data('shared-name')) {
+            console.log('adding gene count: ' + genes.size())
+            elementJson.data['gene-count'] = genes.size();
+        }
         pathwayElements.push(elementJson);
     });
+
+    let geneElements = [];
     genes.forEach(geneElement => {
-        const elementJson = geneElement.json();
+        let elementJson = geneElement.json();
         minimizeElement(elementJson);
-        pathwayElements.push(elementJson);
+        geneElements.push(elementJson);
     });
-    fs.writeFileSync(targetDir + '/' + targetNode.data('shared-name').replace(':', '_') + '.json', JSON.stringify(pathwayElements, null, 0));
+
+    const pathwayEntry = {
+        shortestPath : pathwayElements,
+        genes : geneElements
+    }
+
+    fs.writeFileSync(targetDir + '/' + targetNode.data('shared-name').replace(':', '_') + '.json', JSON.stringify(pathwayEntry, null, 0));
 });
 
 const networkIndex = {

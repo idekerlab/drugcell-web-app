@@ -7,7 +7,7 @@ import {
 export const drugSlice = createSlice({
   name: 'drugs',
   initialState: {
-    availableDrugs: [],
+    availableDrugs: {},
     selectedDrug: undefined
   },
   reducers: {
@@ -17,7 +17,6 @@ export const drugSlice = createSlice({
     },
     setSelectedDrug: (state, action) => {
       state.selectedDrug = action.payload;
-      
     }
   },
 });
@@ -46,10 +45,11 @@ export const importDrugsFromURL = url => dispatch => {
    });
 };
 
-export const selectDrug = drug => dispatch => {
-  console.log('select a drug' +  drug.uuid);
-  dispatch(setSelectedDrug(drug));
-  dispatch(importPathwaysFromURL('http://localhost/data/paths/' + drug.uuid + '/index.json' ));
+export const selectDrug = drugUUID => dispatch => {
+
+  console.log('selected drug uuid: ' + drugUUID);
+  dispatch(setSelectedDrug(drugUUID));
+  dispatch(importPathwaysFromURL('http://localhost/data/paths/' + drugUUID + '/index.json' ));
 };
 
 export const selectAvailableDrugs = state => state.drugs.availableDrugs;

@@ -121,24 +121,18 @@ export function DrugAutocomplete() {
 
   useEffect(() => dispatch(importDrugsFromURL('http://localhost/data/drug-index.json')), []);
 
-  const drugIndexMap = drugs.reduce((map, element, index) => {
-    console.log(" making index " + element+ " " + index);
-    map[element.name] = index;
-    return map
-  }, {});
-
   return (
     <Autocomplete
       style={{ width: 300 }}
       disableListWrap
       classes={classes}
       ListboxComponent={ListboxComponent}
-      options={Object.values(drugs).map(x => x.name)}
+      options={ Object.keys(drugs) }
       renderInput={(params) => <TextField {...params} variant="outlined" label="Drug" />}
       renderOption={(option) => <Typography noWrap>{option} </Typography>}
       onChange={(event, value) => {
-        const drug = drugs[drugIndexMap[value]];
-        dispatch(selectDrug(drug));
+        const drugUUID = drugs[value].uuid;
+        dispatch(selectDrug(drugUUID));
         dispatch(setSelectedPathways([]));
         dispatch(setElementsFromURLs({ uuid: undefined, selectedPathways: [] }));
 
