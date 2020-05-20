@@ -23,6 +23,8 @@ export function Network() {
       'style': {
         'display': 'element',
         'label': 'data(name)',
+        'text-max-width' : 60,
+        'text-overflow-wrap': '_',
         'text-halign': 'center',
         'text-valign': 'top'
       }
@@ -60,7 +62,8 @@ export function Network() {
         'line-color': '#9dbaea',
         'target-arrow-color': '#9dbaea',
         'curve-style': 'taxi',
-        'taxi-direction' : 'vertical'
+        'taxi-direction' : 'vertical',
+        'taxi-turn': '100%'
       }
     }];
   
@@ -74,11 +77,11 @@ export function Network() {
         rankDir: 'LR',
         rankSep: 60,
         ranker: 'longest-path',
-        nodeDimensionsIncludeLabels: false,
-        nodeSep: 60,
+        nodeDimensionsIncludeLabels: true,
+        nodeSep: 75,
         transform: (node, position) => {
-          console.log('position: ' + position['x']);
-          //position.y = position.y + position.x;
+          //console.log('position: ' + position['x']);
+          //position.y = position.y + position.x / 2;
           return position;
         }
       }} stylesheet={style} />
