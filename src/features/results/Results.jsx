@@ -6,14 +6,18 @@ import { DrugAutocomplete } from '../drugs/DrugAutocomplete';
 
 import { GeneList } from '../genes/GeneList';
 
+import './style.css';
+
 export function Results() {
 
   return (
-    <div>
-      <DrugAutocomplete />
-      <PathwayAutocomplete />
-      <GeneList />
+    <div className='container'>
+      <div className='left-components'>
+        <DrugAutocomplete />
+        <PathwayAutocomplete />
+      </div>
       <Network />
+      <GeneList />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import {
   setElementsFromURLs,
   selectElements,
 } from './networkSlice';
-import styles from './Network.module.css';
+import './style.css';
 import Cytoscape from 'cytoscape'
 import Dagre from 'cytoscape-dagre';
 import CytoscapeComponent from 'react-cytoscapejs';
@@ -70,9 +70,11 @@ export function Network() {
   const dispatch = useDispatch();
 
   return (
-    <div>
+    elements.length == 0 
+     ? <p>stuff</p> 
+     : <div class='network'>
       <CytoscapeComponent elements={JSON.parse(JSON.stringify(elements))} 
-        style={{ width: '1200px', height: '400px' }} layout={{
+        style={{ width: '100%', height: '600px' }} layout={{
         name: 'dagre',
         rankDir: 'LR',
         rankSep: 60,

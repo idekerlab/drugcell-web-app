@@ -2,7 +2,6 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -31,6 +30,7 @@ export function GeneList() {
 
   return (
     <div className={classes.root}>
+      Genes
     <List component="nav" aria-label="gene list">
       { genes.map( gene => 
         {
