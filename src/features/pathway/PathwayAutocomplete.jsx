@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import Chip from '@material-ui/core/Chip';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import { VariableSizeList } from 'react-window';
 import { Typography } from '@material-ui/core';
@@ -126,7 +127,12 @@ export function PathwayAutocomplete() {
       ListboxComponent={ListboxComponent}
       options={Object.keys(pathways).sort((a,b) => pathways[b].rlipp - pathways[a].rlipp  )}
       renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" />}
-      renderOption={(option) => <Typography noWrap>{pathways[option].rlipp.toFixed(2)} {option}</Typography>}
+      renderOption={(option) => <Typography noWrap>{pathways[option].rlipp.toFixed(2)} {option.replace(/_/g, ' ')}</Typography>}
+      renderTags={(value, getTagProps) =>
+        value.map((option, index) => (
+          <Chip variant="outlined" label={option.replace(/_/g, ' ')} {...getTagProps({ index })} />
+        ))
+      }
       onChange={(event, value) => { 
         const selectedPathways = value;
         dispatch(setSelectedPathways(selectedPathways));

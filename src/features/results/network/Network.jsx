@@ -9,7 +9,7 @@ import './style.css';
 import Cytoscape from 'cytoscape'
 import Dagre from 'cytoscape-dagre';
 import CytoscapeComponent from 'react-cytoscapejs';
-
+import { Typography } from '@material-ui/core';
 Cytoscape.use(Dagre);
 
 export function Network() {
@@ -22,7 +22,7 @@ export function Network() {
       'selector': 'node',
       'style': {
         'display': 'element',
-        'label': 'data(name)',
+        'label': 'data(label)',
         'text-max-width' : 60,
         'text-overflow-wrap': '_',
         'text-halign': 'center',
@@ -71,7 +71,12 @@ export function Network() {
 
   return (
     elements.length == 0 
-     ? <p>stuff</p> 
+     ? <div text-align='center'
+     vertical-align= 'middle'>
+      <Typography variant="h6" height='100%' width='100%' >
+      
+       Select a Drug and Pathway
+      </Typography>   </div> 
      : <div class='network'>
       <CytoscapeComponent elements={JSON.parse(JSON.stringify(elements))} 
         style={{ width: '100%', height: '600px' }} layout={{

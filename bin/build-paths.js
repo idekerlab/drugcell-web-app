@@ -160,10 +160,17 @@ targetPathways.forEach(targetId => {
         delete element.classes;
     };
 
+    const replaceLabelUnderscores = element => {
+        if (element.data['label']) {
+            element.data['label'] = element.data['label'].replace(/_/g, ' ');
+        } 
+    }
+    
     let pathwayElements = [];
     path.forEach(pathElement => {
         let elementJson = pathElement.json();
         minimizeElement(elementJson);
+        replaceLabelUnderscores(elementJson);
         //console.log('shared-name: ' + targetNode.data('shared-name') + ' ' + elementJson.data['shared-name']);
         if (elementJson.data['shared-name'] == targetNode.data('shared-name')) {
             //console.log('adding gene count: ' + genes.size())

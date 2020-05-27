@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-
+import Paper from '@material-ui/core/Paper';
 
 import {
   selectGenes
@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     maxWidth: 360,
+  
     height: 400,
+
     backgroundColor: theme.palette.background.paper,
   },
 }));
@@ -30,9 +32,13 @@ export function GeneList() {
 
   return (
     <div className={classes.root}>
-      Genes
-    <List component="nav" aria-label="gene list">
-      { genes.map( gene => 
+     <Typography variant="h6">
+            Genes
+          </Typography>
+    <Paper style={{maxHeight: 400, overflow: 'auto'}}>
+    
+    <List component='nav' aria-label='gene list' dense='true' maxHeight='300' overflow='auto'>
+      { genes.sort( (a,b) => a.localeCompare(b)).map( gene => 
         {
           return (
           <ListItem button >
@@ -40,6 +46,10 @@ export function GeneList() {
           </ListItem>);
       })}
     </List>
+    </Paper>
+    <Typography variant="h6">
+           Total { genes.length }
+     </Typography>
     </div>
   );
 }

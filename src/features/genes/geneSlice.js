@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const geneSlice = createSlice({
   name: 'genes',
   initialState: {
-    genes: [ 'floon', 'lorp' ]
+    genes: [ ]
   },
   reducers: {
     setGenes: (state, action) => {
