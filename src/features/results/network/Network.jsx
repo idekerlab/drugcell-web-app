@@ -24,7 +24,7 @@ export function Network() {
         'display': 'element',
         'label': 'data(label)',
         'text-max-width' : 60,
-        'text-overflow-wrap': '_',
+        'text-wrap' : 'wrap',
         'text-halign': 'center',
         'text-valign': 'top'
       }
