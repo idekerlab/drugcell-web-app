@@ -24,11 +24,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 export function GeneList() {
 
   const classes = useStyles();
 
   const genes = useSelector(selectGenes);
+
+  const downloadUrl = 'http://www.ndexbio.org/v2/search/network/042a9cc5-8111-11ea-aaef-0ac135e8bacf/interconnectquery';
+  const downloadProps = {"searchString":"GO:1902600","searchDepth":1,"edgeLimit":50000,"errorWhenLimitIsOver":true};
+  
+  const downloadEmployeeData = () => {
+    
+    fetch(downloadUrl, {
+      method: 'POST', 
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(downloadProps)
+    })
+      .then(response => {
+        response.blob().then(blob => {
+          let url = window.URL.createObjectURL(blob);
+          let a = document.createElement('a');
+          a.href = url;
+          a.download = 'network.cx';
+          a.click();
+        });
+        //window.location.href = response.url;
+    });
+  }
+  
 
   return (
     <div className={classes.root}>
@@ -50,6 +78,7 @@ export function GeneList() {
     <Typography variant="h6">
            Total { genes.length }
      </Typography>
+     <button onClick={downloadEmployeeData}>Download</button>
     </div>
   );
 }
