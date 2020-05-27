@@ -1,8 +1,6 @@
 import React, {useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setElements,
-  setElementsFromURLs,
   selectElements,
 } from './networkSlice';
 import './style.css';

@@ -31,7 +31,7 @@ export const setElementsFromURLs = (args) => dispatch => {
       allElements = allElements.concat(elements.shortestPath);
       elements.genes.forEach(gene => {
         console.log('gene here: ' + JSON.stringify(gene));
-        gene.data.name && allGenes.push(gene.data.name);
+        gene.data.name && allGenes.push({ 'name' : gene.data.name, 'shared-name': gene.data['shared-name'] } );
 
       });
     });
