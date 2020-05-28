@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
 
+import { getPathwaysFromNetwork } from '../../api/ndex'
 import { importNetwork } from '../../api/cyrest'
 
 import {
@@ -18,6 +19,11 @@ import {
 import {
   selectGenes
 } from './geneSlice';
+
+import {
+  selectSelectedDrug
+} from '../results/drugSlice';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,9 +46,13 @@ export function GeneList() {
 
   const elements = useSelector(selectElements);
 
-  const downloadUrl = 'http://www.ndexbio.org/v2/search/network/042a9cc5-8111-11ea-aaef-0ac135e8bacf/interconnectquery';
+  //const downloadUrl = 'http://www.ndexbio.org/v2/search/network/042a9cc5-8111-11ea-aaef-0ac135e8bacf/interconnectquery';
  
-  const downloadEmployeeData = () => {
+  
+
+  const selectedDrugUUID = useSelector(selectSelectedDrug);
+
+  const importToCytoscape = () => {
     
     let queryStrings = [ ];
 
@@ -51,28 +61,13 @@ export function GeneList() {
     genes.forEach( gene => {
       queryStrings.push(gene['shared-name']);
     });
-
-    const downloadProps = {
-      "searchString": queryStrings.join(" "),
-      "searchDepth":1,
-      "edgeLimit":50000,
-      "errorWhenLimitIsOver":true
-    };
   
-    fetch(downloadUrl, {
-      method: 'POST', 
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(downloadProps)
-    })
+    getPathwaysFromNetwork(selectedDrugUUID, queryStrings)
       .then(response => {
         response.json().then( json => 
         importNetwork(1234, json));
     });
   }
-  
 
   return (
     <div className={classes.root}>
@@ -94,7 +89,7 @@ export function GeneList() {
     <Typography variant="h6">
            Total { genes.length }
      </Typography>
-     <button onClick={downloadEmployeeData}>Download</button>
+     <button onClick={importToCytoscape}>Download</button>
     </div>
   );
 }
