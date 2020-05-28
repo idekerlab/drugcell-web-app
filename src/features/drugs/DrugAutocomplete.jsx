@@ -6,6 +6,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import { VariableSizeList } from 'react-window';
+import Tooltip from '@material-ui/core/Tooltip';
 import { Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -122,13 +123,14 @@ export function DrugAutocomplete() {
   useEffect(() => dispatch(getDrugs()), []);
 
   return (
+    <Tooltip title='Start typing a drug name, or click on the drop down to scroll through all avaialable drugs.' placement='right'>
     <Autocomplete
       style={{ width: 300 }}
       disableListWrap
       classes={classes}
       ListboxComponent={ListboxComponent}
-      options={ Object.keys(drugs) }
-      renderInput={(params) => <TextField {...params} variant="outlined" label="Drug" />}
+      options={ Object.keys(drugs).sort( (a,b) => a.localeCompare(b)) }
+      renderInput={(params) => <TextField {...params} variant="outlined" label="Drug" /> }
       renderOption={(option) => <Typography noWrap>{option} </Typography>}
       onChange={(event, value) => {
         const drugUUID = drugs[value].uuid;
@@ -138,5 +140,6 @@ export function DrugAutocomplete() {
 
       }}
     />
+    </Tooltip>
   );
 }

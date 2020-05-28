@@ -35,7 +35,7 @@ export const getDrugs = () => dispatch => {
   getDrugsAPI()
    .then(response => {
        if (!response.ok) {
-           throw new Error("HTTP error " + response.status + ' (' + JSON.stringify(response.headers) + ')' );
+           throw new Error("HTTP error " + response.status + ' (' + response.statusText + ')' );
        }
        return response.json();
    })

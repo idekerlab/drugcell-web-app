@@ -7,11 +7,13 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Chip from '@material-ui/core/Chip';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import { VariableSizeList } from 'react-window';
+import Tooltip from '@material-ui/core/Tooltip';
 import { Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectAvailablePathways,
   setSelectedPathways,
+  selectSelectedPathways,
 } from '../results/pathwaySlice';
 
 import {
@@ -116,31 +118,39 @@ export function PathwayAutocomplete() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const pathways = useSelector(selectAvailablePathways);
+  const selectedPathways = useSelector(selectSelectedPathways);
   const selectedDrugUUID = useSelector(selectSelectedDrug);
 
   return (
-    <Autocomplete
-      multiple
-      style={{ width: 300 }}
-      disableListWrap
-      classes={classes}
-      ListboxComponent={ListboxComponent}
-      options={Object.keys(pathways).sort((a,b) => pathways[b].rlipp - pathways[a].rlipp  )}
-      renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" />}
-      renderOption={(option) => <Typography noWrap>{pathways[option].rlipp.toFixed(2)} {option.replace(/_/g, ' ')}</Typography>}
-      renderTags={(value, getTagProps) =>
-        value.map((option, index) => (
-          <Chip variant="outlined" label={option.replace(/_/g, ' ')} {...getTagProps({ index })} />
-        ))
-      }
-      onChange={(event, value) => { 
-        const selectedPathways = value;
-        dispatch(setSelectedPathways(selectedPathways));
-        const pathwayIds = value.map( entry => pathways[entry]['shared-name'].replace(':','_'));
-        console.log('pathwayIds: ' + JSON.stringify(pathwayIds));
-        console.log('selected drug: ' + selectedDrugUUID);
-        dispatch(setElementsFromURLs( {uuid : selectedDrugUUID, selectedPathways: pathwayIds}));
-      }}
-    />
+    <Tooltip title={ selectedPathways.length == 0 ? 'Start typing a pathway name, or click on the drop down to scroll through all avaialable pathways sorted by RLIPP score' : '' } placement='right'>
+
+      <Autocomplete
+        multiple
+        style={{ width: 300 }}
+        disableListWrap
+        classes={classes}
+        ListboxComponent={ListboxComponent}
+        value={selectedPathways}
+        options={Object.keys(pathways).sort((a, b) => pathways[b].rlipp - pathways[a].rlipp)}
+        renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" />}
+        renderOption={(option) => <Typography noWrap>{pathways[option].rlipp.toFixed(2)} {option.replace(/_/g, ' ')}</Typography>}
+        renderTags={(value, getTagProps) =>
+          value.map((option, index) => (
+            <Tooltip title={option.replace(/_/g, ' ') + ' RLIPP Score: ' + pathways[option].rlipp} placement='right'>
+
+              <Chip variant="outlined" label={option.replace(/_/g, ' ')} {...getTagProps({ index })} />
+            </Tooltip>
+          ))
+        }
+        onChange={(event, value) => {
+          const selectedPathways = value;
+          dispatch(setSelectedPathways(selectedPathways));
+          const pathwayIds = value.map(entry => pathways[entry]['shared-name'].replace(':', '_'));
+          console.log('pathwayIds: ' + JSON.stringify(pathwayIds));
+          console.log('selected drug: ' + selectedDrugUUID);
+          dispatch(setElementsFromURLs({ uuid: selectedDrugUUID, selectedPathways: pathwayIds }));
+        }}
+      />
+    </Tooltip>
   );
 }
