@@ -9,7 +9,7 @@ import { VariableSizeList } from 'react-window';
 import { Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  importDrugsFromURL,
+  getDrugs as getDrugs,
   selectAvailableDrugs,
   selectDrug
 } from './../results/drugSlice';
@@ -119,7 +119,7 @@ export function DrugAutocomplete() {
   const dispatch = useDispatch();
   const drugs = useSelector(selectAvailableDrugs);
 
-  useEffect(() => dispatch(importDrugsFromURL()), []);
+  useEffect(() => dispatch(getDrugs()), []);
 
   return (
     <Autocomplete

@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { setGenes } from '../../genes/geneSlice'
 import { selectSelectedPathways } from '../pathwaySlice';
 
+import { getPathway } from '../../../api/drugcell'
+
 export const networkSlice = createSlice({
   name: 'network',
   initialState: {
@@ -22,7 +24,7 @@ export const { setElements, addElements } = networkSlice.actions;
 // can be dispatched like a regular action: `dispatch(importFromURL(xyz))`. 
 export const setElementsFromURLs = (args) => dispatch => {
   console.log('setElementsFromURLs args: ' + JSON.stringify(args));
-  Promise.all(args.selectedPathways.map(u => fetch('http://localhost/data/paths/' + args.uuid + '/' + u + '.json'))).then(responses =>
+  Promise.all(args.selectedPathways.map(pathwayId => getPathway( args.uuid , pathwayId))).then(responses =>
     Promise.all(responses.map(res => res.json()))
   ).then(jsonResponses => {
     let allElements = [];
@@ -38,25 +40,6 @@ export const setElementsFromURLs = (args) => dispatch => {
     dispatch(setGenes(allGenes));
     dispatch(setElements(allElements));
   });
-
-  /*
-  fetch(url, {mode: 'no-cors'})
-   .then(response => {
-       if (!response.ok) {
-           throw new Error("HTTP error " + response.status + ' (' + JSON.stringify(response.headers) + ')' );
-       }
-       return response.json();
-   })
-   .then(json => {
-    
-    dispatch(addElements(json));
-       
-   })
-   .catch( error => {
-       console.log(error);
-   });
-  */
-
 };
 
 export const selectElements = state => state.network.elements;

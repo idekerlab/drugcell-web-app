@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
-  importPathwaysFromURL,
+  getPathways,
 } from './pathwaySlice';
 
 import {
-  getDrugs
-} from '../../api/drugcell'
+  getDrugs as getDrugsAPI } from '../../api/drugcell'
 
 export const drugSlice = createSlice({
   name: 'drugs',
@@ -32,8 +31,8 @@ export const { setAvailableDrugs: setAvailableDrugs,
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
-export const importDrugsFromURL = () => dispatch => {   
-  getDrugs()
+export const getDrugs = () => dispatch => {   
+  getDrugsAPI()
    .then(response => {
        if (!response.ok) {
            throw new Error("HTTP error " + response.status + ' (' + JSON.stringify(response.headers) + ')' );
@@ -52,7 +51,7 @@ export const selectDrug = drugUUID => dispatch => {
 
   console.log('selected drug uuid: ' + drugUUID);
   dispatch(setSelectedDrug(drugUUID));
-  dispatch(importPathwaysFromURL(drugUUID));
+  dispatch(getPathways(drugUUID));
 };
 
 export const selectAvailableDrugs = state => state.drugs.availableDrugs;

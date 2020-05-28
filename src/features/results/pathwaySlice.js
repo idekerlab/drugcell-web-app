@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getPathways } from '../../api/drugcell'
+import { getPathways as getPathwaysAPI } from '../../api/drugcell'
 
 export const pathwaySlice = createSlice({
   name: 'pathways',
@@ -22,10 +22,10 @@ export const { setAvailablePathways: setAvailablePathways,
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(importPathwaysFromURL(url))`. 
-export const importPathwaysFromURL = drugUUID => dispatch => {
+export const getPathways = drugUUID => dispatch => {
 
   console.log('Drug load: ' + drugUUID);   
-  getPathways(drugUUID)
+  getPathwaysAPI(drugUUID)
    .then(response => {
        if (!response.ok) {
            throw new Error("HTTP error " + response.status + ' (' + JSON.stringify(response.headers) + ')' );

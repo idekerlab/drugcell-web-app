@@ -25,8 +25,8 @@ const getURL = (path) => {
     })
   }
 
-  const getPathway = (drug, pathway) => {
-    const url = getURL('');
+  const getPathway = (drugUUID, pathwayID) => {
+    const url = getURL('/paths/' + drugUUID + '/' + pathwayID + '.json');
     
       return fetch(url, {
       method: METHOD_GET,
@@ -34,4 +34,4 @@ const getURL = (path) => {
     })
   }
 
-  export { getDrugs , getPathways }
+  export { getDrugs , getPathways, getPathway }
