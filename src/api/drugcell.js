@@ -1,7 +1,7 @@
 
 import { METHOD_GET } from './apiConstants'
 
-const DRUG_CELL_URL = 'http://localhost';
+const DRUG_CELL_URL = 'http://drugcell-dev.ndexbio.org';
 const DRUG_CELL_PORT = '80';
 const DRUG_CELL_ROOT = 'data'
 
