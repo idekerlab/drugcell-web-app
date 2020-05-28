@@ -4,6 +4,10 @@ import {
   importPathwaysFromURL,
 } from './pathwaySlice';
 
+import {
+  getDrugs
+} from '../../api/drugcell'
+
 export const drugSlice = createSlice({
   name: 'drugs',
   initialState: {
@@ -28,9 +32,8 @@ export const { setAvailableDrugs: setAvailableDrugs,
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
-export const importDrugsFromURL = url => dispatch => {
-  console.log('URL load: ' + url);   
-  fetch(url, {mode: 'no-cors'})
+export const importDrugsFromURL = () => dispatch => {   
+  getDrugs()
    .then(response => {
        if (!response.ok) {
            throw new Error("HTTP error " + response.status + ' (' + JSON.stringify(response.headers) + ')' );
@@ -49,7 +52,7 @@ export const selectDrug = drugUUID => dispatch => {
 
   console.log('selected drug uuid: ' + drugUUID);
   dispatch(setSelectedDrug(drugUUID));
-  dispatch(importPathwaysFromURL('http://localhost/data/paths/' + drugUUID + '/index.json' ));
+  dispatch(importPathwaysFromURL(drugUUID));
 };
 
 export const selectAvailableDrugs = state => state.drugs.availableDrugs;

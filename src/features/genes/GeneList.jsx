@@ -9,6 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
 
+import { importNetwork } from '../../api/cyrest'
+
 import {
   selectElements,
 } from '../results/network/networkSlice';
@@ -66,14 +68,8 @@ export function GeneList() {
       body: JSON.stringify(downloadProps)
     })
       .then(response => {
-        response.blob().then(blob => {
-          let url = window.URL.createObjectURL(blob);
-          let a = document.createElement('a');
-          a.href = url;
-          a.download = 'network.cx';
-          a.click();
-        });
-        //window.location.href = response.url;
+        response.json().then( json => 
+        importNetwork(1234, json));
     });
   }
   

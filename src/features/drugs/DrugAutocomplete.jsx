@@ -119,7 +119,7 @@ export function DrugAutocomplete() {
   const dispatch = useDispatch();
   const drugs = useSelector(selectAvailableDrugs);
 
-  useEffect(() => dispatch(importDrugsFromURL('http://localhost/data/drug-index.json')), []);
+  useEffect(() => dispatch(importDrugsFromURL()), []);
 
   return (
     <Autocomplete
