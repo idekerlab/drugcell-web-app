@@ -36,8 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 export function GeneList() {
 
   const classes = useStyles();
@@ -45,10 +43,6 @@ export function GeneList() {
   const genes = useSelector(selectGenes);
 
   const elements = useSelector(selectElements);
-
-  //const downloadUrl = 'http://www.ndexbio.org/v2/search/network/042a9cc5-8111-11ea-aaef-0ac135e8bacf/interconnectquery';
- 
-  
 
   const selectedDrugUUID = useSelector(selectSelectedDrug);
 
