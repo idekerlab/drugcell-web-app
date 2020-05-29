@@ -32,9 +32,7 @@ export const setElementsFromURLs = (args) => dispatch => {
     jsonResponses.forEach(elements => {
       allElements = allElements.concat(elements.shortestPath);
       elements.genes.forEach(gene => {
-        console.log('gene here: ' + JSON.stringify(gene));
         gene.data.name && allGenes.push({ 'name' : gene.data.name, 'shared-name': gene.data['shared-name'] } );
-
       });
     });
     dispatch(setGenes(allGenes));

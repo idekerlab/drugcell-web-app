@@ -4,7 +4,7 @@ import { getPathways as getPathwaysAPI } from '../../api/drugcell'
 export const pathwaySlice = createSlice({
   name: 'pathways',
   initialState: {
-    availablePathways: [],
+    availablePathways: {},
     selectedPathways: []
   },
   reducers: {

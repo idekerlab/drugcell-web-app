@@ -122,13 +122,19 @@ export function PathwayAutocomplete() {
   const selectedDrugUUID = useSelector(selectSelectedDrug);
 
   return (
-    <Tooltip title={ selectedPathways.length == 0 ? 'Start typing a pathway name, or click on the drop down to scroll through all avaialable pathways sorted by RLIPP score' : '' } placement='right'>
-
+    <Tooltip title={
+      Object.keys(pathways).length == 0
+        ? 'Select a drug to display available pathways'
+        : selectedPathways.length == 0
+          ? 'Start typing a pathway name, or click on the drop down to scroll through all avaialable pathways sorted by RLIPP score'
+          : ''
+    } placement='right'>
       <Autocomplete
         multiple
         style={{ width: 300 }}
         disableListWrap
         classes={classes}
+        disabled={Object.keys(pathways).length == 0}
         ListboxComponent={ListboxComponent}
         value={selectedPathways}
         options={Object.keys(pathways).sort((a, b) => pathways[b].rlipp - pathways[a].rlipp)}
@@ -137,7 +143,6 @@ export function PathwayAutocomplete() {
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (
             <Tooltip title={option.replace(/_/g, ' ') + ' RLIPP Score: ' + pathways[option].rlipp} placement='right'>
-
               <Chip variant="outlined" label={option.replace(/_/g, ' ')} {...getTagProps({ index })} />
             </Tooltip>
           ))

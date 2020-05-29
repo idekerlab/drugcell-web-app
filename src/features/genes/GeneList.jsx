@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import Button from '@material-ui/core/Button';
+
 import Paper from '@material-ui/core/Paper';
 
 import { getPathwaysFromNetwork } from '../../api/ndex'
@@ -81,9 +83,9 @@ export function GeneList() {
     </List>
     </Paper>
     <Typography variant="h6">
-           Total { genes.length }
+           Total: { genes.length }
      </Typography>
-     <button onClick={importToCytoscape}>Download</button>
+     <Button onClick={importToCytoscape} color="primary">Import to Cytoscape</Button>
     </div>
   );
 }

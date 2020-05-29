@@ -69,11 +69,10 @@ export function Network() {
 
   return (
     elements.length == 0 
-     ? <div text-align='center'
+     ? <div
      vertical-align= 'middle'>
-      <Typography variant="h6" height='100%' width='100%' >
-      
-       Select a Drug and Pathway
+      <Typography class='hint'>
+       Select a Drug and Pathways
       </Typography>   </div> 
      : <div class='network'>
       <CytoscapeComponent elements={JSON.parse(JSON.stringify(elements))} 
