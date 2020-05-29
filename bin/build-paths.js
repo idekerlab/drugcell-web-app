@@ -51,7 +51,7 @@ var preCy = cytoscape({
     elements: newElements
 });
 
-preCy.nodes().removeData('genes');
+//preCy.nodes().removeData('genes');
 
 Object.keys(niceCX.nodes).forEach(key => {
     //console.log("node key: " + key + " n:" + niceCX.nodes[key].n);
@@ -89,7 +89,12 @@ if (!networkName) {
 
 const targetDir = targetRootDir + fileName.slice(fileName.lastIndexOf('/'), -3);
 
+const pathDir = targetDir + '/paths';
+const geneDir = targetDir + '/genes';
+
 fs.mkdirSync(targetDir);
+fs.mkdirSync(pathDir);
+fs.mkdirSync(geneDir);
 
 //console.log('targetPathways size= ' + targetPathways.size());
 const indexFileName = targetDir + '/index.json';
@@ -149,7 +154,7 @@ targetPathways.forEach(targetId => {
         }
 
         delete element.position;
-        
+
         delete element.group;
         delete element.removed;
         delete element.selected;
@@ -163,12 +168,14 @@ targetPathways.forEach(targetId => {
     const replaceLabelUnderscores = element => {
         if (element.data['label']) {
             element.data['label'] = element.data['label'].replace(/_/g, ' ');
-        } 
+        }
     }
-    
+
     let pathwayElements = [];
+
     path.forEach(pathElement => {
         let elementJson = pathElement.json();
+
         minimizeElement(elementJson);
         replaceLabelUnderscores(elementJson);
         //console.log('shared-name: ' + targetNode.data('shared-name') + ' ' + elementJson.data['shared-name']);
@@ -183,15 +190,13 @@ targetPathways.forEach(targetId => {
     genes.forEach(geneElement => {
         let elementJson = geneElement.json();
         minimizeElement(elementJson);
-        geneElements.push(elementJson);
+        if (elementJson.data['shared-name'] != null && elementJson.data['shared-name'].length > 0) {
+            geneElements.push(elementJson.data['shared-name']);
+        }
     });
 
-    const pathwayEntry = {
-        shortestPath : pathwayElements,
-        genes : geneElements
-    }
-
-    fs.writeFileSync(targetDir + '/' + targetNode.data('shared-name').replace(':', '_') + '.json', JSON.stringify(pathwayEntry, null, 0));
+    fs.writeFileSync(pathDir + '/' + targetNode.data('shared-name').replace(':', '_') + '.json', JSON.stringify(pathwayElements, null, 0));
+    fs.writeFileSync(geneDir + '/' + targetNode.data('shared-name').replace(':', '_') + '.json', JSON.stringify(geneElements, null, 0))
 });
 
 
@@ -199,8 +204,8 @@ targetPathways.forEach(targetId => {
 let sortedIndex = {};
 
 Object.entries(index).sort(
-    (a, b) =>  b[1].rlipp -a[1].rlipp 
-    ).forEach( (value, key) => sortedIndex[value[0]] = value[1]);
+    (a, b) => b[1].rlipp - a[1].rlipp
+).forEach((value, key) => sortedIndex[value[0]] = value[1]);
 
 const networkIndex = {
     'name': networkName,

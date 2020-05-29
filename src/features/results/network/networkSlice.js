@@ -30,12 +30,9 @@ export const setElementsFromURLs = (args) => dispatch => {
     let allElements = [];
     let allGenes = [];
     jsonResponses.forEach(elements => {
-      allElements = allElements.concat(elements.shortestPath);
-      elements.genes.forEach(gene => {
-        gene.data.name && allGenes.push({ 'name' : gene.data.name, 'shared-name': gene.data['shared-name'] } );
-      });
+      allElements = allElements.concat(elements);
     });
-    dispatch(setGenes(allGenes));
+    //dispatch(setGenes(allGenes));
     dispatch(setElements(allElements));
   });
 };
