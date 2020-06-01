@@ -27,7 +27,7 @@ const getURL = (path) => {
   }
 
   const getPathway = (drugUUID, pathwayID) => {
-    const url = getURL('/drugs/' + drugUUID + '/paths/' + pathwayID + '.json');
+    const url = getURL('/drugs/' + drugUUID + '/paths/' + pathwayIDConvert(pathwayID) + '.json');
     
       return fetch(url, {
       method: METHOD_GET,
@@ -36,12 +36,16 @@ const getURL = (path) => {
   }
 
   const getGenes = (drugUUID, pathwayID)=> {
-    const url = getURL('/drugs/' + drugUUID + '/genes/' + pathwayID + '.json');
+    const url = getURL('/drugs/' + drugUUID + '/genes/' + pathwayIDConvert(pathwayID) + '.json');
     
       return fetch(url, {
       method: METHOD_GET,
       mode: 'no-cors'
     })
+  }
+
+  const pathwayIDConvert = (pathwayID) => {
+    return pathwayID.replace(':', '_');
   }
 
   export { getDrugs , getPathways, getPathway, getGenes }

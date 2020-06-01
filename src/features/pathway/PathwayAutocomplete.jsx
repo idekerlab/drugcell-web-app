@@ -150,7 +150,7 @@ export function PathwayAutocomplete() {
         onChange={(event, value) => {
           const selectedPathways = value;
           dispatch(setSelectedPathways(selectedPathways));
-          const pathwayIds = value.map(entry => pathways[entry]['shared-name'].replace(':', '_'));
+          const pathwayIds = value.map(entry => pathways[entry]['shared-name']);
           console.log('pathwayIds: ' + JSON.stringify(pathwayIds));
           console.log('selected drug: ' + selectedDrugUUID);
           dispatch(setElementsFromURLs({ uuid: selectedDrugUUID, selectedPathways: pathwayIds }));

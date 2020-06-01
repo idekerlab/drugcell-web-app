@@ -3,6 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   selectElements,
 } from './networkSlice';
+
+import {
+  setGenesFromURLs
+} from './../../genes/geneSlice'
+
+import {
+  selectSelectedDrug
+} from './../drugSlice'
+
 import './style.css';
 import Cytoscape from 'cytoscape'
 import Dagre from 'cytoscape-dagre';
@@ -17,6 +26,9 @@ export function Network() {
   //useEffect(() => console.log('mounted'), []);
 
   const elements = useSelector(selectElements);
+  const drugUUID = useSelector(selectSelectedDrug);
+
+
   const style = [
     {
       'selector': 'node',
@@ -69,6 +81,8 @@ export function Network() {
 
   const dispatch = useDispatch();
 
+
+
   return (
     elements.length == 0
       ? <div
@@ -94,12 +108,31 @@ export function Network() {
           cy={cy => {
             console.log('setting cy instance');
             cyInstance = cy;
-            cyInstance.on('select', function(event) {
+            cyInstance.on('select', function (event) {
               try {
-                console.log('select target 2 = ' + event.target.id());
-                cy.$(':selected').forEach( element => {
-                  console.log('selected element: ' + element.id());
+                let pathwayIds = [];
+                cy.$(':selected').forEach(element => {
+                  if (element.isNode()) {
+                    const pathwayId = element.data('shared-name');
+                    pathwayIds.push(pathwayId);
+                  }
                 });
+                dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
+              } catch (e) {
+                console.warn(e)
+              }
+            });
+
+            cyInstance.on('tap', 'node', function (event) {
+              try {
+                let pathwayIds = [];
+
+                if (event.target.isNode()) {
+                  const pathwayId = event.target.data('shared-name');
+                  pathwayIds.push(pathwayId);
+                }
+
+                dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
               } catch (e) {
                 console.warn(e)
               }

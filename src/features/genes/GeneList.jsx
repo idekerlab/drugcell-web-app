@@ -73,11 +73,11 @@ export function GeneList() {
     <Paper style={{maxHeight: '100%', overflow: 'auto'}}>
     
     <List component='nav' aria-label='gene list' dense='true' maxHeight='300' overflow='auto'>
-      { genes.sort( (a,b) => a.name.localeCompare(b.name)).map( gene => 
+      { genes.sort( (a,b) => a.localeCompare(b)).map( gene => 
         {
           return (
           <ListItem button >
-            <ListItemText primary={ gene.name }/>
+            <ListItemText primary={ gene }/>
           </ListItem>);
       })}
     </List>
