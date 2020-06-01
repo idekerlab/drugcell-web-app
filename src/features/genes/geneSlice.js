@@ -26,11 +26,11 @@ export const setGenesFromURLs = (args) => dispatch => {
   
     let allGenes = [];
     jsonResponses.forEach(elements => {
-      allGenes = allGenes.concat(elements.map( element => element.substring(0, element.indexOf('.'))));
+      allGenes = allGenes.concat(elements.map( element => element.includes('.') 
+      ? element.substring(0, element.indexOf('.')) : element));
     });
     
-    dispatch(setGenes(allGenes.filter((value, index, self) => { 
-      return self.indexOf(value)===index})));
+    dispatch(setGenes(allGenes.filter((value, index, self) => self.indexOf(value) === index)));
   });
 };
 
