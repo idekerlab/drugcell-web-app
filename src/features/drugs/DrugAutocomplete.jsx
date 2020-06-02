@@ -23,8 +23,6 @@ import {
   setElementsFromURLs
 } from './../results/network/networkSlice';
 
-
-
 const LISTBOX_PADDING = 8; // px
 
 function renderRow(props) {

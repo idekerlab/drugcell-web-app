@@ -121,16 +121,18 @@ export function Network() {
               }
             });
 
-            cyInstance.on('tap', 'node', function (event) {
+            cyInstance.on('tap', function (event) {
               try {
-                let pathwayIds = [];
-
-                if (event.target.isNode()) {
+                if (event.target === cyInstance) {
+                  console.log('tap on not-node');
+                  dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: [] }))
+                }
+                else if (event.target.isNode()) {
+                  let pathwayIds = [];
                   const pathwayId = event.target.data('shared-name');
                   pathwayIds.push(pathwayId);
-                }
-
-                dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
+                  dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
+                } 
               } catch (e) {
                 console.warn(e)
               }
