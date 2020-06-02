@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getGenes} from '../../api/drugcell'
+import { getGenes} from '../../../api/drugcell'
 
 export const geneSlice = createSlice({
   name: 'genes',

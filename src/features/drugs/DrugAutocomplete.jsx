@@ -125,7 +125,7 @@ export function DrugAutocomplete() {
   return (
     <Tooltip title='Start typing a drug name, or click on the drop down to scroll through all avaialable drugs.' placement='right'>
     <Autocomplete
-      style={{ width: 300 }}
+      style={{ width: 300, 'padding-top': '12px' }}
       disableListWrap
       classes={classes}
       ListboxComponent={ListboxComponent}

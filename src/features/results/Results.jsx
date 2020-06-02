@@ -4,7 +4,7 @@ import { Network } from './network/Network';
 import { PathwayAutocomplete } from '../pathway/PathwayAutocomplete';
 import { DrugAutocomplete } from '../drugs/DrugAutocomplete';
 
-import { GeneList } from '../genes/GeneList';
+import { GeneList } from './genes/GeneList';
 
 import './style.css';
 

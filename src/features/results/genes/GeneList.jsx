@@ -11,12 +11,12 @@ import Button from '@material-ui/core/Button';
 
 import Paper from '@material-ui/core/Paper';
 
-import { getPathwaysFromNetwork } from '../../api/ndex'
-import { importNetwork } from '../../api/cyrest'
+import { getPathwaysFromNetwork } from '../../../api/ndex'
+import { importNetwork } from '../../../api/cyrest'
 
 import {
   selectElements,
-} from '../results/network/networkSlice';
+} from '../network/networkSlice';
 
 import {
   selectGenes
@@ -24,15 +24,15 @@ import {
 
 import {
   selectSelectedPathways, selectAvailablePathways
-} from './../results/pathwaySlice';
+} from '../pathwaySlice';
 
 import {
   selectSelectedDrug
-} from '../results/drugSlice';
+} from '../drugSlice';
 
 import {
   getGenes
-} from './../../api/drugcell'
+} from '../../../api/drugcell'
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -6,7 +6,7 @@ import {
 
 import {
   setGenesFromURLs
-} from './../../genes/geneSlice'
+} from '../genes/geneSlice'
 
 import {
   selectSelectedDrug

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { setGenes } from '../../genes/geneSlice'
+import { setGenes } from '../genes/geneSlice'
 import { selectSelectedPathways } from '../pathwaySlice';
 
 import { getPathway } from '../../../api/drugcell'
