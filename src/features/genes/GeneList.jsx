@@ -86,7 +86,17 @@ export function GeneList() {
   }
 
   const copyGenesToClipboard = () => {
+    const geneText = genes.join('\n');
+    var dummy = document.createElement("textarea");
+    //dummy.style.display = 'none'
+    document.body.appendChild(dummy);
+    
+    dummy.value = geneText;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
 
+    console.log('copied');
   }
 
   return (
