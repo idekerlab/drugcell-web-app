@@ -3,12 +3,13 @@ import logo from './logo.svg';
 import { Results } from './features/results/Results'
 import './App.css';
 
+import AppShell from './components/AppShell'
 
-function App() {
+const App = props => {
   return (
-    <div className="App">
+    <AppShell {...props}>
       <Results />
-    </div>
+    </AppShell>
   );
 }
 
