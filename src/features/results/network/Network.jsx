@@ -92,7 +92,7 @@ export function Network() {
       </Typography>   </div>
       : <div class='network'>
         <CytoscapeComponent elements={JSON.parse(JSON.stringify(elements))}
-          style={{ width: '100%', height: '600px' }} layout={{
+          style={{ width: '100%', height: '100vh' }} layout={{
             name: 'dagre',
             rankDir: 'LR',
             rankSep: 60,
@@ -100,8 +100,6 @@ export function Network() {
             nodeDimensionsIncludeLabels: true,
             nodeSep: 75,
             transform: (node, position) => {
-              //console.log('position: ' + position['x']);
-              //position.y = position.y + position.x / 2;
               return position;
             }
           }} stylesheet={style}

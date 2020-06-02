@@ -39,10 +39,15 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: 360,
 
-    height: 400,
+    height: '100vh',
 
     backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    'flex-flow': 'column',
   },
+  icons: {
+    display: 'flex'
+  }
 }));
 
 export function GeneList() {
@@ -54,7 +59,7 @@ export function GeneList() {
   const elements = useSelector(selectElements);
 
   const selectedPathways = useSelector(selectSelectedPathways);
- 
+
   const availablePathways = useSelector(selectAvailablePathways);
 
   const selectedDrugUUID = useSelector(selectSelectedDrug);
@@ -65,7 +70,7 @@ export function GeneList() {
 
     elements.filter(element => element.data['nodetype'] == 'Term').forEach(element => queryStrings.push(element.data['shared-name']));
 
-    const pathwayIDs = selectedPathways.map( pathwayName => availablePathways[pathwayName]['shared-name']);
+    const pathwayIDs = selectedPathways.map(pathwayName => availablePathways[pathwayName]['shared-name']);
 
     Promise.all(pathwayIDs.map(pathwayId => getGenes(selectedDrugUUID, pathwayId))).then(responses =>
       Promise.all(responses.map(res => res.json()))
@@ -73,7 +78,7 @@ export function GeneList() {
 
       let allGenes = [];
       jsonResponses.forEach(elements => {
-        
+
         allGenes = allGenes.concat(elements);
       });
 
@@ -88,9 +93,9 @@ export function GeneList() {
   const copyGenesToClipboard = () => {
     const geneText = genes.join('\n');
     var dummy = document.createElement("textarea");
-    //dummy.style.display = 'none'
+
     document.body.appendChild(dummy);
-    
+
     dummy.value = geneText;
     dummy.select();
     document.execCommand("copy");
@@ -99,14 +104,24 @@ export function GeneList() {
     console.log('copied');
   }
 
+  const searchInIQuery = () => {
+    const iQueryUrl = 'http://iquery.ndexbio.org/?genes=' + genes.join(",");
+    window.open(iQueryUrl, '_blank');
+  }
+
   return (
     <div className={classes.root}>
       <Typography variant="h6">
-        Genes
-          </Typography>
-      <Paper style={{ maxHeight: '100%', overflow: 'auto' }}>
+        Genes ({genes.length})
+      </Typography>
+      <div className={classes.icons}>
+        <Button onClick={importToCytoscape} color="primary">Import to Cytoscape</Button>
+        <Button onClick={copyGenesToClipboard} color="primary">Copy Genes to Clipboard</Button>
+        <Button onClick={searchInIQuery} color="primary">Search for Genes in IQuery</Button>
+      </div>
+      <Paper style={{ height: '100%', overflow: 'auto' }}>
 
-        <List component='nav' aria-label='gene list' dense='true' maxHeight='300' overflow='auto'>
+        <List component='nav' aria-label='gene list' dense='true' overflow='auto'>
           {genes.sort((a, b) => a.localeCompare(b)).map(gene => {
             return (
               <ListItem button >
@@ -115,11 +130,7 @@ export function GeneList() {
           })}
         </List>
       </Paper>
-      <Typography variant="h6">
-        Total: {genes.length}
-      </Typography>
-      <Button onClick={importToCytoscape} color="primary">Import to Cytoscape</Button>
-      <Button onClick={copyGenesToClipboard} color="primary">Copy Genes to Clipboard</Button>
+
     </div>
   );
 }
