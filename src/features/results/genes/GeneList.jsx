@@ -6,10 +6,14 @@ import { Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
-
-import Button from '@material-ui/core/Button';
-
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import Paper from '@material-ui/core/Paper';
+
+import OpenInCytoscapeButton from '../../../components/OpenInCytoscapeButton'
+import OpenOriginalNetworkButton from '../../../components/OpenOriginalNetworkButton'
+import ResetZoomButton from '../../../components/ResetZoomButton'
 
 import { getPathwaysFromNetwork } from '../../../api/ndex'
 import { importNetwork } from '../../../api/cyrest'
@@ -124,9 +128,21 @@ export function GeneList() {
         Genes ({genes.length})
       </Typography>
       <div className={classes.icons}>
-        <Button onClick={importToCytoscape} color="primary">Import to Cytoscape</Button>
-        <Button onClick={copyGenesToClipboard} color="primary">Copy Genes to Clipboard</Button>
-        <Button onClick={searchInIQuery} color="primary">Search for Genes in IQuery</Button>
+        <OpenOriginalNetworkButton  />
+        <OpenInCytoscapeButton handleImportNetwork={importToCytoscape} />
+        <Tooltip title="Copy" placement="bottom">
+          <IconButton
+            color="primary"
+          
+            aria-label="Copy"
+            onClick={copyGenesToClipboard}
+          >
+            <Icon className='' />
+          </IconButton>
+        </Tooltip>
+       <ResetZoomButton />
+       
+       
       </div>
       
       <Paper style={{ overflow: 'auto', height: 'calc(100vh - 190px)'}}>

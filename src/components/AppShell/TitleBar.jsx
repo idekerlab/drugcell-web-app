@@ -92,15 +92,7 @@ class TitleBar extends React.Component {
             <div className={classes.grow} />
 
             <div>
-              <Tooltip title="NDEx" placement="bottom">
-                <IconButton
-                  color="default"
-                  aria-label="Home"
-                >
-                  <img alt="NDEx logo" src={logo} className={classes.logo} />
-                </IconButton>
-              </Tooltip>
-
+        
               <Tooltip
                 title="Help"
                 placement="bottom"
