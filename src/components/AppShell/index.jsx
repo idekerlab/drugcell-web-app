@@ -8,8 +8,9 @@ import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
   root: {
+    height: '100vmin',
     display: 'flex',
-    height: '100vmin'
+    'flex-direction': 'column'
   },
   drawerHeader: {
     display: 'flex',
@@ -19,18 +20,14 @@ const styles = theme => ({
     justifyContent: 'flex-end'
   },
   content: {
-    flexGrow: 1,
+    position: 'fixed',
+    'margin-top': '70px',
+    width: '100vw',
+    height: '100vh',
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     })
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen
-    }),
-    marginLeft: 0
   }
 })
 
@@ -39,13 +36,13 @@ const AppShell = props => {
   const { classes, ...others } = props
 
   return (
+    
     <div className={classes.root}>
       <CssBaseline />
       <TitleBar {...others} />
-      <div
-        className={classes.content}
-      />
+      <div className={classes.content}>
       {props.children}
+      </div>
     </div>
   )
 }

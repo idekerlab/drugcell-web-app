@@ -39,14 +39,22 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: 360,
 
-    height: '100vh',
+    height: '100%',
 
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
     'flex-flow': 'column',
   },
+  genetypography : {
+    'flex-grow': 0
+  },
   icons: {
-    display: 'flex'
+    display: 'flex',
+    'flex-grow': 0
+  },
+  genepaper: {
+  
+    'flex-grow': '1'
   }
 }));
 
@@ -111,7 +119,8 @@ export function GeneList() {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h6">
+      
+      <Typography variant="h6" classname={classes.genetypography}>
         Genes ({genes.length})
       </Typography>
       <div className={classes.icons}>
@@ -119,8 +128,8 @@ export function GeneList() {
         <Button onClick={copyGenesToClipboard} color="primary">Copy Genes to Clipboard</Button>
         <Button onClick={searchInIQuery} color="primary">Search for Genes in IQuery</Button>
       </div>
-      <Paper style={{ height: '100%', overflow: 'auto' }}>
-
+      <div className={classes.genepaper}>
+      <Paper style={{ height: '100%', overflow: 'auto'}}>
         <List component='nav' aria-label='gene list' dense='true' overflow='auto'>
           {genes.sort((a, b) => a.localeCompare(b)).map(gene => {
             return (
@@ -130,7 +139,7 @@ export function GeneList() {
           })}
         </List>
       </Paper>
-
+      </div>
     </div>
   );
 }

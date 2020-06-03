@@ -16,8 +16,12 @@ export function Results() {
         <DrugAutocomplete />
         <PathwayAutocomplete />
       </div>
-      <Network />
-      <GeneList />
+      <div className='center-components'>
+        <Network />
+      </div>
+      <div className='right-components'>
+        <GeneList />
+      </div>
     </div>
   );
 }

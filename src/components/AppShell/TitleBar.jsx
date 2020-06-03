@@ -41,6 +41,7 @@ const styles = theme => ({
     marginRight: '0.5em'
   },
   appBar: {
+    
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
@@ -69,21 +70,20 @@ class TitleBar extends React.Component {
 
     return (
       <AppBar
-        position="fixed"
         color="inherit"
         className={classes.appBar}
       >
         <div className={classes.noWrap}>
           <Toolbar disableGutters={true}>
             <Tooltip
-              title="Search by Relevant Pathways / Protein-Protein Interactions / Gene Association"
-              aria-label="NDEx_tooltip"
+              title="Explore DrugCell analysis results by Drug / Pathway"
+              aria-label="drugcell_tooltip"
             >
               <div>
                 <Button style={titleStyle}>
                   <HomeIcon fontSize="default" className={classes.homeLogo} />
                   <Typography variant="h6" color="inherit" noWrap={true}>
-                    NDEx Integrated Query
+                    DrugCell
                   </Typography>
                 </Button>
               </div>
