@@ -23,7 +23,7 @@ const styles = theme => ({
     position: 'fixed',
     'margin-top': '70px',
     width: '100vw',
-    height: '100vh',
+    height: 'calc(100vh - 70px)',
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen

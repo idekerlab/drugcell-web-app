@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     maxWidth: 360,
-
+    'min-height': 0,
     height: '100%',
 
     backgroundColor: theme.palette.background.paper,
@@ -53,8 +53,8 @@ const useStyles = makeStyles((theme) => ({
     'flex-grow': 0
   },
   genepaper: {
-  
-    'flex-grow': '1'
+    'flex-grow': '1',
+    'height': '100%'
   }
 }));
 
@@ -128,8 +128,8 @@ export function GeneList() {
         <Button onClick={copyGenesToClipboard} color="primary">Copy Genes to Clipboard</Button>
         <Button onClick={searchInIQuery} color="primary">Search for Genes in IQuery</Button>
       </div>
-      <div className={classes.genepaper}>
-      <Paper style={{ height: '100%', overflow: 'auto'}}>
+      
+      <Paper style={{ overflow: 'auto', height: 'calc(100vh - 190px)'}}>
         <List component='nav' aria-label='gene list' dense='true' overflow='auto'>
           {genes.sort((a, b) => a.localeCompare(b)).map(gene => {
             return (
@@ -139,7 +139,7 @@ export function GeneList() {
           })}
         </List>
       </Paper>
-      </div>
+      
     </div>
   );
 }
