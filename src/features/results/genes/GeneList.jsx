@@ -4,7 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-
+import './style.css';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
@@ -59,14 +59,6 @@ const useStyles = makeStyles((theme) => ({
   genepaper: {
     'flex-grow': '1',
     'height': '100%'
-  },
-  geneshint: {
-    position: 'relative',
-    top: '50%',
-    left: '50%',
-    /* bring your own prefixes */
-    transform: 'translate(-50%, -50%)',
-    color: 'text-secondary'
   }
 }));
 
@@ -141,7 +133,7 @@ export function GeneList() {
         <CopyToClipboardButton onClick={copyGenesToClipboard}/>
       </div>
       { genes.length == 0 && elements.length != 0 ? (
-        <div  vertical-align='middle' classname={classes.geneshint}>
+        <div  vertical-align='middle' class='geneshint'>
         <Typography variant="subtitle1" classname={classes.genetypography}>
           Select a Pathway from the Network to show included Genes
         </Typography>
