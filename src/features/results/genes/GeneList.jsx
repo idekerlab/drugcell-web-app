@@ -7,9 +7,13 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
-
 import Paper from '@material-ui/core/Paper';
+
+
+import CopyToClipboardButton from '../../../components/CopyToClipboardButton'
+import OpenInCytoscapeButton from '../../../components/OpenInCytoscapeButton'
+import SearchInIQueryButton from '../../../components/SearchInIQueryButton'
+
 
 import { getPathwaysFromNetwork } from '../../../api/ndex'
 import { importNetwork } from '../../../api/cyrest'
@@ -38,15 +42,31 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     maxWidth: 360,
-
-    height: '100vh',
+    'min-height': 0,
+    height: '100%',
 
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
     'flex-flow': 'column',
   },
+  genetypography : {
+    'flex-grow': 0
+  },
   icons: {
-    display: 'flex'
+    display: 'flex',
+    'flex-grow': 0
+  },
+  genepaper: {
+    'flex-grow': '1',
+    'height': '100%'
+  },
+  geneshint: {
+    position: 'relative',
+    top: '50%',
+    left: '50%',
+    /* bring your own prefixes */
+    transform: 'translate(-50%, -50%)',
+    color: 'text-secondary'
   }
 }));
 
@@ -111,16 +131,23 @@ export function GeneList() {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h6">
+      
+      <Typography variant="h6" classname={classes.genetypography}>
         Genes ({genes.length})
       </Typography>
       <div className={classes.icons}>
-        <Button onClick={importToCytoscape} color="primary">Import to Cytoscape</Button>
-        <Button onClick={copyGenesToClipboard} color="primary">Copy Genes to Clipboard</Button>
-        <Button onClick={searchInIQuery} color="primary">Search for Genes in IQuery</Button>
+        <SearchInIQueryButton onClick={searchInIQuery} />
+        <OpenInCytoscapeButton handleImportNetwork={importToCytoscape} />
+        <CopyToClipboardButton onClick={copyGenesToClipboard}/>
       </div>
-      <Paper style={{ height: '100%', overflow: 'auto' }}>
-
+      { genes.length == 0 && elements.length != 0 ? (
+        <div  vertical-align='middle' classname={classes.geneshint}>
+        <Typography variant="subtitle1" classname={classes.genetypography}>
+          Select a Pathway from the Network to show included Genes
+        </Typography>
+        </div>
+      ) : ( 
+      <Paper style={{ overflow: 'auto', height: 'calc(100vh - 150px)'}}>
         <List component='nav' aria-label='gene list' dense='true' overflow='auto'>
           {genes.sort((a, b) => a.localeCompare(b)).map(gene => {
             return (
@@ -130,7 +157,8 @@ export function GeneList() {
           })}
         </List>
       </Paper>
-
+      )
+    }
     </div>
   );
 }

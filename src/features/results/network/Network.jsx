@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+
+import ResetZoomButton from '../../../components/ResetZoomButton'
+
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectElements,
@@ -19,10 +22,11 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import { Typography } from '@material-ui/core';
 Cytoscape.use(Dagre);
 
-let cyInstance = undefined;
 
 export function Network() {
 
+  
+  let cyInstance = undefined;
   //useEffect(() => console.log('mounted'), []);
 
   const elements = useSelector(selectElements);
@@ -81,18 +85,21 @@ export function Network() {
 
   const dispatch = useDispatch();
 
-
+  const fitNetwork = () => {
+    console.log('fit network: ' + cyInstance !== undefined)
+    cyInstance && cyInstance.fit();
+  }
 
   return (
     elements.length == 0
       ? <div
-        vertical-align='middle'>
-        <Typography class='hint'>
+        vertical-align='middle' class='hint'>
+        <Typography variant='h6'>
           Select a Drug and Pathways
       </Typography>   </div>
       : <div class='network'>
         <CytoscapeComponent elements={JSON.parse(JSON.stringify(elements))}
-          style={{ width: '100%', height: '100vh' }} layout={{
+          style={{ width: '100%', height: 'calc(100vh - 120px)' }} layout={{
             name: 'dagre',
             rankDir: 'LR',
             rankSep: 60,
@@ -139,6 +146,9 @@ export function Network() {
             })
 
           }} />
+          <div class='reset'>
+            <ResetZoomButton onClick={fitNetwork}  />
+            </div>
       </div>
   );
 }

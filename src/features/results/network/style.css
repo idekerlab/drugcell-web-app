@@ -1,5 +1,11 @@
 .network {
-  grid-column : 2 / span 1;
+ 
+}
+
+.reset {
+  position:sticky;
+  bottom:0.25em;
+  right:0.5em;
 }
 
 .hint {
