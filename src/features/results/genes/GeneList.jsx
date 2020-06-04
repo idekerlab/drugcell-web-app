@@ -11,8 +11,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Paper from '@material-ui/core/Paper';
 
+
+import CopyToClipboardButton from '../../../components/CopyToClipboardButton'
 import OpenInCytoscapeButton from '../../../components/OpenInCytoscapeButton'
-import OpenOriginalNetworkButton from '../../../components/OpenOriginalNetworkButton'
+import SearchInIQueryButton from '../../../components/SearchInIQueryButton'
 import ResetZoomButton from '../../../components/ResetZoomButton'
 
 import { getPathwaysFromNetwork } from '../../../api/ndex'
@@ -121,6 +123,10 @@ export function GeneList() {
     window.open(iQueryUrl, '_blank');
   }
 
+  const resetZoom = () => {
+
+  }
+
   return (
     <div className={classes.root}>
       
@@ -128,24 +134,13 @@ export function GeneList() {
         Genes ({genes.length})
       </Typography>
       <div className={classes.icons}>
-        <OpenOriginalNetworkButton  />
+        <SearchInIQueryButton onClick={searchInIQuery} />
         <OpenInCytoscapeButton handleImportNetwork={importToCytoscape} />
-        <Tooltip title="Copy" placement="bottom">
-          <IconButton
-            color="primary"
-          
-            aria-label="Copy"
-            onClick={copyGenesToClipboard}
-          >
-            <Icon className='' />
-          </IconButton>
-        </Tooltip>
-       <ResetZoomButton />
-       
-       
+        <CopyToClipboardButton onClick={copyGenesToClipboard}/>
+        <ResetZoomButton onClick={resetZoom}/>
       </div>
       
-      <Paper style={{ overflow: 'auto', height: 'calc(100vh - 190px)'}}>
+      <Paper style={{ overflow: 'auto', height: 'calc(100vh - 150px)'}}>
         <List component='nav' aria-label='gene list' dense='true' overflow='auto'>
           {genes.sort((a, b) => a.localeCompare(b)).map(gene => {
             return (

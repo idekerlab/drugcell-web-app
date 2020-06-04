@@ -29,7 +29,7 @@ const styles = theme => ({
  * @returns {*}
  * @constructor
  */
-const OpenOriginalNetworkButton = props => {
+const SearcInIQueryButton = props => {
   const { classes, getNetworkURL } = props
 
   const disabled = false;
@@ -52,7 +52,7 @@ const OpenOriginalNetworkButton = props => {
   return (
     <Tooltip
       disableFocusListener
-      title="Open original network in new browser window"
+      title="Search for genes in IQuery"
       placement="bottom"
     >
       <div>
@@ -73,4 +73,4 @@ const OpenOriginalNetworkButton = props => {
   )
 }
 
-export default withStyles(styles)(OpenOriginalNetworkButton)
+export default withStyles(styles)(SearcInIQueryButton)

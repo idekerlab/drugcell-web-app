@@ -3,14 +3,15 @@ import React from 'react'
 
 import Button from '@material-ui/core/Button'
 import Tooltip from '@material-ui/core/Tooltip'
-import { withStyles } from '@material-ui/core'
 
-import logo from '../assets/images/zoom-logo.svg'
-import disabledLogo from '../assets/images/zoom-logo-mono.svg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClipboard } from '@fortawesome/free-solid-svg-icons'
+
+import { withStyles } from '@material-ui/core'
 
 const styles = theme => ({
   buttonIcon: {
-    height: '1.75em'
+    height: '2em'
   }
 })
 
@@ -29,30 +30,22 @@ const BootstrapButton = withStyles({
   }
 })(Button)
 
-const ResetZoomButton = props => {
+const CopyToClipboardButton = props => {
   const { classes } = props
 
-  const disabled = false;
-
- 
-
   return (
-    <Tooltip title="Fit network to panel" placement="bottom">
+    <Tooltip title="Copy genes to Clipboard" placement="bottom">
       <div>
         <BootstrapButton
           variant="outlined"
-          disabled={disabled}
+          disabled={false}
           onClick={props.onClick}
         >
-          <img
-            alt="Zoom logo"
-            src={disabled ? disabledLogo : logo}
-            className={classes.buttonIcon}
-          />
+          <FontAwesomeIcon icon={faClipboard} size="2x" />
         </BootstrapButton>
       </div>
     </Tooltip>
   )
 }
 
-export default withStyles(styles)(ResetZoomButton)
+export default withStyles(styles)(CopyToClipboardButton)
