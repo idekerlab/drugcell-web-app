@@ -6,16 +6,14 @@ import { Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+
 import Paper from '@material-ui/core/Paper';
 
 
 import CopyToClipboardButton from '../../../components/CopyToClipboardButton'
 import OpenInCytoscapeButton from '../../../components/OpenInCytoscapeButton'
 import SearchInIQueryButton from '../../../components/SearchInIQueryButton'
-import ResetZoomButton from '../../../components/ResetZoomButton'
+
 
 import { getPathwaysFromNetwork } from '../../../api/ndex'
 import { importNetwork } from '../../../api/cyrest'
@@ -61,6 +59,14 @@ const useStyles = makeStyles((theme) => ({
   genepaper: {
     'flex-grow': '1',
     'height': '100%'
+  },
+  geneshint: {
+    position: 'relative',
+    top: '50%',
+    left: '50%',
+    /* bring your own prefixes */
+    transform: 'translate(-50%, -50%)',
+    color: 'text-secondary'
   }
 }));
 
@@ -123,10 +129,6 @@ export function GeneList() {
     window.open(iQueryUrl, '_blank');
   }
 
-  const resetZoom = () => {
-
-  }
-
   return (
     <div className={classes.root}>
       
@@ -137,9 +139,14 @@ export function GeneList() {
         <SearchInIQueryButton onClick={searchInIQuery} />
         <OpenInCytoscapeButton handleImportNetwork={importToCytoscape} />
         <CopyToClipboardButton onClick={copyGenesToClipboard}/>
-        <ResetZoomButton onClick={resetZoom}/>
       </div>
-      
+      { genes.length == 0 && elements.length != 0 ? (
+        <div  vertical-align='middle' classname={classes.geneshint}>
+        <Typography variant="subtitle1" classname={classes.genetypography}>
+          Select a Pathway from the Network to show included Genes
+        </Typography>
+        </div>
+      ) : ( 
       <Paper style={{ overflow: 'auto', height: 'calc(100vh - 150px)'}}>
         <List component='nav' aria-label='gene list' dense='true' overflow='auto'>
           {genes.sort((a, b) => a.localeCompare(b)).map(gene => {
@@ -150,7 +157,8 @@ export function GeneList() {
           })}
         </List>
       </Paper>
-      
+      )
+    }
     </div>
   );
 }

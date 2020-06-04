@@ -2,6 +2,12 @@
  
 }
 
+.reset {
+  position:sticky;
+  bottom:0.25em;
+  right:0.5em;
+}
+
 .hint {
   position: fixed;
   top: 50%;

@@ -10,7 +10,13 @@ import disabledLogo from '../assets/images/zoom-logo-mono.svg'
 
 const styles = theme => ({
   buttonIcon: {
-    height: '1.75em'
+    height: '1.75em',
+    'padding-top': '4px'
+  }, 
+  button: {
+    height: '3em',
+    width: '4.3em',
+    minWidth: '4.3em'
   }
 })
 
@@ -37,9 +43,10 @@ const ResetZoomButton = props => {
  
 
   return (
-    <Tooltip title="Fit network to panel" placement="bottom">
-      <div>
+    <Tooltip title="Fit network to panel" placement="top">
+      <div style={{ width: 'min-content' }}>
         <BootstrapButton
+          class="button"
           variant="outlined"
           disabled={disabled}
           onClick={props.onClick}
