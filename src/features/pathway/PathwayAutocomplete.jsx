@@ -137,6 +137,7 @@ export function PathwayAutocomplete() {
         disabled={Object.keys(pathways).length == 0}
         ListboxComponent={ListboxComponent}
         value={selectedPathways}
+        getOptionLabel={ option => option.replace(/_/g, ' ') }
         options={Object.keys(pathways).sort((a, b) => pathways[b].rlipp - pathways[a].rlipp)}
         renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" />}
         renderOption={(option) => <Typography noWrap>{pathways[option].rlipp.toFixed(2)} {option.replace(/_/g, ' ')}</Typography>}
@@ -149,6 +150,7 @@ export function PathwayAutocomplete() {
         }
         onChange={(event, value) => {
           const selectedPathways = value;
+          console.log("event.shiftKey=" + event.shiftKey );
           dispatch(setSelectedPathways(selectedPathways));
           const pathwayIds = value.map(entry => pathways[entry]['shared-name']);
           console.log('pathwayIds: ' + JSON.stringify(pathwayIds));
