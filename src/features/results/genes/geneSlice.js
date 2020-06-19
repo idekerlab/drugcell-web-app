@@ -18,7 +18,7 @@ export const { setGenes: setGenes } = geneSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(setGenesFromURLs(xyz))`. 
-export const setGenesFromURLs = (args) => dispatch => {
+export const setGenesFromURLs = (args) => (dispatch) => {
   console.log('setGenesFromURLs args: ' + JSON.stringify(args));
   Promise.all(args.selectedPathways.map(pathwayId => getGenes( args.uuid , pathwayId))).then(responses =>
     Promise.all(responses.map(res => res.json()))

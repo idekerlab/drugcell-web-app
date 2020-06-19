@@ -53,6 +53,10 @@ function useResetCache(data) {
   return ref;
 }
 
+function findMinMax(data) {
+
+}
+
 // Adapter for react-window
 const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) {
   const { children, ...other } = props;
@@ -133,16 +137,17 @@ export function PathwayAutocomplete() {
         multiple
         style={{ width: 300 , 'padding-top': '12px' }}
         disableListWrap
+      
         classes={classes}
         disabled={Object.keys(pathways).length == 0}
         ListboxComponent={ListboxComponent}
         value={selectedPathways}
         getOptionLabel={ option => option.replace(/_/g, ' ') }
         options={Object.keys(pathways).sort((a, b) => pathways[b].rlipp - pathways[a].rlipp)}
-        renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" />}
+        renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" placeholder="Pathways" />}
         renderOption={(option) => <Typography noWrap>{pathways[option].rlipp.toFixed(2)} {option.replace(/_/g, ' ')}</Typography>}
         renderTags={(value, getTagProps) =>
-          value.map((option, index) => (
+          value.map((option, index) => ( 
             <Tooltip title={option.replace(/_/g, ' ') + ' RLIPP Score: ' + pathways[option].rlipp} placement='right'>
               <Chip variant="outlined" label={option.replace(/_/g, ' ')} {...getTagProps({ index })} />
             </Tooltip>
@@ -150,7 +155,9 @@ export function PathwayAutocomplete() {
         }
         onChange={(event, value) => {
           const selectedPathways = value;
+          
           console.log("event.shiftKey=" + event.shiftKey );
+          console.log("event.target=" + event.target.innerText );
           dispatch(setSelectedPathways(selectedPathways));
           const pathwayIds = value.map(entry => pathways[entry]['shared-name']);
           console.log('pathwayIds: ' + JSON.stringify(pathwayIds));

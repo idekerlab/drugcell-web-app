@@ -48,18 +48,19 @@ export function Network() {
     {
       'selector': 'node[gene-count]',
       'style': {
-        'text-halign': 'right',
+        'text-halign': 'left',
         'text-valign': 'center',
-        'text-margin-x': '8px'
+        'text-margin-x': '-8px'
       }
     },
     {
       'selector': '#5883',
       'style': {
         'display': 'element',
-        'text-halign': 'left',
+        'text-halign': 'right',
         'text-valign': 'center',
         'background-color': 'red',
+        'text-margin-x': '8px'
       }
     },
     {

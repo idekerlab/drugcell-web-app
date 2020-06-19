@@ -132,7 +132,7 @@ export function DrugAutocomplete() {
       renderOption={(option) => <Typography noWrap>{option} </Typography>}
       onChange={(event, value) => {
         const drugUUID = drugs[value].uuid;
-        dispatch(selectDrug(drugUUID));
+        dispatch(selectDrug({uuid : drugUUID, name: value}));
         dispatch(setSelectedPathways([]));
         dispatch(setElementsFromURLs({ uuid: undefined, selectedPathways: [] }));
 
