@@ -139,7 +139,7 @@ export function GeneList() {
         </Typography>
         </div>
       ) : ( 
-      <Paper style={{ overflow: 'auto', height: 'calc(100vh - 150px)'}}>
+      <Paper style={{ overflow: 'auto', height: 'calc(100vh - 280px)'}}>
         <List component='nav' aria-label='gene list' dense='true' overflow='auto'>
           {genes.sort((a, b) => a.localeCompare(b)).map(gene => {
             return (
