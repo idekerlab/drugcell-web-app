@@ -3,10 +3,9 @@
 }
 
 .reset {
-  position:sticky;
+  position:fixed;
   bottom:0.25em;
-  right:0.5em;
-  margin-left: 0.25em;
+  right:0.25em;
 }
 
 .hint {

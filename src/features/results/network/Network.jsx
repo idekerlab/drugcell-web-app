@@ -113,7 +113,7 @@ export function Network() {
       </Typography>   </div>
       : <div class='network'>
         <CytoscapeComponent elements={JSON.parse(JSON.stringify(elements))}
-          style={{ width: '100%', height: 'calc(100vh - 120px)' }} layout={{
+          style={{ width: '100%', height: 'calc(100vh - 70px)' }} layout={{
             name: 'dagre',
             rankDir: 'LR',
             rankSep: 60,
