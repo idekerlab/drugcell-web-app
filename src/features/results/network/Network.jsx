@@ -82,7 +82,20 @@ export function Network() {
         'taxi-direction': 'vertical',
         'taxi-turn': '100%'
       }
-    }];
+    },
+    {
+      'selector': 'edge[edgetype="response"]',
+      'style': {
+        'width': 4,
+        'target-arrow-shape': 'triangle',
+        'line-color': '#9dbaea',
+        'target-arrow-color': '#9dbaea',
+        'curve-style': 'taxi',
+        'taxi-direction': 'vertical',
+        'taxi-turn': '100%'
+      }
+    }
+  ];
 
   const dispatch = useDispatch();
 
