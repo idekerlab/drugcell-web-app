@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getPathways as getPathwaysAPI } from '../../api/drugcell'
 
+import {
+  setElementsFromURLs
+} from './network/networkSlice';
+
 export const pathwaySlice = createSlice({
   name: 'pathways',
   initialState: {
@@ -18,30 +22,39 @@ export const pathwaySlice = createSlice({
 });
 
 export const { setAvailablePathways: setAvailablePathways,
-              setSelectedPathways: setSelectedPathways } = pathwaySlice.actions;
+  setSelectedPathways: setSelectedPathways,
+  setSelectedPathwaysByRank: setSelectedPathwaysByRank } = pathwaySlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(importPathwaysFromURL(url))`. 
 export const getPathways = drugUUID => dispatch => {
 
-  console.log('Drug load: ' + drugUUID);   
+  console.log('Drug load: ' + drugUUID);
   getPathwaysAPI(drugUUID)
-   .then(response => {
-       if (!response.ok) {
-           throw new Error("HTTP error " + response.status + ' (' + JSON.stringify(response.headers) + ')' );
-       }
-       return response.json();
-   })
-   .then(json => {
-    
-    dispatch(setAvailablePathways(json.index));
-  
-   })
-   .catch( error => {
-       console.log(error);
-   });
-  
-  
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status + ' (' + JSON.stringify(response.headers) + ')');
+      }
+      return response.json();
+    })
+    .then(json => {
+
+      dispatch(setAvailablePathways(json.index));
+      const numberToSelect = 5;
+      const pathways = json.index;
+      const selectedPathways = Object.keys(pathways).sort((a, b) => pathways[b].rlipp - pathways[a].rlipp).slice(0, numberToSelect);
+      dispatch(setSelectedPathways(selectedPathways));
+
+      const uuids = selectedPathways.map((key) => pathways[key]['shared-name']);
+
+      dispatch(setElementsFromURLs({ uuid: drugUUID, selectedPathways: uuids }));
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
+
 };
 
 export const selectAvailablePathways = state => state.pathways.availablePathways;

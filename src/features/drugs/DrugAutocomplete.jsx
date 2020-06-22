@@ -16,7 +16,7 @@ import {
 } from './../results/drugSlice';
 
 import {
-  setSelectedPathways,
+  setSelectedPathwaysByRank,
 } from './../results/pathwaySlice';
 
 import {
@@ -133,9 +133,6 @@ export function DrugAutocomplete() {
       onChange={(event, value) => {
         const drugUUID = drugs[value].uuid;
         dispatch(selectDrug({uuid : drugUUID, name: value}));
-        dispatch(setSelectedPathways([]));
-        dispatch(setElementsFromURLs({ uuid: undefined, selectedPathways: [] }));
-
       }}
     />
     </Tooltip>
