@@ -133,7 +133,7 @@ export function Network() {
                 cy.$(':selected').forEach(element => {
                   if (element.isNode()) {
                     const pathwayId = element.data('shared-name');
-                    pathwayIds.push(pathwayId);
+                    pathwayId != null && pathwayIds.push(pathwayId);
                   }
                 });
                 dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
@@ -151,7 +151,7 @@ export function Network() {
                 else if (event.target.isNode()) {
                   let pathwayIds = [];
                   const pathwayId = event.target.data('shared-name');
-                  pathwayIds.push(pathwayId);
+                  pathwayId != null && pathwayIds.push(pathwayId);
                   dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
                 } 
               } catch (e) {

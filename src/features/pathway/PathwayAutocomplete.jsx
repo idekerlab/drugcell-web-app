@@ -144,14 +144,16 @@ export function PathwayAutocomplete() {
         value={selectedPathways}
         getOptionLabel={ option => option.replace(/_/g, ' ') }
         options={Object.keys(pathways).sort((a, b) => pathways[b].rlipp - pathways[a].rlipp)}
-        renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" placeholder="Pathways" />}
+        renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" placeholder='Start typing to find pathways' />}
         renderOption={(option) => <Typography noWrap>{pathways[option].rlipp.toFixed(2)} {option.replace(/_/g, ' ')}</Typography>}
         renderTags={(value, getTagProps) =>
-          value.map((option, index) => ( 
-            <Tooltip title={option.replace(/_/g, ' ') + ' RLIPP Score: ' + pathways[option].rlipp} placement='right'>
-              <Chip variant="outlined" label={option.replace(/_/g, ' ')} {...getTagProps({ index })} />
-            </Tooltip>
-          ))
+        <Typography noWrap>{ selectedPathways.length } Pathway{selectedPathways.length > 1 ? 's' : ''} selected</Typography>
+          //value.map((option, index) => ( 
+          //  <Tooltip title={option.replace(/_/g, ' ') + ' RLIPP Score: ' + pathways[option].rlipp} placement='right'>
+          //    <Chip variant="outlined" label={option.replace(/_/g, ' ')} {...getTagProps({ index })} />
+          //  </Tooltip>
+          //)
+          //)
         }
         onChange={(event, value) => {
           const selectedPathways = value;
