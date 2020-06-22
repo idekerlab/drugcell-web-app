@@ -83,7 +83,7 @@ class TitleBar extends React.Component {
                 <Button style={titleStyle}>
                   <HomeIcon fontSize="default" className={classes.homeLogo} />
                   <Typography variant="h6" color="inherit" noWrap={true}>
-                    DrugCell
+                    DrugCell Oracle
                   </Typography>
                 </Button>
               </div>
