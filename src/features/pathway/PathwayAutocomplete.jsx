@@ -53,10 +53,6 @@ function useResetCache(data) {
   return ref;
 }
 
-function findMinMax(data) {
-
-}
-
 // Adapter for react-window
 const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) {
   const { children, ...other } = props;
