@@ -24,7 +24,7 @@ if (!targetRootDir) {
     throw 'No target directory specified';
 }
 
-const pathsDirectory = sourceRootDir + '/paths';
+const pathsDirectory = sourceRootDir + '/drugs';
 
 console.log(pathsDirectory);
 
