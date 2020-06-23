@@ -12,7 +12,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   getDrugs as getDrugs,
   selectAvailableDrugs,
-  selectDrug
+  selectDrug,
+  selectSelectedDrugName
 } from './drugSlice';
 
 import {
@@ -120,6 +121,8 @@ export function DrugAutocomplete() {
 
   useEffect(() => dispatch(getDrugs()), []);
 
+  const selectedDrugName = useSelector(selectSelectedDrugName);
+
   return (
     <Tooltip title='Start typing a drug name, or click on the drop down to scroll through all avaialable drugs.' placement='right'>
     <Autocomplete
@@ -127,6 +130,7 @@ export function DrugAutocomplete() {
       disableListWrap
       classes={classes}
       ListboxComponent={ListboxComponent}
+      value = {selectedDrugName}
       options={ Object.keys(drugs).sort( (a,b) => a.localeCompare(b)) }
       renderInput={(params) => <TextField {...params} variant="outlined" label="Drug" /> }
       renderOption={(option) => <Typography noWrap>{option} </Typography>}

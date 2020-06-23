@@ -13,12 +13,11 @@ export const drugSlice = createSlice({
   initialState: {
     availableDrugs: {},
     selectedDrug: undefined,
-    selecterDrugName: undefined
+    selectedDrugName: undefined
   },
   reducers: {
     setAvailableDrugs: (state, action) => {
       state.availableDrugs = action.payload;
-
     },
     setSelectedDrug: (state, action) => {
       state.selectedDrug = action.payload;
@@ -49,6 +48,10 @@ export const getDrugs = () => dispatch => {
     })
     .then(json => {
       dispatch(setAvailableDrugs(json));
+      const drugUUID = '09b7ee9d-80e0-11ea-aaef-0ac135e8bacf';
+      dispatch(setSelectedDrug(drugUUID));
+      dispatch(setSelectedDrugName('etoposide'));
+      dispatch(getPathways(drugUUID));
     })
     .catch(error => {
       console.log(error);
@@ -65,5 +68,6 @@ export const selectDrug = drug => dispatch => {
 
 export const selectAvailableDrugs = state => state.drugs.availableDrugs;
 export const selectSelectedDrug = state => state.drugs.selectedDrug;
+export const selectSelectedDrugName = state => state.drugs.selectedDrugName;
 
 export default drugSlice.reducer;
