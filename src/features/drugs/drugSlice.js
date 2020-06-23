@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import {
   getPathways,
-} from './pathwaySlice';
+} from '../pathway/pathwaySlice';
 
 import {
   getDrugs as getDrugsAPI

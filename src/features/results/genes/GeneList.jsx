@@ -28,11 +28,11 @@ import {
 
 import {
   selectSelectedPathways, selectAvailablePathways
-} from '../pathwaySlice';
+} from '../../pathway/pathwaySlice';
 
 import {
   selectSelectedDrug
-} from '../drugSlice';
+} from '../../drugs/drugSlice';
 
 import {
   getGenes

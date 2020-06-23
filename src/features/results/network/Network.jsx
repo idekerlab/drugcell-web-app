@@ -13,7 +13,7 @@ import {
 
 import {
   selectSelectedDrug
-} from './../drugSlice'
+} from '../../drugs/drugSlice'
 
 import './style.css';
 import Cytoscape from 'cytoscape'
@@ -78,9 +78,9 @@ export function Network() {
         'target-arrow-shape': 'triangle',
         'line-color': '#9dbaea',
         'target-arrow-color': '#9dbaea',
-        'curve-style': 'taxi',
-        'taxi-direction': 'vertical',
-        'taxi-turn': '100%'
+        //'curve-style': 'taxi',
+        //'taxi-direction': 'vertical',
+        //'taxi-turn': '50%'
       }
     },
     {

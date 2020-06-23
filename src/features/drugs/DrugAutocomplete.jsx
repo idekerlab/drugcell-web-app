@@ -13,11 +13,11 @@ import {
   getDrugs as getDrugs,
   selectAvailableDrugs,
   selectDrug
-} from './../results/drugSlice';
+} from './drugSlice';
 
 import {
   setSelectedPathwaysByRank,
-} from './../results/pathwaySlice';
+} from '../pathway/pathwaySlice';
 
 import {
   setElementsFromURLs

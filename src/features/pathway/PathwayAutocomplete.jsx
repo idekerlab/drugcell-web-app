@@ -14,11 +14,11 @@ import {
   selectAvailablePathways,
   setSelectedPathways,
   selectSelectedPathways,
-} from '../results/pathwaySlice';
+} from './pathwaySlice';
 
 import {
   selectSelectedDrug
-} from '../results/drugSlice';
+} from '../drugs/drugSlice';
 
 import {
   setElementsFromURLs

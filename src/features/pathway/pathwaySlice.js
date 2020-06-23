@@ -3,7 +3,7 @@ import { getPathways as getPathwaysAPI } from '../../api/drugcell'
 
 import {
   setElementsFromURLs
-} from './network/networkSlice';
+} from '../results/network/networkSlice';
 
 export const pathwaySlice = createSlice({
   name: 'pathways',
