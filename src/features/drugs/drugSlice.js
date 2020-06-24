@@ -48,10 +48,12 @@ export const getDrugs = () => dispatch => {
     })
     .then(json => {
       dispatch(setAvailableDrugs(json));
-      const drugUUID = '09b7ee9d-80e0-11ea-aaef-0ac135e8bacf';
-      dispatch(setSelectedDrug(drugUUID));
-      dispatch(setSelectedDrugName('etoposide'));
-      dispatch(getPathways(drugUUID));
+      const drug  = {
+        'uuid': '09b7ee9d-80e0-11ea-aaef-0ac135e8bacf',
+        'name' : 'etoposide'
+      };
+      dispatch(selectDrug(drug));
+     
     })
     .catch(error => {
       console.log(error);

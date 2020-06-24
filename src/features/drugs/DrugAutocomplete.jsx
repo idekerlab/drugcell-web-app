@@ -16,14 +16,6 @@ import {
   selectSelectedDrugName
 } from './drugSlice';
 
-import {
-  setSelectedPathwaysByRank,
-} from '../pathway/pathwaySlice';
-
-import {
-  setElementsFromURLs
-} from './../results/network/networkSlice';
-
 const LISTBOX_PADDING = 8; // px
 
 function renderRow(props) {
@@ -115,30 +107,35 @@ const useStyles = makeStyles({
 });
 
 export function DrugAutocomplete() {
-  const classes = useStyles();
   const dispatch = useDispatch();
+  const classes = useStyles();
   const drugs = useSelector(selectAvailableDrugs);
-
-  useEffect(() => dispatch(getDrugs()), []);
-
   const selectedDrugName = useSelector(selectSelectedDrugName);
+  const drugNames = Object.keys(drugs).sort((a, b) => a.localeCompare(b));
+
+  useEffect(() => {
+    dispatch(getDrugs()
+    )
+  }, []);
 
   return (
-    <Tooltip title='Start typing a drug name, or click on the drop down to scroll through all avaialable drugs.' placement='right'>
-    <Autocomplete
-      style={{ width: 300, 'padding-top': '12px' }}
-      disableListWrap
-      classes={classes}
-      ListboxComponent={ListboxComponent}
-      value = {selectedDrugName}
-      options={ Object.keys(drugs).sort( (a,b) => a.localeCompare(b)) }
-      renderInput={(params) => <TextField {...params} variant="outlined" label="Drug" /> }
-      renderOption={(option) => <Typography noWrap>{option} </Typography>}
-      onChange={(event, value) => {
-        const drugUUID = drugs[value].uuid;
-        dispatch(selectDrug({uuid : drugUUID, name: value}));
-      }}
-    />
-    </Tooltip>
+   
+      <Tooltip title={'Start typing a drug name, or click on the drop down to scroll through all available drugs.'} placement='right'>
+        <Autocomplete
+          style={{ width: 300, 'padding-top': '12px' }}
+          disableListWrap
+          classes={classes}
+          ListboxComponent={ListboxComponent}
+          autoSelect = {true}
+          value={selectedDrugName}
+          options={drugNames}
+          renderInput={(params) => <TextField {...params} variant="outlined" label={ selectedDrugName } />}
+          renderOption={(option) => <Typography noWrap>{option} </Typography>}
+          onChange={(event, value) => {
+          const drugUUID = drugs[value].uuid;
+          dispatch(selectDrug({uuid : drugUUID, name: value}));
+        }}
+        />
+      </Tooltip>
   );
 }
