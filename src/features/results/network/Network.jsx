@@ -22,15 +22,74 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import { Typography } from '@material-ui/core';
 Cytoscape.use(Dagre);
 
+let cyInstance = undefined;
 
 export function Network() {
 
-  
-  let cyInstance = undefined;
-  //useEffect(() => console.log('mounted'), []);
-
   const elements = useSelector(selectElements);
   const drugUUID = useSelector(selectSelectedDrug);
+
+  useEffect(() => {
+    console.log('Use effect.');
+    // Event handler can be set only when Cytoscape.js instance is available.
+    if (cyInstance === undefined || cyInstance === null) {
+      return
+    }
+
+    cyInstance.removeListener('select');
+    cyInstance.removeListener('tap');
+
+    let timeout;
+    cyInstance.on('select', function (event) {
+      clearTimeout(timeout);
+      timeout = setTimeout(function () {
+        try {
+          let pathwayIds = [];
+          cyInstance.$(':selected').forEach(element => {
+            if (element.isNode()) {
+              const pathwayId = element.data('shared-name');
+              pathwayId != null && pathwayIds.push(pathwayId);
+            }
+          });
+          //console.log('network select');
+          dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
+        } catch (e) {
+          console.warn(e)
+        }
+      }, 100);
+    });
+
+    cyInstance.on('tap', function (event) {
+      try {
+        if (event.target === cyInstance) {
+          console.log('tap on not-node');
+          dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: [] }))
+        }
+        else if (event.target.isNode()) {
+         
+        }
+      } catch (e) {
+        console.warn(e)
+      }
+    });
+    return () => {
+      console.log('Network viewer unmounted')
+    }
+  })
+
+  //useEffect(() => console.log('mounted'), []);
+  /*
+  {cy => {
+            console.log('setting cy instance');
+            if (cyInstance) {
+              cyInstance.destroy();
+            } 
+              cyInstance = cy;
+             
+            
+          }}
+  */
+ 
 
 
   const style = [
@@ -125,46 +184,11 @@ export function Network() {
             }
           }} stylesheet={style}
           cy={cy => {
-            console.log('setting cy instance');
-            cyInstance = cy;
-            cyInstance.on('select', function (event) {
-              try {
-                let pathwayIds = [];
-                cy.$(':selected').forEach(element => {
-                  if (element.isNode()) {
-                    const pathwayId = element.data('shared-name');
-                    pathwayId != null && pathwayIds.push(pathwayId);
-                  }
-                });
-                console.log('network select');
-                dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
-              } catch (e) {
-                console.warn(e)
-              }
-            });
-
-            cyInstance.on('tap', function (event) {
-              try {
-                if (event.target === cyInstance) {
-                  console.log('tap on not-node');
-                  dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: [] }))
-                }
-                else if (event.target.isNode()) {
-                  let pathwayIds = [];
-                  const pathwayId = event.target.data('shared-name');
-                  pathwayId != null && pathwayIds.push(pathwayId);
-                  console.log('tap on node');
-                  dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
-                } 
-              } catch (e) {
-                console.warn(e)
-              }
-            })
-
+            cyInstance = cy
           }} />
-          <div class='reset'>
-            <ResetZoomButton onClick={fitNetwork}  />
-            </div>
+        <div class='reset'>
+          <ResetZoomButton onClick={fitNetwork} />
+        </div>
       </div>
   );
 }
