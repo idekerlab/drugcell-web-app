@@ -24,13 +24,13 @@ export const setGenesFromURLs = (args) => (dispatch) => {
     Promise.all(responses.map(res => res.json()))
   ).then(jsonResponses => {
   
-    let allGenes = [];
+    let allGenes = new Set();
     jsonResponses.forEach(elements => {
-      allGenes = allGenes.concat(elements.map( element => element.includes('.') 
-      ? element.substring(0, element.indexOf('.')) : element));
+      (elements.map( element => element.includes('.') 
+      ? element.substring(0, element.indexOf('.')) : element)).forEach(element => allGenes.add(element));
     });
     
-    dispatch(setGenes(allGenes.filter((value, index, self) => self.indexOf(value) === index)));
+    dispatch(setGenes(Array.from(allGenes)));
   });
 };
 

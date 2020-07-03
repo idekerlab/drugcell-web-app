@@ -136,6 +136,7 @@ export function Network() {
                     pathwayId != null && pathwayIds.push(pathwayId);
                   }
                 });
+                console.log('network select');
                 dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
               } catch (e) {
                 console.warn(e)
@@ -152,6 +153,7 @@ export function Network() {
                   let pathwayIds = [];
                   const pathwayId = event.target.data('shared-name');
                   pathwayId != null && pathwayIds.push(pathwayId);
+                  console.log('tap on node');
                   dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
                 } 
               } catch (e) {
