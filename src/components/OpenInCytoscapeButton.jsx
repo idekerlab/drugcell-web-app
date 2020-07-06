@@ -5,8 +5,7 @@ import logoDisabled from '../assets/images/cytoscape-logo-mono-light.svg'
 import { withStyles } from '@material-ui/core'
 import Tooltip from '@material-ui/core/Tooltip'
 import { fade } from '@material-ui/core/styles/colorManipulator'
-
-
+import { setAvailableDrugs } from '../features/drugs/drugSlice'
 
 const BootstrapButton = withStyles({
   root: {
@@ -34,11 +33,36 @@ const styles = theme => ({
 
 const OpenInCytoscapeButton = props => {
   
-  const { startCyRestPollingFunction, stopCyRestPollingFunction } = props
+  const [cyRESTAvailable, setCyRESTAvailable]  = useState(false);
+
+  function refresh() {
+    setCyRESTAvailable(true);
+    setTimeout(refresh, 5000);
+}
+
+// initial call, or just call refresh directly
+
+
+  const  defaultPollingStart = () => {
+    console.log('Start polling');
+    setTimeout(refresh, 5000);
+    
+  };
+
+  const defaultPollingStop = () => {
+    console.log('End polling')
+  };
+
+  const defaultGetAvailable = () => { console.log('defaultGetAvailable: ' + cyRESTAvailable);
+    return cyRESTAvailable };
+
+  const { startCyRestPollingFunction = defaultPollingStart, 
+          stopCyRestPollingFunction = defaultPollingStop,
+          getAvailable = defaultGetAvailable
+        } = props
   
   useEffect(() => {
-    
-    typeof(startCyRestPollingFunction) === typeof(Function) && startCyRestPollingFunction();
+      typeof(startCyRestPollingFunction) === typeof(Function) && startCyRestPollingFunction();
     return () => {
       typeof(stopCyRestPollingFunction) === typeof(Function) && stopCyRestPollingFunction();
     }
@@ -46,7 +70,7 @@ const OpenInCytoscapeButton = props => {
 
   const { classes } = props
 
-  const disabled = false;
+ 
   /** 
     !(props.network.uuid && props.network.uuid.length > 0) ||
     !props.cyrest.available */
@@ -77,12 +101,12 @@ const OpenInCytoscapeButton = props => {
           <BootstrapButton
             className={classes.button}
             variant="outlined"
-            disabled={disabled}
+            disabled={!getAvailable()}
             onClick={handleClick}
           >
             <img
               alt="Cytoscape logo"
-              src={disabled ? logoDisabled : logo}
+              src={!getAvailable() ? logoDisabled : logo}
               className={classes.buttonIcon}
             />
           </BootstrapButton>
