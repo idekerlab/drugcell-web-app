@@ -73,7 +73,7 @@ const OpenInCytoscapeButton = props => {
   const CYREST_BASE_URL = 'http://127.0.0.1'
   const METHOD_POST = 'POST';
 
-  const importNetwork = (cyRESTPort) => {
+  const importNetwork = () => {
     fetchCX().then( cx => {
       const importNetworkUrl =
       CYREST_BASE_URL + ':' + cyRESTPort + '/cyndex2/v1/networks/cx'
@@ -86,7 +86,7 @@ const OpenInCytoscapeButton = props => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(cx)
-    })})
+    })}).catch(error => { console.log(error)});
   }
 
   const { 
@@ -94,6 +94,7 @@ const OpenInCytoscapeButton = props => {
     stopCyRestPollingFunction = defaultPollingStop,
     getAvailable = defaultGetAvailable,
     cyRESTPollingActive = defaultGetPollingActive,
+    cyRESTPort = 1234,
     fetchCX
   } = props
 
@@ -105,10 +106,6 @@ const OpenInCytoscapeButton = props => {
   }, [])
 
   const { classes } = props
-
-  const handleClick = () => {
-   importNetwork(1234);
-  }
 
   return (
     <React.Fragment>
@@ -122,7 +119,7 @@ const OpenInCytoscapeButton = props => {
             className={classes.button}
             variant="outlined"
             disabled={!getAvailable()}
-            onClick={handleClick}
+            onClick={importNetwork}
           >
             <img
               alt="Cytoscape logo"
