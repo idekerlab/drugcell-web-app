@@ -42,7 +42,7 @@ const OpenInCytoscapeButton = props => {
       status(1234).then(
         response => response.json()
       ).then(data => {
-        console.log('Success:', data);
+        setCyRESTAvailable(true);
       }).catch((error) => {
         setCyRESTAvailable(false);
       });
