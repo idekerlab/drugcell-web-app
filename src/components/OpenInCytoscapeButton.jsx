@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core'
 import Tooltip from '@material-ui/core/Tooltip'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import { setAvailableDrugs } from '../features/drugs/drugSlice'
+import { status } from '../api/cyrest'
 
 const BootstrapButton = withStyles({
   root: {
@@ -32,45 +33,59 @@ const styles = theme => ({
 })
 
 const OpenInCytoscapeButton = props => {
-  
-  const [cyRESTAvailable, setCyRESTAvailable]  = useState(false);
+
+  const [cyRESTAvailable, setCyRESTAvailable] = useState(false);
+  const [pollingActive, setPollingActive] = useState(false);
 
   function refresh() {
-    setCyRESTAvailable(true);
-    setTimeout(refresh, 5000);
-}
+    if (pollingActive) {
+      status(1234).then(
+        response => response.json()
+      ).then(data => {
+        console.log('Success:', data);
+      }).catch((error) => {
+        setCyRESTAvailable(false);
+      });
 
-// initial call, or just call refresh directly
+      setTimeout(refresh, 5000);
+    }
+  }
+
+  // initial call, or just call refresh directly
 
 
-  const  defaultPollingStart = () => {
+  const defaultPollingStart = () => {
     console.log('Start polling');
-    setTimeout(refresh, 5000);
-    
+    setPollingActive(true);
+    setTimeout(refresh, 1000);
+
   };
 
   const defaultPollingStop = () => {
     console.log('End polling')
+    setPollingActive(false);
   };
 
-  const defaultGetAvailable = () => { console.log('defaultGetAvailable: ' + cyRESTAvailable);
-    return cyRESTAvailable };
+  const defaultGetAvailable = () => {
+    console.log('defaultGetAvailable: ' + cyRESTAvailable);
+    return cyRESTAvailable
+  };
 
-  const { startCyRestPollingFunction = defaultPollingStart, 
-          stopCyRestPollingFunction = defaultPollingStop,
-          getAvailable = defaultGetAvailable
-        } = props
-  
+  const { startCyRestPollingFunction = defaultPollingStart,
+    stopCyRestPollingFunction = defaultPollingStop,
+    getAvailable = defaultGetAvailable
+  } = props
+
   useEffect(() => {
-      typeof(startCyRestPollingFunction) === typeof(Function) && startCyRestPollingFunction();
+    typeof (startCyRestPollingFunction) === typeof (Function) && startCyRestPollingFunction();
     return () => {
-      typeof(stopCyRestPollingFunction) === typeof(Function) && stopCyRestPollingFunction();
+      typeof (stopCyRestPollingFunction) === typeof (Function) && stopCyRestPollingFunction();
     }
   }, [])
 
   const { classes } = props
 
- 
+
   /** 
     !(props.network.uuid && props.network.uuid.length > 0) ||
     !props.cyrest.available */
@@ -78,18 +93,18 @@ const OpenInCytoscapeButton = props => {
   const handleClick = () => {
     props.handleImportNetwork()
   }
-/*
-  const handleClose = (event, reason) => {
-    console.log('click')
-    if (state === 'openLoading') {
-      setState('closeLoading')
-    } else if (state === 'openResult') {
-      setState('dormant')
-      cycleId++
+  /*
+    const handleClose = (event, reason) => {
+      console.log('click')
+      if (state === 'openLoading') {
+        setState('closeLoading')
+      } else if (state === 'openResult') {
+        setState('dormant')
+        cycleId++
+      }
+      setOpen(false)
     }
-    setOpen(false)
-  }
-*/
+  */
   return (
     <React.Fragment>
       <Tooltip
@@ -112,7 +127,7 @@ const OpenInCytoscapeButton = props => {
           </BootstrapButton>
         </div>
       </Tooltip>
-     
+
     </React.Fragment>
   )
 }
