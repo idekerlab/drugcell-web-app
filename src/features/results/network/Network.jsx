@@ -30,7 +30,7 @@ export function Network() {
   const drugUUID = useSelector(selectSelectedDrug);
 
   useEffect(() => {
-    console.log('Use effect.');
+    //console.log('Use effect.');
     // Event handler can be set only when Cytoscape.js instance is available.
     if (cyInstance === undefined || cyInstance === null) {
       return

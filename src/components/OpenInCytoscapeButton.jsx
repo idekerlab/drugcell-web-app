@@ -34,11 +34,13 @@ const styles = theme => ({
 
 const OpenInCytoscapeButton = props => {
 
+  let pollCyREST = false;
   const [cyRESTAvailable, setCyRESTAvailable] = useState(false);
-  const [pollingActive, setPollingActive] = useState(false);
 
   function refresh() {
-    if (pollingActive) {
+    console.log('refresh() polling=' + defaultGetPollingActive());
+  
+    if (cyRESTPollingActive) {
       status(1234).then(
         response => response.json()
       ).then(data => {
@@ -51,33 +53,52 @@ const OpenInCytoscapeButton = props => {
     }
   }
 
-  // initial call, or just call refresh directly
-
-
   const defaultPollingStart = () => {
-    console.log('Start polling');
-    setPollingActive(true);
-    setTimeout(refresh, 1000);
-
+    pollCyREST = true;
+    setTimeout(refresh, 5000);
   };
 
   const defaultPollingStop = () => {
-    console.log('End polling')
-    setPollingActive(false);
+    pollCyREST = false;
   };
 
   const defaultGetAvailable = () => {
-    console.log('defaultGetAvailable: ' + cyRESTAvailable);
     return cyRESTAvailable
   };
 
-  const { startCyRestPollingFunction = defaultPollingStart,
+  const defaultGetPollingActive = () => {
+    return pollCyREST;
+  }
+
+  const CYREST_BASE_URL = 'http://127.0.0.1'
+  const METHOD_POST = 'POST';
+
+  const importNetwork = (cyRESTPort) => {
+    fetchCX().then( cx => {
+      const importNetworkUrl =
+      CYREST_BASE_URL + ':' + cyRESTPort + '/cyndex2/v1/networks/cx'
+    console.log('Calling CyREST POST:', importNetworkUrl)
+  
+    return fetch(importNetworkUrl, {
+      method: METHOD_POST,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cx)
+    })})
+  }
+
+  const { 
+    startCyRestPollingFunction = defaultPollingStart,
     stopCyRestPollingFunction = defaultPollingStop,
-    getAvailable = defaultGetAvailable
+    getAvailable = defaultGetAvailable,
+    cyRESTPollingActive = defaultGetPollingActive,
+    fetchCX
   } = props
 
   useEffect(() => {
-    typeof (startCyRestPollingFunction) === typeof (Function) && startCyRestPollingFunction();
+      typeof (startCyRestPollingFunction) === typeof (Function) && startCyRestPollingFunction();
     return () => {
       typeof (stopCyRestPollingFunction) === typeof (Function) && stopCyRestPollingFunction();
     }
@@ -85,26 +106,10 @@ const OpenInCytoscapeButton = props => {
 
   const { classes } = props
 
-
-  /** 
-    !(props.network.uuid && props.network.uuid.length > 0) ||
-    !props.cyrest.available */
-
   const handleClick = () => {
-    props.handleImportNetwork()
+   importNetwork(1234);
   }
-  /*
-    const handleClose = (event, reason) => {
-      console.log('click')
-      if (state === 'openLoading') {
-        setState('closeLoading')
-      } else if (state === 'openResult') {
-        setState('dormant')
-        cycleId++
-      }
-      setOpen(false)
-    }
-  */
+
   return (
     <React.Fragment>
       <Tooltip
