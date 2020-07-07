@@ -5,7 +5,6 @@ import logoDisabled from '../assets/images/cytoscape-logo-mono-light.svg'
 import { withStyles } from '@material-ui/core'
 import Tooltip from '@material-ui/core/Tooltip'
 import { fade } from '@material-ui/core/styles/colorManipulator'
-import { setAvailableDrugs } from '../features/drugs/drugSlice'
 import { status } from '../api/cyrest'
 
 const BootstrapButton = withStyles({
@@ -38,8 +37,6 @@ const OpenInCytoscapeButton = props => {
   const [cyRESTAvailable, setCyRESTAvailable] = useState(false);
 
   function refresh() {
-    console.log('refresh() polling=' + defaultGetPollingActive());
-  
     if (cyRESTPollingActive) {
       status(1234).then(
         response => response.json()
