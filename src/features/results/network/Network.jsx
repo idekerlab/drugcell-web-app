@@ -77,6 +77,10 @@ export function Network() {
     }
   })
 
+  const DRUG_COLOR = '#1B9E77';
+  const PATHWAY_COLOR = '#D95F02';
+  const CELL_RESPONSE_COLOR = '#7570B3';
+
   const style = [
     {
       'selector': 'node',
@@ -86,7 +90,8 @@ export function Network() {
         'text-max-width': 60,
         'text-wrap': 'wrap',
         'text-halign': 'center',
-        'text-valign': 'top'
+        'text-valign': 'top',
+        'background-color': PATHWAY_COLOR
       }
     },
     {
@@ -98,12 +103,22 @@ export function Network() {
       }
     },
     {
-      'selector': '#5883',
+      'selector': '#drug',
+      'style': {
+        'shape': 'rectangle',
+        'display': 'element',
+        'text-halign': 'center',
+        'text-valign': 'top',
+        'background-color': DRUG_COLOR
+      }
+    },
+    {
+      'selector': '#response',
       'style': {
         'display': 'element',
         'text-halign': 'right',
         'text-valign': 'center',
-        'background-color': 'red',
+        'background-color': CELL_RESPONSE_COLOR,
         'text-margin-x': '8px'
       }
     },
@@ -132,7 +147,7 @@ export function Network() {
         'line-color': '#9dbaea',
         'target-arrow-color': '#9dbaea',
         'curve-style': 'taxi',
-        'taxi-direction': 'vertical',
+        'taxi-direction': 'horizontal',
         'taxi-turn': '100%'
       }
     }
@@ -166,7 +181,10 @@ export function Network() {
             }
           }} stylesheet={style}
           cy={cy => {
-            cyInstance = cy
+            cyInstance = cy;
+            const boundingBox = cy.nodes().boundingBox({ includeLabels: false });
+            console.log("do a thing: " + JSON.stringify(boundingBox));
+            cy.$('#drug').position({ y: boundingBox.y1 });
           }} />
         <div class='reset'>
           <ResetZoomButton onClick={fitNetwork} />
