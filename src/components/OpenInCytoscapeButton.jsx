@@ -5,7 +5,6 @@ import logoDisabled from '../assets/images/cytoscape-logo-mono-light.svg'
 import { withStyles } from '@material-ui/core'
 import Tooltip from '@material-ui/core/Tooltip'
 import { fade } from '@material-ui/core/styles/colorManipulator'
-import { status } from '../api/cyrest'
 
 const BootstrapButton = withStyles({
   root: {
@@ -32,6 +31,14 @@ const styles = theme => ({
 })
 
 const OpenInCytoscapeButton = props => {
+
+  const status = cyRESTPort => {
+    const statusUrl = CYREST_BASE_URL + ':' + cyRESTPort + '/v1'
+  
+    return fetch(statusUrl, {
+      method: METHOD_GET
+    })
+  }
 
   let pollCyREST = false;
   const [cyRESTAvailable, setCyRESTAvailable] = useState(false);
@@ -69,6 +76,7 @@ const OpenInCytoscapeButton = props => {
 
   const CYREST_BASE_URL = 'http://127.0.0.1'
   const METHOD_POST = 'POST';
+  const METHOD_GET = 'GET'
 
   const importNetwork = () => {
     fetchCX().then( cx => {

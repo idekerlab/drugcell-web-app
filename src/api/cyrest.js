@@ -2,13 +2,7 @@ import { METHOD_GET, METHOD_POST } from './apiConstants'
 
 const CYREST_BASE_URL = 'http://127.0.0.1'
 
-const status = cyRESTPort => {
-  const statusUrl = CYREST_BASE_URL + ':' + cyRESTPort + '/v1'
 
-  return fetch(statusUrl, {
-    method: METHOD_GET
-  })
-}
 
 const cyNDExStatus = cyRESTPort => {
   const cyNDExStatusUrl =
@@ -48,4 +42,4 @@ const cyndex2Networks = (cyRESTPort, method, suid, payload) => {
   })
 }
 
-export { status, cyNDExStatus, importNetwork, cyndex2Networks }
+export { cyNDExStatus, importNetwork, cyndex2Networks }
