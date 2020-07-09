@@ -6,8 +6,6 @@ import { withStyles } from '@material-ui/core'
 import Tooltip from '@material-ui/core/Tooltip'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 
-
-
 const BootstrapButton = withStyles({
   root: {
     marginLeft: '0.5em',
@@ -33,39 +31,87 @@ const styles = theme => ({
 })
 
 const OpenInCytoscapeButton = props => {
+
+  const status = cyRESTPort => {
+    const statusUrl = CYREST_BASE_URL + ':' + cyRESTPort + '/v1'
   
-  const { startCyRestPollingFunction, stopCyRestPollingFunction } = props
+    return fetch(statusUrl, {
+      method: METHOD_GET
+    })
+  }
+
+  let pollCyREST = false;
+  const [cyRESTAvailable, setCyRESTAvailable] = useState(false);
+
+  function refresh() {
+    if (cyRESTPollingActive) {
+      status(1234).then(
+        response => response.json()
+      ).then(data => {
+        setCyRESTAvailable(true);
+      }).catch((error) => {
+        setCyRESTAvailable(false);
+      });
+
+      setTimeout(refresh, 5000);
+    }
+  }
+
+  const defaultPollingStart = () => {
+    pollCyREST = true;
+    setTimeout(refresh, 5000);
+  };
+
+  const defaultPollingStop = () => {
+    pollCyREST = false;
+  };
+
+  const defaultGetAvailable = () => {
+    return cyRESTAvailable
+  };
+
+  const defaultGetPollingActive = () => {
+    return pollCyREST;
+  }
+
+  const CYREST_BASE_URL = 'http://127.0.0.1'
+  const METHOD_POST = 'POST';
+  const METHOD_GET = 'GET'
+
+  const importNetwork = () => {
+    fetchCX().then( cx => {
+      const importNetworkUrl =
+      CYREST_BASE_URL + ':' + cyRESTPort + '/cyndex2/v1/networks/cx'
+    console.log('Calling CyREST POST:', importNetworkUrl)
   
+    return fetch(importNetworkUrl, {
+      method: METHOD_POST,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cx)
+    })}).catch(error => { console.log(error)});
+  }
+
+  const { 
+    startCyRestPollingFunction = defaultPollingStart,
+    stopCyRestPollingFunction = defaultPollingStop,
+    getAvailable = defaultGetAvailable,
+    cyRESTPollingActive = defaultGetPollingActive,
+    cyRESTPort = 1234,
+    fetchCX
+  } = props
+
   useEffect(() => {
-    
-    typeof(startCyRestPollingFunction) === typeof(Function) && startCyRestPollingFunction();
+      typeof (startCyRestPollingFunction) === typeof (Function) && startCyRestPollingFunction();
     return () => {
-      typeof(stopCyRestPollingFunction) === typeof(Function) && stopCyRestPollingFunction();
+      typeof (stopCyRestPollingFunction) === typeof (Function) && stopCyRestPollingFunction();
     }
   }, [])
 
   const { classes } = props
 
-  const disabled = false;
-  /** 
-    !(props.network.uuid && props.network.uuid.length > 0) ||
-    !props.cyrest.available */
-
-  const handleClick = () => {
-    props.handleImportNetwork()
-  }
-/*
-  const handleClose = (event, reason) => {
-    console.log('click')
-    if (state === 'openLoading') {
-      setState('closeLoading')
-    } else if (state === 'openResult') {
-      setState('dormant')
-      cycleId++
-    }
-    setOpen(false)
-  }
-*/
   return (
     <React.Fragment>
       <Tooltip
@@ -77,18 +123,18 @@ const OpenInCytoscapeButton = props => {
           <BootstrapButton
             className={classes.button}
             variant="outlined"
-            disabled={disabled}
-            onClick={handleClick}
+            disabled={!getAvailable()}
+            onClick={importNetwork}
           >
             <img
               alt="Cytoscape logo"
-              src={disabled ? logoDisabled : logo}
+              src={!getAvailable() ? logoDisabled : logo}
               className={classes.buttonIcon}
             />
           </BootstrapButton>
         </div>
       </Tooltip>
-     
+
     </React.Fragment>
   )
 }

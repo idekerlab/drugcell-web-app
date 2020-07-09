@@ -78,8 +78,6 @@ export const setElementsFromURLs = (args) => (dispatch, getState) => {
     allElements.push(drugEdge);
     allElements.push(cellStateEdge);
 
-    console.log("root node: " + JSON.stringify(rootNode));
-
     dispatch(setElements(allElements));
   });
 };

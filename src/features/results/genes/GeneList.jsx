@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     'flex-flow': 'column',
   },
-  genetypography : {
+  genetypography: {
     'flex-grow': 0
   },
   icons: {
@@ -76,7 +76,7 @@ export function GeneList() {
 
   const selectedDrugUUID = useSelector(selectSelectedDrug);
 
-  const importToCytoscape = () => {
+  const fetchCX = () => new Promise((resolve, reject) => {
 
     let queryStrings = [];
 
@@ -97,10 +97,10 @@ export function GeneList() {
       getPathwaysFromNetwork(selectedDrugUUID, queryStrings.concat(allGenes))
         .then(response => {
           response.json().then(json =>
-            importNetwork(1234, json));
-        });
+            resolve(json));
+        }).catch(error => reject(error));
     });
-  }
+  });
 
   const copyGenesToClipboard = () => {
     const geneText = genes.join('\n');
@@ -123,34 +123,34 @@ export function GeneList() {
 
   return (
     <div className={classes.root}>
-      
+
       <Typography variant="h6" classname={classes.genetypography}>
         Genes ({genes.length})
       </Typography>
       <div className={classes.icons}>
         <SearchInIQueryButton onClick={searchInIQuery} />
-        <OpenInCytoscapeButton handleImportNetwork={importToCytoscape} />
-        <CopyToClipboardButton onClick={copyGenesToClipboard}/>
+        <OpenInCytoscapeButton fetchCX={ fetchCX } />
+        <CopyToClipboardButton onClick={copyGenesToClipboard} />
       </div>
-      { genes.length == 0 && elements.length != 0 ? (
-        <div  vertical-align='middle' class='geneshint'>
-        <Typography variant="subtitle1" classname={classes.genetypography}>
-          Select a Pathway from the Network to show included Genes
+      {genes.length == 0 && elements.length != 0 ? (
+        <div vertical-align='middle' class='geneshint'>
+          <Typography variant="subtitle1" classname={classes.genetypography}>
+            Select a Pathway from the Network to show included Genes
         </Typography>
         </div>
-      ) : ( 
-      <Paper style={{ overflow: 'auto', height: 'calc(100vh - 280px)'}}>
-        <List component='nav' aria-label='gene list' dense='true' overflow='auto'>
-          {genes.sort((a, b) => a.localeCompare(b)).map(gene => {
-            return (
-              <ListItem button >
-                <ListItemText primary={gene} />
-              </ListItem>);
-          })}
-        </List>
-      </Paper>
-      )
-    }
+      ) : (
+          <Paper style={{ overflow: 'auto', height: 'calc(100vh - 280px)' }}>
+            <List component='nav' aria-label='gene list' dense='true' overflow='auto'>
+              {genes.sort((a, b) => a.localeCompare(b)).map(gene => {
+                return (
+                  <ListItem button >
+                    <ListItemText primary={gene} />
+                  </ListItem>);
+              })}
+            </List>
+          </Paper>
+        )
+      }
     </div>
   );
 }

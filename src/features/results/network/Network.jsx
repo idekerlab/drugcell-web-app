@@ -30,7 +30,7 @@ export function Network() {
   const drugUUID = useSelector(selectSelectedDrug);
 
   useEffect(() => {
-    console.log('Use effect.');
+    //console.log('Use effect.');
     // Event handler can be set only when Cytoscape.js instance is available.
     if (cyInstance === undefined || cyInstance === null) {
       return
@@ -77,21 +77,6 @@ export function Network() {
     }
   })
 
-  //useEffect(() => console.log('mounted'), []);
-  /*
-  {cy => {
-            console.log('setting cy instance');
-            if (cyInstance) {
-              cyInstance.destroy();
-            } 
-              cyInstance = cy;
-             
-            
-          }}
-  */
- 
-
-
   const style = [
     {
       'selector': 'node',
@@ -137,9 +122,6 @@ export function Network() {
         'target-arrow-shape': 'triangle',
         'line-color': '#9dbaea',
         'target-arrow-color': '#9dbaea',
-        //'curve-style': 'taxi',
-        //'taxi-direction': 'vertical',
-        //'taxi-turn': '50%'
       }
     },
     {
