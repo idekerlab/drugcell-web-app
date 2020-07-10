@@ -56,7 +56,7 @@ export const getDrugs = () => dispatch => {
      
     })
     .catch(error => {
-      console.log(error);
+      console.error(error.name + ' ' + error.message);
     });
 };
 

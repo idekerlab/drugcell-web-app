@@ -1,9 +1,9 @@
 
 import { METHOD_GET } from './apiConstants'
 
-//const DRUG_CELL_URL = 'http://drugcell-dev.ndexbio.org';
-const DRUG_CELL_URL = 'http://localhost';
-const DRUG_CELL_PORT = '80';
+const DRUG_CELL_PRODUCTION_URL = 'http://drugcell-dev.ndexbio.org';
+const DRUG_CELL_URL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1' : DRUG_CELL_PRODUCTION_URL;
+const DRUG_CELL_PORT = '8080';
 const DRUG_CELL_ROOT = 'data'
 
 const getURL = (path) => {
@@ -13,16 +13,14 @@ const getURL = (path) => {
   const getDrugs = () => {
     const url = getURL('/drug-index.json');
       return fetch(url, {
-      method: METHOD_GET,
-      mode: 'no-cors'
+      method: METHOD_GET
     })
   }
 
   const getPathways = (drugUUID) => {
     const url = getURL('/drugs/' + drugUUID + '/index.json');
       return fetch(url, {
-      method: METHOD_GET,
-      mode: 'no-cors'
+      method: METHOD_GET
     })
   }
 
@@ -31,7 +29,7 @@ const getURL = (path) => {
     
       return fetch(url, {
       method: METHOD_GET,
-      mode: 'no-cors'
+      //mode: 'no-cors'
     })
   }
 
@@ -40,7 +38,7 @@ const getURL = (path) => {
     
       return fetch(url, {
       method: METHOD_GET,
-      mode: 'no-cors'
+      //mode: 'no-cors'
     })
   }
 
