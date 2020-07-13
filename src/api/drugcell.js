@@ -3,7 +3,7 @@ import { METHOD_GET } from './apiConstants'
 
 const DRUG_CELL_PRODUCTION_URL = 'http://drugcell-dev.ndexbio.org';
 const DRUG_CELL_URL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1' : DRUG_CELL_PRODUCTION_URL;
-const DRUG_CELL_PORT = '8080';
+const DRUG_CELL_PORT = process.env.NODE_ENV === 'development' ? '8080' : '80';
 const DRUG_CELL_ROOT = 'data'
 
 const getURL = (path) => {
