@@ -66,7 +66,7 @@ export function Network() {
           dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: [] }))
         }
         else if (event.target.isNode()) {
-         
+
         }
       } catch (e) {
         console.warn(e)
@@ -150,7 +150,14 @@ export function Network() {
         'taxi-direction': 'horizontal',
         'taxi-turn': '100%'
       }
+    },
+    {
+      'selector': 'node:selected',
+      'style': {
+        'background-color': 'blue'
+      }
     }
+
   ];
 
   const dispatch = useDispatch();
