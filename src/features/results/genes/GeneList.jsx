@@ -124,7 +124,7 @@ export function GeneList() {
   return (
     <div className={classes.root}>
 
-      <Typography variant="h6" classname={classes.genetypography}>
+      <Typography variant="h6" className={classes.genetypography}>
         Genes ({genes.length})
       </Typography>
       <div className={classes.icons}>
@@ -140,7 +140,7 @@ export function GeneList() {
         </div>
       ) : (
           <Paper style={{ overflow: 'auto', height: 'calc(100vh - 280px)' }}>
-            <List component='nav' aria-label='gene list' dense='true' overflow='auto'>
+            <List component='nav' aria-label='gene list' dense={true} overflow='auto'>
               {genes.sort((a, b) => a.localeCompare(b)).map(gene => {
                 return (
                   <ListItem button >

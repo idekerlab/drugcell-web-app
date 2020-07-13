@@ -163,11 +163,11 @@ export function Network() {
   return (
     elements.length == 0
       ? <div
-        vertical-align='middle' class='hint'>
+        vertical-align='middle' className='hint'>
         <Typography variant='h6'>
           Select a Drug and Pathways
       </Typography>   </div>
-      : <div class='network'>
+      : <div className='network'>
         <CytoscapeComponent elements={JSON.parse(JSON.stringify(elements))}
           style={{ width: '100%', height: 'calc(100vh - 70px)' }} layout={{
             name: 'dagre',
