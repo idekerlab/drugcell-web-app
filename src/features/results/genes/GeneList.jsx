@@ -141,7 +141,7 @@ export function GeneList() {
       ) : (
           <Paper style={{ overflow: 'auto', height: 'calc(100vh - 280px)' }}>
             <List component='nav' aria-label='gene list' dense={true} overflow='auto'>
-              {genes.sort((a, b) => a.localeCompare(b)).map(gene => {
+              {genes.slice().sort((a, b) => a.localeCompare(b)).map(gene => {
                 return (
                   <ListItem button >
                     <ListItemText primary={gene} />
