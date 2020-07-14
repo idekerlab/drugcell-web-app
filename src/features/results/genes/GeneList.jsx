@@ -121,6 +121,9 @@ export function GeneList() {
     window.open(iQueryUrl, '_blank');
   }
 
+  const disabled =  genes === undefined || genes === null || genes.length == 0;
+
+
   return (
     <div className={classes.root}>
 
@@ -128,9 +131,9 @@ export function GeneList() {
         Genes ({genes.length})
       </Typography>
       <div className={classes.icons}>
-        <SearchInIQueryButton onClick={searchInIQuery} />
+        <SearchInIQueryButton onClick={searchInIQuery} disabled={disabled}/>
         <OpenInCytoscapeButton fetchCX={ fetchCX } />
-        <CopyToClipboardButton onClick={copyGenesToClipboard} />
+        <CopyToClipboardButton onClick={copyGenesToClipboard} disabled={disabled} />
       </div>
       {genes.length == 0 && elements.length != 0 ? (
         <div vertical-align='middle' class='geneshint'>

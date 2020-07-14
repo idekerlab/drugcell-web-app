@@ -38,7 +38,7 @@ const CopyToClipboardButton = props => {
       <div>
         <BootstrapButton
           variant="outlined"
-          disabled={false}
+          disabled={props.disabled}
           onClick={props.onClick}
         >
           <FontAwesomeIcon icon={faClipboard} size="2x" />

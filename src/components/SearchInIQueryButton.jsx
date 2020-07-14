@@ -30,9 +30,7 @@ const styles = theme => ({
  * @constructor
  */
 const SearcInIQueryButton = props => {
-  const { classes, getNetworkURL } = props
-
-  const disabled = false;
+  const { classes , disabled } = props
 
   const BootstrapButton = withStyles({
     root: {
@@ -59,7 +57,7 @@ const SearcInIQueryButton = props => {
         <BootstrapButton
           className={classes.button}
           variant="outlined"
-          disabled={disabled}
+          disabled={props.disabled}
           onClick={props.onClick}
         >
           <img
