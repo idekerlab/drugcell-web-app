@@ -8,13 +8,13 @@ The web-app requires a structured collection of JSON documents that represent th
 
 DrugCell networks should be organized in a single set on an NDEx server, accessible by a set UUID. The JSON summary of this network set is accessible at `http://public.ndexbio.org/v2/networkset/{setUUID}?accesskey={accessKey}` where the accessKey is an optional sharing parameter. This JSON summary can be saved in a file and used as input for the downloading script below:
 
-### `./bin/download-networks.js http://public.ndexbio.org ./data/drug-cell-network-set.json ./data/networks/`
+#### `./bin/download-networks.js http://public.ndexbio.org ./data/drug-cell-network-set.json ./data/networks/`
 
 This will download all of the networks into the `./data/networks/` directory.
 
 In the project directory, you can run:
 
-### `./bin/build-data.js ./data/cx/drugcell_example_network.cx ./public/data/`
+#### `./bin/build-data.js ./data/cx/drugcell_example_network.cx ./public/data/`
 
 Runs a script to build pre-computed Cytoscape.js paths from DrugCell CX networks.
 
