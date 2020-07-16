@@ -22,7 +22,7 @@ Note that the `./data/public/data/drugs/` directory must exist and be empty for 
 
 Individual paths can be extracted from a single CX file using the following script:
 
-`./bin/build-data.js ./data/drugcell_example_network.cx ./data/public/data/drugs/`
+`./bin/build-paths.js ./data/networks/example-network.cx ./data/public/data/drugs/`
 
 Once the paths are generated, a final index of all drugs must be generated:
 
