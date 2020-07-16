@@ -6,19 +6,32 @@ The web-app requires a structured collection of JSON documents that represent th
 
 ### Downloading CX Data
 
-DrugCell networks should be organized in a single set on an NDEx server, accessible by a set UUID. The JSON summary of this network set is accessible at `http://public.ndexbio.org/v2/networkset/{setUUID}?accesskey={accessKey}` where the accessKey is an optional sharing parameter. This JSON summary can be saved in a file and used as input for the downloading script below:
+DrugCell networks should be organized in a single set on an NDEx server, accessible by a set UUID. The JSON summary of a network set is accessible via the following path:
 
-#### `./bin/download-networks.js http://public.ndexbio.org ./data/drug-cell-network-set.json ./data/networks/`
+`http://public.ndexbio.org/v2/networkset/{setUUID}?accesskey={accessKey}` 
 
-This will download all of the networks into the `./data/networks/` directory.
+The accessKey is an optional sharing parameter if the network set is not public. This JSON summary can be saved in a file and used as input for the downloading script below:
 
-In the project directory, you can run:
+`./bin/download-networks.js http://public.ndexbio.org ./data/drug-cell-network-set.json ./data/networks/`
 
-#### `./bin/build-data.js ./data/cx/drugcell_example_network.cx ./public/data/`
+This will download all of the networks into the `./data/networks/` directory. These networks must be pre-processed to identify individual paths in the network. The script for pre-processing is below:
 
-Runs a script to build pre-computed Cytoscape.js paths from DrugCell CX networks.
+`./bin/build-indexes-and-paths.js ./data/networks/ ./data/public/data/drugs/`
+
+Note that the `./data/public/data/drugs/` directory must exist and be empty for this script to work.
+
+Individual paths can be extracted from a single CX file using the following script:
+
+`./bin/build-data.js ./data/drugcell_example_network.cx ./data/public/data/drugs/`
+
+Once the paths are generated, a final index of all drugs must be generated:
+
+`./bin/build-drug-index.js ./data/public/data/ ./data/public/data/drugs`
+
 
 ## Running and Building DrugCell Oracle
+
+With the data directories filled with pre-computed paths and indexes, you can run the DrugCell Oracle web-app.
 
 ### `yarn start`
 
@@ -39,7 +52,8 @@ Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+
+This app can be deployed, and is configured to use its own `public/data` directory to serve pre-computed paths and indexes.
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
