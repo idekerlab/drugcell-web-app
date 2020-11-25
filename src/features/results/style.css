@@ -11,7 +11,8 @@
   display: flex;
   flex-direction: column;
   height: calc(100vh - 80px);
-  overflow: auto
+  overflow: auto;
+  border-right: 1px solid lightgrey;
 }
 
 .left-component {

@@ -133,7 +133,7 @@ export function PathwayAutocomplete() {
     } placement='right'>
       <Autocomplete
         multiple
-        style={{ width: 300 , 'paddingTop': '12px' }}
+        style={{ width: '100%', 'paddingTop': '12px' }}
         disableListWrap
       
         classes={classes}

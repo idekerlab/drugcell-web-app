@@ -128,7 +128,7 @@ export function DrugAutocomplete() {
   return (
       <Tooltip title={'Start typing a drug name, or click on the drop down to scroll through all available drugs.'} placement='right'>
         <Autocomplete
-          style={{ width: 300, 'paddingTop': '12px' }}
+          style={{ width: '100%', 'paddingTop': '12px' }}
           disableListWrap
           classes={classes}
           ListboxComponent={ListboxComponent}
@@ -140,7 +140,7 @@ export function DrugAutocomplete() {
               return option === value;
             }
           }
-          renderInput={(params) => <TextField {...params} variant="outlined" label="Drug" />}
+          renderInput={(params) => <TextField {...params} variant="outlined" label="Selected Drug" />}
           renderOption={(option) => <Typography noWrap>{option} </Typography>}
          
           onChange={(event, value) => {
