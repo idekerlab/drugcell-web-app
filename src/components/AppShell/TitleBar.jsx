@@ -90,7 +90,7 @@ class TitleBar extends React.Component {
                     DrugCell: Find Pathways
                   </Typography> 
                   <Typography variant="subtitle1" color="inherit" noWrap={true} className={classes.descriptionText} >
-                    Replace me. For the love of all that is holy, replace me.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
                   </Typography>
                 </Button>
                 
