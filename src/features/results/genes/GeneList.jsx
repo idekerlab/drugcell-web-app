@@ -50,11 +50,12 @@ const useStyles = makeStyles((theme) => ({
     'flex-flow': 'column',
   },
   genetypography: {
-    'flex-grow': 0
+    'flex-grow': 1
   },
   icons: {
     display: 'flex',
-    'flex-grow': 0
+    'flex-grow': 0,
+    alignItems: 'center'
   },
   genepaper: {
     'flex-grow': '1',
@@ -126,11 +127,11 @@ export function GeneList() {
 
   return (
     <div className={classes.root}>
-
+ <div className={classes.icons}>
       <Typography variant="h6" className={classes.genetypography}>
         Genes ({genes.length})
       </Typography>
-      <div className={classes.icons}>
+     
         <SearchInIQueryButton onClick={searchInIQuery} disabled={disabled}/>
         <OpenInCytoscapeButton fetchCX={ fetchCX } />
         <CopyToClipboardButton onClick={copyGenesToClipboard} disabled={disabled} />
