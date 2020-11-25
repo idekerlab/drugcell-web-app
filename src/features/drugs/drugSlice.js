@@ -43,7 +43,7 @@ export const {
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
-export const getDrugs = () => dispatch => {
+export const getDrugs = (defaultDrugName) => dispatch => {
   getDrugsAPI()
     .then(response => {
       if (!response.ok) {
@@ -54,7 +54,19 @@ export const getDrugs = () => dispatch => {
     .then(json => {
       dispatch(setAvailableDrugs(json));
       
-      dispatch(selectDrug(defaultDrug));
+      let defaultDrugUUID = undefined
+      if (json[defaultDrugName]) {
+        console.log('getDrugs found default drug: ', json[defaultDrugName]);
+        defaultDrugUUID = json[defaultDrugName].uuid;
+      }
+
+      const drugToSelect = defaultDrugUUID ? {
+        uuid: defaultDrugUUID,
+        name: defaultDrugName
+      } : defaultDrug
+
+
+      dispatch(selectDrug(drugToSelect));
      
     })
     .catch(error => {

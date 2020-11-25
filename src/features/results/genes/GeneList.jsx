@@ -137,7 +137,7 @@ export function GeneList() {
         <CopyToClipboardButton onClick={copyGenesToClipboard} disabled={disabled} />
       </div>
       {genes.length == 0 && elements.length != 0 ? (
-        <div vertical-align='middle' class='geneshint'>
+        <div vertical-align='middle' >
           <Typography variant="subtitle1" className={classes.genetypography}>
             Select a Pathway from the Network to show included Genes
         </Typography>

@@ -9,6 +9,7 @@ import { VariableSizeList } from 'react-window';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom'
 import {
   getDrugs,
   selectAvailableDrugs,
@@ -113,8 +114,15 @@ export function DrugAutocomplete() {
   const selectedDrugName = useSelector(selectSelectedDrugName);
   const drugNames = Object.keys(drugs).sort((a, b) => a.localeCompare(b));
 
+  const location = useLocation();
+
   useEffect(() => {
-    dispatch(getDrugs())
+    const searchParams = new URLSearchParams(location.search);
+    const drugName = searchParams.get('drug');
+
+    //console.log('Init drug name: ', drugName)
+
+    dispatch(getDrugs(drugName))
   }, []);
 
   return (
