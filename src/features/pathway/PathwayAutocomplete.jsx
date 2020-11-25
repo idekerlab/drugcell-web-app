@@ -146,12 +146,6 @@ export function PathwayAutocomplete() {
         renderOption={(option) => <Typography noWrap><b>{pathways[option].rank}</b> {option.replace(/_/g, ' ')}</Typography>}
         renderTags={(value, getTagProps) =>
         <Typography noWrap>{ selectedPathways.length } selected</Typography>
-          //value.map((option, index) => ( 
-          //  <Tooltip title={option.replace(/_/g, ' ') + ' RLIPP Score: ' + pathways[option].rlipp} placement='right'>
-          //    <Chip variant="outlined" label={option.replace(/_/g, ' ')} {...getTagProps({ index })} />
-          //  </Tooltip>
-          //)
-          //)
         }
         onChange={(event, value) => {
           const selectedPathways = value;
