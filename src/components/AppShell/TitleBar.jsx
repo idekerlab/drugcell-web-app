@@ -40,8 +40,11 @@ const styles = theme => ({
     width: '1em',
     marginRight: '0.5em'
   },
+  descriptionText: {
+    marginLeft: '1em',
+    color: 'grey'
+  },
   appBar: {
-    
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
@@ -82,10 +85,15 @@ class TitleBar extends React.Component {
               <div>
                 <Button style={titleStyle}>
                   <HomeIcon fontSize="default" className={classes.homeLogo} />
+                 
                   <Typography variant="h6" color="inherit" noWrap={true}>
-                    DrugCell Oracle
+                    DrugCell: Find Pathways
+                  </Typography> 
+                  <Typography variant="subtitle1" color="inherit" noWrap={true} className={classes.descriptionText} >
+                    Replace me. For the love of all that is holy, replace me.
                   </Typography>
                 </Button>
+                
               </div>
             </Tooltip>
 
