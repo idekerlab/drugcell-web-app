@@ -121,6 +121,8 @@ export function PathwayAutocomplete() {
   const selectedPathways = useSelector(selectSelectedPathways);
   const selectedDrugUUID = useSelector(selectSelectedDrug);
 
+
+
   return (
     <Tooltip title={
       Object.keys(pathways).length == 0
@@ -140,8 +142,8 @@ export function PathwayAutocomplete() {
         value={selectedPathways}
         getOptionLabel={ option => option.replace(/_/g, ' ') }
         options={Object.keys(pathways).sort((a, b) => pathways[b].rlipp - pathways[a].rlipp)}
-        renderInput={(params) => <TextField {...params} variant="outlined" label="Pathways" placeholder={selectedPathways.length == 0 ? 'Start typing …': 'Add more …'} />}
-        renderOption={(option) => <Typography noWrap>{pathways[option].rlipp.toFixed(2)} {option.replace(/_/g, ' ')}</Typography>}
+        renderInput={(params) => <TextField {...params} variant="outlined" label="Ranked Pathways" placeholder={selectedPathways.length == 0 ? 'Start typing …': 'Add more …'} />}
+        renderOption={(option) => <Typography noWrap><b>{pathways[option].rank}</b> {option.replace(/_/g, ' ')}</Typography>}
         renderTags={(value, getTagProps) =>
         <Typography noWrap>{ selectedPathways.length } selected</Typography>
           //value.map((option, index) => ( 

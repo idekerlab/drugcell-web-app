@@ -13,7 +13,13 @@ export const pathwaySlice = createSlice({
   },
   reducers: {
     setAvailablePathways: (state, action) => {
-      state.availablePathways = action.payload;
+      const rankedPathways = Object.entries(action.payload).reduce(
+        (acc, [key, value], index) => {
+          value.rank = index + 1;
+          acc[key] = value;
+          return acc;
+        }, {})
+      state.availablePathways = rankedPathways;
     },
     setSelectedPathways: (state, action) => {
       state.selectedPathways = action.payload;
