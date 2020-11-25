@@ -7,8 +7,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import './style.css';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Paper from '@material-ui/core/Paper';
+import Slide from '@material-ui/core/Slide';
 
+import Paper from '@material-ui/core/Paper';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import CopyToClipboardButton from '../../../components/CopyToClipboardButton'
 import OpenInCytoscapeButton from '../../../components/OpenInCytoscapeButton'
@@ -50,7 +52,17 @@ const useStyles = makeStyles((theme) => ({
     'flex-flow': 'column',
   },
   genetypography: {
-    'flex-grow': 1
+    'flex-grow': 1,
+    justifyContent: 'center'
+  },
+  geneselecthint: {
+    color: '#7570B3',
+    display: 'flex',
+    height: '100px',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
   },
   icons: {
     display: 'flex',
@@ -122,30 +134,33 @@ export function GeneList() {
     window.open(iQueryUrl, '_blank');
   }
 
-  const disabled =  genes === undefined || genes === null || genes.length == 0;
+  const disabled = genes === undefined || genes === null || genes.length == 0;
 
 
   return (
     <div className={classes.root}>
- <div className={classes.icons}>
-      <Typography variant="h6" className={classes.genetypography}>
-        Genes ({genes.length})
+      <div className={classes.icons}>
+        <Typography variant="h6" className={classes.genetypography}>
+          Genes ({genes.length})
       </Typography>
-     
-        <SearchInIQueryButton onClick={searchInIQuery} disabled={disabled}/>
-        <OpenInCytoscapeButton fetchCX={ fetchCX } />
+
+        <SearchInIQueryButton onClick={searchInIQuery} disabled={disabled} />
+        <OpenInCytoscapeButton fetchCX={fetchCX} />
         <CopyToClipboardButton onClick={copyGenesToClipboard} disabled={disabled} />
       </div>
       {genes.length == 0 && elements.length != 0 ? (
-        <div vertical-align='middle' >
+         <Slide direction="right" in={true} mountOnEnter unmountOnExit timeout={1500} >
+        <div className={classes.geneselecthint} >
           <Typography variant="subtitle1" className={classes.genetypography}>
             Select a Pathway from the Network to show included Genes
-        </Typography>
+          </Typography>
+          <ArrowForwardIcon />
         </div>
+        </Slide>
       ) : (
-          <Paper 
-            //style={{ overflow: 'auto', height: 'calc(100vh - 280px)' }}
-            >
+          <Paper
+          //style={{ overflow: 'auto', height: 'calc(100vh - 280px)' }}
+          >
             <List component='nav' aria-label='gene list' dense={true} overflow='auto'>
               {genes.slice().sort((a, b) => a.localeCompare(b)).map(gene => {
                 return (
