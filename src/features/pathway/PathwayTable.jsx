@@ -35,9 +35,6 @@ export function PathwayTable() {
   const pathways = useSelector(selectAvailablePathways);
   const selectedPathways = useSelector(selectSelectedPathways);
 
-  console.log('pathways: ', pathways)
-  console.log('selectedPathways: ', selectedPathways)
-
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
