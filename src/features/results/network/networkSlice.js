@@ -67,7 +67,7 @@ export const setElementsFromURLs = (args) => (dispatch, getState) => {
   const cellStateEdge = {
     "data": {
         "id": "cell-state-edge",
-        "source": rootNode.data['id'],
+        "source": rootNode ? rootNode.data['id'] : '',
         "target": 'response',
         "is_tree_edge_u9": "Tree",
         "edgetype": "response"
