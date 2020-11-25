@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
   genepaper: {
     'flex-grow': '1',
-    'height': '100%'
+    //'height': '100%'
   }
 }));
 
@@ -138,12 +138,14 @@ export function GeneList() {
       </div>
       {genes.length == 0 && elements.length != 0 ? (
         <div vertical-align='middle' class='geneshint'>
-          <Typography variant="subtitle1" classname={classes.genetypography}>
+          <Typography variant="subtitle1" className={classes.genetypography}>
             Select a Pathway from the Network to show included Genes
         </Typography>
         </div>
       ) : (
-          <Paper style={{ overflow: 'auto', height: 'calc(100vh - 280px)' }}>
+          <Paper 
+            //style={{ overflow: 'auto', height: 'calc(100vh - 280px)' }}
+            >
             <List component='nav' aria-label='gene list' dense={true} overflow='auto'>
               {genes.slice().sort((a, b) => a.localeCompare(b)).map(gene => {
                 return (

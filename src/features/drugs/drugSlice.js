@@ -8,12 +8,17 @@ import {
   getDrugs as getDrugsAPI
 } from '../../api/drugcell'
 
+const defaultDrug  = {
+  'uuid': '09b7ee9d-80e0-11ea-aaef-0ac135e8bacf',
+  'name' : 'etoposide'
+};
+
 export const drugSlice = createSlice({
   name: 'drugs',
   initialState: {
     availableDrugs: {},
-    selectedDrug: undefined,
-    selectedDrugName: undefined
+    selectedDrug: defaultDrug,
+    selectedDrugName: defaultDrug.name
   },
   reducers: {
     setAvailableDrugs: (state, action) => {
@@ -48,11 +53,8 @@ export const getDrugs = () => dispatch => {
     })
     .then(json => {
       dispatch(setAvailableDrugs(json));
-      const drug  = {
-        'uuid': '09b7ee9d-80e0-11ea-aaef-0ac135e8bacf',
-        'name' : 'etoposide'
-      };
-      dispatch(selectDrug(drug));
+      
+      dispatch(selectDrug(defaultDrug));
      
     })
     .catch(error => {

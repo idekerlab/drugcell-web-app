@@ -190,7 +190,7 @@ export function Network() {
           cy={cy => {
             cyInstance = cy;
             const boundingBox = cy.nodes().boundingBox({ includeLabels: false });
-            console.log("do a thing: " + JSON.stringify(boundingBox));
+            //console.log("do a thing: " + JSON.stringify(boundingBox));
             cy.$('#drug').position({ y: boundingBox.y1 });
           }} />
         <div class='reset'>

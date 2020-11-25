@@ -10,7 +10,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  getDrugs as getDrugs,
+  getDrugs,
   selectAvailableDrugs,
   selectDrug,
   selectSelectedDrugName
@@ -114,12 +114,10 @@ export function DrugAutocomplete() {
   const drugNames = Object.keys(drugs).sort((a, b) => a.localeCompare(b));
 
   useEffect(() => {
-    dispatch(getDrugs()
-    )
+    dispatch(getDrugs())
   }, []);
 
   return (
-   
       <Tooltip title={'Start typing a drug name, or click on the drop down to scroll through all available drugs.'} placement='right'>
         <Autocomplete
           style={{ width: 300, 'paddingTop': '12px' }}
@@ -129,12 +127,18 @@ export function DrugAutocomplete() {
           autoSelect = {true}
           value={selectedDrugName}
           options={drugNames}
-          renderInput={(params) => <TextField {...params} variant="outlined" label={ selectedDrugName } />}
+          getOptionSelected = {
+            (option, value) => {
+              return option === value;
+            }
+          }
+          renderInput={(params) => <TextField {...params} variant="outlined" label="Drug" />}
           renderOption={(option) => <Typography noWrap>{option} </Typography>}
+         
           onChange={(event, value) => {
-          const drugUUID = drugs[value].uuid;
-          dispatch(selectDrug({uuid : drugUUID, name: value}));
-        }}
+            const drugUUID = drugs[value].uuid;
+            dispatch(selectDrug({uuid : drugUUID, name: value}));
+          }}
         />
       </Tooltip>
   );

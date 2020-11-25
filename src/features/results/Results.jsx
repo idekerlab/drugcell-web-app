@@ -15,10 +15,10 @@ export function Results() {
   return (
     <div className='container'>
       <div className='left-components'>
-        <DrugAutocomplete />
-        <PathwayAutocomplete />
-        <PathwayTable />
-        <GeneList />
+      <div className='left-component'><DrugAutocomplete /></div>
+      <div className='left-component'><PathwayAutocomplete />
+      <PathwayTable /></div>
+      <div className='left-component'><GeneList /></div>
       </div>
       <div className='center-components'>
         <Network />
