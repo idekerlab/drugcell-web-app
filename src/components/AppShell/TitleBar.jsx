@@ -15,6 +15,8 @@ import cytoLogo from '../../assets/images/cytoscape-logo-mono-dark.svg'
 
 import idekerLogo from '../../assets/images/ideker-logo-mono-dark.svg'
 
+import HelpDialog from '../HelpDialog'
+
 import HomeIcon from '@material-ui/icons/Home'
 
 const styles = theme => ({
@@ -68,8 +70,25 @@ const titleStyle = {
 
 class TitleBar extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      helpOpen: false
+    };
+  }
+
+
+
   render() {
     const { classes, ...others } = this.props
+
+    const handleHelpOpen = () => {
+      this.setState({ helpOpen: true })
+    };
+  
+    const handleHelpClose = () => {
+      this.setState({ helpOpen: false })
+    };
 
     return (
       <AppBar
@@ -110,6 +129,7 @@ class TitleBar extends React.Component {
                   <IconButton
                     aria-haspopup="true"
                     color="inherit"
+                    onClick = { handleHelpOpen }
                   >
                     <HelpIcon className={classes.logo} />
                   </IconButton>
@@ -119,6 +139,7 @@ class TitleBar extends React.Component {
             </div>
           </Toolbar>
         </div>
+        <HelpDialog open={this.state.helpOpen} onClose={handleHelpClose}></HelpDialog>
       </AppBar>
     )
   }
