@@ -46,7 +46,7 @@ const ResetZoomButton = props => {
     <Tooltip title="Fit network to panel" placement="top">
       <div style={{ width: 'min-content' }}>
         <BootstrapButton
-          class="button"
+          //className="button"
           variant="outlined"
           disabled={disabled}
           onClick={props.onClick}
