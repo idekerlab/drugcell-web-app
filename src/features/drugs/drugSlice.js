@@ -56,7 +56,7 @@ export const getDrugs = (defaultDrugName) => dispatch => {
       
       let defaultDrugUUID = undefined
       if (json[defaultDrugName]) {
-        console.log('getDrugs found default drug: ', json[defaultDrugName]);
+        //console.log('getDrugs found default drug: ', json[defaultDrugName]);
         defaultDrugUUID = json[defaultDrugName].uuid;
       }
 
@@ -75,8 +75,7 @@ export const getDrugs = (defaultDrugName) => dispatch => {
 };
 
 export const selectDrug = drug => dispatch => {
-
-  console.log('selected drug uuid: ' + drug.uuid);
+  //console.log('selected drug uuid: ' + drug.uuid);
   dispatch(setSelectedDrug(drug.uuid));
   dispatch(setSelectedDrugName(drug.name));
   dispatch(getPathways(drug.uuid));

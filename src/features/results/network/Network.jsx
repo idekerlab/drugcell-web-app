@@ -29,6 +29,16 @@ export function Network() {
   const elements = useSelector(selectElements);
   const drugUUID = useSelector(selectSelectedDrug);
 
+  const maxRlipp = elements.reduce((acc, element) => {
+    if (element.data && element.data.rlipp && element.data.rlipp > acc) {
+      return element.data.rlipp;
+    } else {
+      return acc;
+    }
+  }, 0)
+
+  
+
   useEffect(() => {
     //console.log('Use effect.');
     // Event handler can be set only when Cytoscape.js instance is available.
@@ -126,8 +136,8 @@ export function Network() {
       'selector': 'node[nodetype="Term"]',
       'style': {
         'display': 'element',
-        'width': 'mapData(rlipp, 0, 278, 20, 50)',
-        'height': 'mapData(rlipp, 0, 278,  20, 50)'
+        'width': `mapData(rlipp, 0, ${maxRlipp}, 20, 50)`,
+        'height': `mapData(rlipp, 0, ${maxRlipp},  20, 50)`
       }
     },
     {
@@ -193,7 +203,7 @@ export function Network() {
             //console.log("do a thing: " + JSON.stringify(boundingBox));
             cy.$('#drug').position({ y: boundingBox.y1 });
           }} />
-        <div class='reset'>
+        <div className='reset'>
           <ResetZoomButton onClick={fitNetwork} />
         </div>
       </div>
