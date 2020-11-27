@@ -102,14 +102,14 @@ class TitleBar extends React.Component {
                 <Button href="http://drugcell.ucsd.edu/">
                   <HomeIcon fontSize="default" className={classes.homeLogo} />
                 </Button>
+                <Button href="http://drugcell.ucsd.edu/findpathways/" style={titleStyle}>
                   <Typography variant="h6" color="inherit" noWrap={true}>
                     DrugCell: Find Pathways
                   </Typography> 
                   <Typography variant="subtitle1" color="inherit" noWrap={true} className={classes.descriptionText} >
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit
                   </Typography>
-                
-                
+                  </Button>
               </div>
             <div className={classes.grow} />
 
