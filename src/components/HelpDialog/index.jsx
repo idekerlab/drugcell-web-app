@@ -38,23 +38,29 @@ const HelpDialog = (props) => {
             tabIndex={-1}
           >
         <Typography variant="h6">
-          Heading 1
+          Visible Neural Networks (VNN)
         </Typography>
-        <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </Typography>
+        <p>
+          <Typography>
+        Visible Neural Network (VNN) is an interpretable deep learning framework designed to solve biomedical problems. DrugCell models have two branches, one learns from the chemical structure of drugs and the other learns from genotypes of cell lines defined by mutations to infer cell response to drugs. The interpretability comes from the biologically meaningful structure of the genotype branch, which is the Gene Ontology (GO), a hierarchical organization of cell functions, in the current version the DrugCell model. Each pathway (subsystem) in the GO is assigned with a set of a fixed number of neurons and the connectivity between neurons are determined by the hierarchical relationship between the pathways that the neurons are representing. 
+        </Typography></p>
+      
         <Typography variant="h6">
-          Heading 2
+        Relative Local Improvement in Predictive Power (RLIPP)
         </Typography>
+        <p>
         <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Relative Local Improvement in Predictive Power (RLIPP) scores quantify the importance of each subsystem in the Gene Ontology embedded in the DrugCell model. To calculate the RLIPP score for each subsystem, we trained and compared two different L2-norm penalized linear regression models of drug response local to that subsystem. The first model is trained using the neuron values representing the state of the subsystem given different genotypes. The second model is trained using the concatenation of the neuron values of the subsystem’s children. The RLIPP score is defined as the ratio of the predictive power of the first linear model to that of the second linear model indicating the importance of the parent subsystem in learning. RLIPP &gt; 1 reflects that the neuron values of the parent subsystem are more predictive for drug drug response than the mere concatenation of the neuron values of its children. 
         </Typography>
+        </p>
         <Typography variant="h6">
-          Heading 3
+        Area Under the dose-response Curve (AUC)
         </Typography>
+        <p>
         <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        In our study, the drug response was measured using the Area Under the dose-response Curve (AUC). The cell viability (luminescence) values were background corrected (media only), normalized to vehicle treatment (DMSO) at each concentration, and replicate values averaged. Curves were created by connecting individual response points in a piecewise linear fashion. The AUC was then calcuated and normalized such that AUC = 0 represents complete cell killing, AUC = 1 represents no effect, and AUC &gt;  1 represents a treatment granting a growth advantage to the cells. 
         </Typography>
+        </p>
         </DialogContentText>
         </DialogContent>
         <Button onClick={handleClose} className={classes.closeButton}>Close</Button>
