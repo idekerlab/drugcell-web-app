@@ -104,7 +104,7 @@ class TitleBar extends React.Component {
                 </Button>
                 <Button href="http://drugcell.ucsd.edu/findpathways/" style={titleStyle}>
                   <Typography variant="h6" color="inherit" noWrap={true}>
-                    DrugCell Oracle: Find Pathways
+                    DrugCell Oracle: VNN Browser
                   </Typography> 
                   <Typography variant="subtitle1" color="inherit" noWrap={true} className={classes.descriptionText} >
                     Discover synergistic target pathways of 640 drugs identified by DrugCell
