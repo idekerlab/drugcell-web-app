@@ -107,7 +107,7 @@ class TitleBar extends React.Component {
                     DrugCell Oracle: VNN Browser
                   </Typography> 
                   <Typography variant="subtitle1" color="inherit" noWrap={true} className={classes.descriptionText} >
-                    Discover synergistic target pathways of 640 drugs identified by DrugCell
+                  Browse response pathways and synergistic targets for database of 640 drugs
                   </Typography>
                   </Button>
               </div>
