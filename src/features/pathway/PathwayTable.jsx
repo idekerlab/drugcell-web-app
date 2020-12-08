@@ -50,7 +50,7 @@ export function PathwayTable() {
               <TableCell component="th" scope="row" align="right">
                 {pathways[row].rlipp.toFixed(2)}
               </TableCell>
-              <TableCell ><a href={"http://amigo.geneontology.org/amigo/term/" +pathways[row]['shared-name'] } target="_blank" style={{ textDecoration: 'none' }}>{pathways[row].name}</a></TableCell>
+              <TableCell ><a href={"http://amigo.geneontology.org/amigo/term/" +pathways[row]['shared-name'] } target="_blank" style={{ textDecoration: 'none' }}>{pathways[row].name.replaceAll('_',' ')}</a></TableCell>
             </TableRow>
           ))}
         </TableBody>
