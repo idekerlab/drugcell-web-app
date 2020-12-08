@@ -150,12 +150,12 @@ export function PathwayAutocomplete() {
         onChange={(event, value) => {
           const selectedPathways = value;
           
-          console.log("event.shiftKey=" + event.shiftKey );
-          console.log("event.target=" + event.target.innerText );
+          //console.log("event.shiftKey=" + event.shiftKey );
+          //console.log("event.target=" + event.target.innerText );
           dispatch(setSelectedPathways(selectedPathways));
           const pathwayIds = value.map(entry => pathways[entry]['shared-name']);
-          console.log('pathwayIds: ' + JSON.stringify(pathwayIds));
-          console.log('selected drug: ' + selectedDrugUUID);
+          //console.log('pathwayIds: ' + JSON.stringify(pathwayIds));
+          //console.log('selected drug: ' + selectedDrugUUID);
           dispatch(setElementsFromURLs({ uuid: selectedDrugUUID, selectedPathways: pathwayIds }));
         }}
       />

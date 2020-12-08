@@ -16,7 +16,8 @@ export function Results() {
     <div className='container'>
       <div className='left-components'>
       <div className='left-component'><DrugAutocomplete /></div>
-      <div className='left-component'><PathwayAutocomplete />
+      <div className='left-component'>
+      <PathwayAutocomplete />
       <PathwayTable /></div>
       <div className='left-component'><GeneList /></div>
       </div>

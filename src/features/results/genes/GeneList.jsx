@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   geneselecthint: {
     color: '#7570B3',
     display: 'flex',
-    height: '100px',
+    height: '3em',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -139,25 +139,27 @@ export function GeneList() {
 
   return (
     <div className={classes.root}>
-      <div className={classes.icons}>
-        <Typography variant="h6" className={classes.genetypography}>
-          Genes ({genes.length})
+      {genes.length == 0 && elements.length != 0 ? (
+        <Slide direction="right" in={true} mountOnEnter unmountOnExit timeout={1500} >
+          <div className={classes.geneselecthint} >
+            <Typography variant="subtitle1" className={classes.genetypography}>
+              Select a Pathway from the Network to show included Genes
+          </Typography>
+            <ArrowForwardIcon />
+          </div>
+        </Slide>
+      ) : (
+       <div>
+      <Typography variant="h6" className={classes.genetypography}>
+              Genes Annotated by Selected Pathways ({genes.length})
       </Typography>
-
+      
+      <div className={classes.icons}>
         <SearchInIQueryButton onClick={searchInIQuery} disabled={disabled} />
         <OpenInCytoscapeButton fetchCX={fetchCX} />
         <CopyToClipboardButton onClick={copyGenesToClipboard} disabled={disabled} />
       </div>
-      {genes.length == 0 && elements.length != 0 ? (
-         <Slide direction="right" in={true} mountOnEnter unmountOnExit timeout={1500} >
-        <div className={classes.geneselecthint} >
-          <Typography variant="subtitle1" className={classes.genetypography}>
-            Select a Pathway from the Network to show included Genes
-          </Typography>
-          <ArrowForwardIcon />
-        </div>
-        </Slide>
-      ) : (
+    
           <Paper
           //style={{ overflow: 'auto', height: 'calc(100vh - 280px)' }}
           >
@@ -170,8 +172,8 @@ export function GeneList() {
               })}
             </List>
           </Paper>
-        )
-      }
+          </div>
+        )}
     </div>
   );
 }
