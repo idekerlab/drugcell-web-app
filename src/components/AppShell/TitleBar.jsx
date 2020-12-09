@@ -16,7 +16,9 @@ import cytoLogo from '../../assets/images/cytoscape-logo-mono-dark.svg'
 import idekerLogo from '../../assets/images/ideker-logo-mono-dark.svg'
 
 import HelpDialog from '../HelpDialog'
-
+import VNN from '../HelpDialog/Contents/VNN'
+import RLIPP from '../HelpDialog/Contents/RLIPP'
+import AUC from '../HelpDialog/Contents/AUC'
 import HomeIcon from '@material-ui/icons/Home'
 
 const styles = theme => ({
@@ -134,7 +136,11 @@ class TitleBar extends React.Component {
             </div>
           </Toolbar>
         </div>
-        <HelpDialog open={this.state.helpOpen} onClose={handleHelpClose}></HelpDialog>
+        <HelpDialog open={this.state.helpOpen} onClose={handleHelpClose}>
+          <VNN />
+          <RLIPP />
+          <AUC />
+        </HelpDialog>
       </AppBar>
     )
   }
