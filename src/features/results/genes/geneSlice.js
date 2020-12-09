@@ -20,7 +20,10 @@ export const { setGenes: setGenes } = geneSlice.actions;
 // can be dispatched like a regular action: `dispatch(setGenesFromURLs(xyz))`. 
 export const setGenesFromURLs = (args) => (dispatch) => {
   console.log('setGenesFromURLs args: ' + JSON.stringify(args));
-  Promise.all(args.selectedPathways.map(pathwayId => getGenes( args.uuid , pathwayId))).then(responses =>
+  
+  const pathwayBranch = args.selectedPathways;
+
+  Promise.all(pathwayBranch.map(pathwayId => getGenes( args.uuid , pathwayId))).then(responses =>
     Promise.all(responses.map(res => res.json()))
   ).then(jsonResponses => {
   

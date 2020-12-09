@@ -37,7 +37,21 @@ export function Network() {
     }
   }, 0)
 
-  
+  const getTree = (element) => {
+    let output =[];
+    
+    const pathwayId = element.data('shared-name');
+    if (pathwayId !== null && pathwayId !== undefined) {
+     
+      output.push(pathwayId)
+    
+    const nodes = element.incomers().filter((incomer) => {return incomer.isNode()});
+    nodes.forEach((node) => {
+      Array.prototype.push.apply(output, getTree(node));
+    })
+    }
+    return output;
+  }
 
   useEffect(() => {
     //console.log('Use effect.');
@@ -54,15 +68,15 @@ export function Network() {
       clearTimeout(timeout);
       timeout = setTimeout(function () {
         try {
-          let pathwayIds = [];
+          let pathwayIds = new Set();
           cyInstance.$(':selected').forEach(element => {
             if (element.isNode()) {
-              const pathwayId = element.data('shared-name');
-              pathwayId != null && pathwayIds.push(pathwayId);
+              const tree = getTree(element)
+              tree.forEach((pathwayId) => {pathwayIds.add(pathwayId)});
             }
           });
           //console.log('network select');
-          dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: pathwayIds }))
+          dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: Array.from(pathwayIds) }))
         } catch (e) {
           console.warn(e)
         }
@@ -72,7 +86,7 @@ export function Network() {
     cyInstance.on('tap', function (event) {
       try {
         if (event.target === cyInstance) {
-          console.log('tap on not-node');
+          //console.log('tap on not-node');
           dispatch(setGenesFromURLs({ uuid: drugUUID, selectedPathways: [] }))
         }
         else if (event.target.isNode()) {
