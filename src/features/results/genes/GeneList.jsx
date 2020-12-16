@@ -136,6 +136,10 @@ export function GeneList() {
 
   const disabled = genes === undefined || genes === null || genes.length == 0;
 
+  const getGeneLink = (geneName) => {
+    const term = `(${geneName}[Gene Name]) AND Human[Organism]`;
+    return 'https://www.ncbi.nlm.nih.gov/gene?term=' + encodeURIComponent(term);
+  }
 
   return (
     <div className={classes.root}>
@@ -166,7 +170,7 @@ export function GeneList() {
             <List component='nav' aria-label='gene list' dense={true} overflow='auto'>
               {genes.slice().sort((a, b) => a.localeCompare(b)).map(gene => {
                 return (
-                  <ListItem button >
+                  <ListItem component='a' href={ getGeneLink(gene)} target='_blank'>
                     <ListItemText primary={gene} />
                   </ListItem>);
               })}
