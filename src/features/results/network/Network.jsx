@@ -20,6 +20,9 @@ import Cytoscape from 'cytoscape'
 import Dagre from 'cytoscape-dagre';
 import CytoscapeComponent from 'react-cytoscapejs';
 import { Typography } from '@material-ui/core';
+
+import LegendRLIPP from '../../../assets/images/legend_rlipp_v.png';
+
 Cytoscape.use(Dagre);
 
 let cyInstance = undefined;
@@ -218,6 +221,7 @@ export function Network() {
             cy.$('#drug').position({ y: boundingBox.y1 });
           }} />
         <div className='reset'>
+          <img src={LegendRLIPP} className={'helpImage'}></img>
           <ResetZoomButton onClick={fitNetwork} />
         </div>
       </div>

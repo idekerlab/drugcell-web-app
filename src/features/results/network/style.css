@@ -4,8 +4,18 @@
 
 .reset {
   position:fixed;
-  bottom:0.25em;
-  right:0.25em;
+  bottom:0.5em;
+  right:0.5em;
+  flex-direction: column;
+  display: flex;
+  align-items: flex-end;
+}
+
+.helpImage {
+  width: 60%;
+  display: 'block';
+  margin-bottom: 1em;
+  margin-right: 0.55em;
 }
 
 .hint {
