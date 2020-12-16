@@ -24,11 +24,11 @@ export const { setElements, addElements } = networkSlice.actions;
 // can be dispatched like a regular action: `dispatch(importFromURL(xyz))`. 
 export const setElementsFromURLs = (args) => (dispatch, getState) => {
   //console.log('setElementsFromURLs args: ' + JSON.stringify(args));
-  Promise.all(args.selectedPathways.map(pathwayId => getPathway( args.uuid , pathwayId))).then(responses =>
+  Promise.all(args.selectedPathways.map(pathwayId => getPathway(args.uuid, pathwayId))).then(responses =>
     Promise.all(responses.map(res => res.json()))
   ).then(jsonResponses => {
     let allElements = [];
-   
+
     jsonResponses.forEach(elements => {
       allElements = allElements.concat(elements);
     });
@@ -39,17 +39,21 @@ export const setElementsFromURLs = (args) => (dispatch, getState) => {
 
     const drugName = getState().drugs.selectedDrugName;
 
-    const drugNode = { data : {
-      'id' : 'drug',
-      'name' : drugName,
-      'label' : drugName
-    }}
+    const drugNode = {
+      data: {
+        'id': 'drug',
+        'name': drugName,
+        'label': drugName
+      }
+    }
 
-    const responseNode = { data : {
-      'id' : 'response',
-      'name' : 'Cell Response',
-      'label' : 'Cell Response'
-    }}
+    const responseNode = {
+      data: {
+        'id': 'response',
+        'name': 'Cell Response',
+        'label': 'Cell Response'
+      }
+    }
 
 
     allElements.push(drugNode);
@@ -57,26 +61,25 @@ export const setElementsFromURLs = (args) => (dispatch, getState) => {
 
     const drugEdge = {
       "data": {
-          "id": "drug-edge",
-          "source": 'drug',
-          "target": 'response',
-          "is_tree_edge_u9": "Tree",
-          "edgetype": "response"
+        "id": "drug-edge",
+        "source": 'drug',
+        "target": 'response',
+        "is_tree_edge_u9": "Tree",
+        "edgetype": "response"
       }
-  }
-  const cellStateEdge = {
-    "data": {
+    }
+    const cellStateEdge = {
+      "data": {
         "id": "cell-state-edge",
         "source": rootNode ? rootNode.data['id'] : '',
         "target": 'response',
         "is_tree_edge_u9": "Tree",
         "edgetype": "response"
+      }
     }
-}
-
 
     allElements.push(drugEdge);
-    allElements.push(cellStateEdge);
+    rootNode && allElements.push(cellStateEdge);
 
     dispatch(setElements(allElements));
   });
