@@ -2,7 +2,7 @@ export const METHOD_POST = 'POST'
 export const METHOD_GET = 'GET'
 
 // NDEx Server URL
-export const NDEX_SERVER_URL = 'http://public.ndexbio.org/'
+export const NDEX_SERVER_URL = 'https://public.ndexbio.org/'
 
 
 

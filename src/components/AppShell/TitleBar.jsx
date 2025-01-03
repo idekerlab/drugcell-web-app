@@ -101,10 +101,10 @@ class TitleBar extends React.Component {
         <div className={classes.noWrap}>
           <Toolbar disableGutters={true}>
                <div style={titleStyle}>
-                <Button href="http://drugcell.ucsd.edu/">
+                <Button href="https://drugcell.ucsd.edu/">
                   <HomeIcon fontSize="default" className={classes.homeLogo} />
                 </Button>
-                <Button href="http://drugcell.ucsd.edu/findpathways/" style={titleStyle}>
+                <Button href="https://drugcell.ucsd.edu/findpathways/" style={titleStyle}>
                   <Typography variant="h6" color="inherit" noWrap={true}>
                     DrugCell Oracle: VNN Browser
                   </Typography> 
